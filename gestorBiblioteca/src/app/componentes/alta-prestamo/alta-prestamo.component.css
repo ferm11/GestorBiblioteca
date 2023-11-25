@@ -1,42 +1,58 @@
 h1{
     margin-top: 10%;
-    margin-left: 43%;
+    margin-left: 40%;
 }
 
-.cajas{
-    margin-left: 50%;
-}
-
-.notas{
-    margin-right:  51%;
+.formulario{
+    margin-right: 38%;
     text-align: right;
-    margin-top: -26%;
 }
 
-.cajas input{
+.formulario input{
     width: 250px;
     padding: 15px 15px 15px 50px;
+    margin: 5px;
 }
 
-.cajas .fa-solid{
+.formulario label{
+    text-align: left;
+}
+
+.formulario .fa-solid{
     font-size: 20px;
     position: relative;
-    left: 35px;
-}
-
-.cajas .fa-regular {
-    font-size: 20px;
-    position: relative;
-    left: 35px;
-}
-
-.botones{
-    margin-left: 38%;
-    margin-top: 2%;
+    left: 40px;
 }
 
 .btnGuardar{
-    margin-left: 5%;
+    margin: 10px;
+    margin-left: 15%;
+    color: white;
+    background-color: #046910;
+    width: 150px;
+    height: 40px;
+}
+
+.categoria{
+    width: 250px;
+    padding: 15px 15px 15px 50px;
+    margin: 5px;
+}
+
+.formulario .lCategoria{
+    text-align: left;
+    margin-right: 24px;
+}
+
+select {
+    width: 300px; /* Ancho del select en píxeles o porcentaje */
+    height: 58px !important; /* Altura del select en píxeles */
+    font-size: 16px; /* Tamaño de la fuente en píxeles */
+    /* Otros estilos que desees aplicar */
+  }
+
+.btnGuardar{
+    margin-right: 11%;
     color: white;
     background-color: #046910;
     width: 150px;
@@ -49,3 +65,4 @@ h1{
     width: 150px;
     height: 40px;
 }
+

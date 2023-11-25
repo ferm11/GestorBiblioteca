@@ -7,26 +7,35 @@
     <title>Alta libro</title>
 </head>
 <body>
-    <h1>Alta de prestamo</h1><br><br><br>
-    <div class="cajas">
-        <i class="fa-solid fa-book"></i><input type="text" placeholder="ID ejemplar"><br><br>
-        <i class="fa-solid fa-calendar"></i><input type="date" placeholder="Fecha entrega"><br><br>
-        <i class="fa-solid fa-calendar"></i><input type="date" placeholder="Fecha devolución"><br><br>
-        <i class="fa-solid fa-envelope"></i><input type="email" placeholder="Correo"><br><br>
-        <i class="fa-regular fa-id-badge"></i><input type="text" placeholder="Número control">
-    </div>
-    <div class="notas">
-        <h5>ID ejemplar:</h5><br><br>
-        <h5>Fecha entrega:</h5><br><br>
-        <h5>Fecha devolución:</h5><br><br>  
-        <h5>Correo:</h5><br><br>
-        <h5>Número control:</h5>
-    </div>
+    <br><h1>Alta de prestamo</h1><br><br>
+    
+    <form class="formulario" >
+        <label for="ISBN">ISBN:</label>
+        <i class="fa-solid fa-barcode"></i><input type="number" id="ISBN" [(ngModel)]="ISBN" [ngModelOptions]="{standalone:true}" name="ISBN" required placeholder="ISBN"><br>
 
-    <div class="botones"><br><br>
-        <button class="btnCancelar">Cancelar</button>
-        <button class="btnGuardar">Guardar</button>
-    </div>
+        <label for="idEjemplar">ID ejemplar:</label>
+        <i class="fa-solid fa-barcode"></i><input type="number" id="idEjemplar" [(ngModel)]="idEjemplar" [ngModelOptions]="{standalone:true}" name="idEjemplar" required placeholder="ID Ejemplar"> <br>
 
+        <label for="numControl">Número de control:</label>
+        <i class="fa-solid fa-book"></i><input type="number" id="numControl" [(ngModel)]="numControl" name="numControl" required placeholder="Número de control"> <br>
+      
+        <label for="correo">Correo:</label>
+        <i class="fa-solid fa-user-group"></i><input type="email" id="correo" [(ngModel)]="correo" name="correo" required placeholder="Correo"> <br>
+      
+        <label for="fechaPrestamo">Fecha prestamo:</label>
+        <i class="fa-solid fa-calendar-days"></i><input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" (change)="validarFecha()"  name="fechaPrestamo" required placeholder="Fecha prestamo">
+        <div *ngIf="mensajeError" class="error-message">
+            {{ mensajeError }}
+          </div> <br>
+      
+        <label for="fechaDevolucion">Fecha devolución:</label>
+        <i class="fa-solid fa-newspaper"></i><input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" (change)="validarFechaDevolucion()" name="fechaDevolucion" required placeholder="fechaDevolucion">
+        <div *ngIf="mensajeError" class="error-message">
+            {{ mensajeError }}
+          </div> <br><br>
+      
+        <button class="btnGuardar" type="button" (click)="altaPrestamo()" [disabled]="!esFechaValida">Guardar prestamo</button>
+      </form>
+      
 </body>
 </html>

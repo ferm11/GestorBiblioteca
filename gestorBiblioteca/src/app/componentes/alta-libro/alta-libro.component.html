@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <h1>Alta de libro</h1>
+    <h1>Alta de libro</h1><br><br>
 
     <form class="formulario" >
         <label for="titulo">ISBN:</label>
@@ -18,23 +18,30 @@
         <i class="fa-solid fa-book"></i><input type="text" id="titulo" [(ngModel)]="Titulo" name="titulo" required placeholder="Titulo"> <br>
       
         <label for="autores">Autores:</label>
-        <i class="fa-solid fa-user-group"></i><input type="text" id="autores" [(ngModel)]="Autores" name="autores" required placeholder="Autor(es)"> <br>
+        <div *ngFor="let autor of Autores; let i = index">
+          <input type="text" [(ngModel)]="Autores[i]" [ngModelOptions]="{standalone: true}" [attr.name]="'autor' + i" required placeholder="Autor {{i + 1}}">
+          <button type="button" (click)="eliminarAutor(i)">Eliminar</button>
+        </div>
+        <input type="text" [(ngModel)]="NuevoAutor" [ngModelOptions]="{standalone: true}" required placeholder="Nuevo Autor"><br>
+        <button type="button" (click)="agregarAutor()">Agregar Autor</button>
+        <br>
+
+
       
         <label for="fPublicacion">Fecha de publicación:</label>
-        <i class="fa-solid fa-calendar-days"></i><input type="text" id="fPublicacion" [(ngModel)]="fPublicacion" name="fPublicacion" required placeholder="Fecha publicación"> <br>
+        <i class="fa-solid fa-calendar-days"></i><input type="date" id="fPublicacion" [(ngModel)]="fPublicacion" (change)="validarFecha()" name="fPublicacion" required placeholder="Fecha publicación"> <br>
+        <div *ngIf="!esFechaValida" class="error-message">{{ mensajeError }}</div>
       
         <label for="editorial">Editorial:</label>
         <i class="fa-solid fa-newspaper"></i><input type="text" id="editorial" [(ngModel)]="Editorial" name="editorial" required placeholder="Editorial"> <br>
-      
-        <label for="cantEjemplares">Cantidad de Ejemplares:</label>
-        <i class="fa-solid fa-users"></i><input type="number" id="cantEjemplares" [(ngModel)]="cantEjemplares" name="cantEjemplares" required placeholder="Cantidad ejemplares"> <br>
 
         <label class="lCategoria" for="categoria" style="font-size: 16px;">Categoría:</label>
             <select id="categoria" [(ngModel)]="Categoria" name="categoria" required style="width: 250px; padding: 30px 30px 30px 100px; margin: 5px; height: 58px; font-size: 80px;">
             <option *ngFor="let categoria of categorias" [value]="categoria.nombre">{{ categoria.nombre }}</option>
         </select> <br><br>
       
-        <button class="btnGuardar" type="button" (click)="altaLibro()">Guardar libro</button>
+        <button class="btnGuardar" type="button" (click)="altaLibro()" [disabled]="Autores.length === 0" [disabled]="!esFechaValida">Guardar libro</button>
+
       </form> 
 
 </body>

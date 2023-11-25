@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AltaLibroComponent } from './componentes/alta-libro/alta-libro.component';
@@ -13,6 +13,7 @@ import { ActualizarPrestamoComponent } from './componentes/actualizar-prestamo/a
 import { TerminarPrestamoComponent } from './componentes/terminar-prestamo/terminar-prestamo.component';
 import { GestionEjemplaresComponent } from './componentes/gestion-ejemplares/gestion-ejemplares.component';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

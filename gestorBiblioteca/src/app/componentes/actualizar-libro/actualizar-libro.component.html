@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="actualizar-libro.component.css">
     <title>Actualizar libro</title>
+    <style>
+      .inp{
+        width: 250px !important;
+        height: 35px !important;
+      }
+    </style>
 </head>
 <body>
   <h1>Actualizar/Eliminar libro</h1><br><br><br>
-  <form action="/buscar">
-      <i class="fa-solid fa-magnifying-glass"></i><input class="barra" type="share" name="" placeholder="Buscar">
-      <input class="btnBuscar" type="submit" value="Buscar"><br><br><br>
-  </form>
+
+
   <table class="table">
     <thead>
       <tr>
@@ -35,10 +39,83 @@
         <td>{{Libro.editorial}}</td>
         <td>{{Libro.cantEjemplares}}</td>
         <td>{{Libro.categoria}}</td>
-        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;"></i></button></td>
-        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" id="{{Libro.ISBN}}" style="color: #e32402;"></i></button></td>
+        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;" data-bs-toggle="modal" data-bs-target="#modalEditar" (click)="getLibro(Libro.ISBN)"></i></button></td>
+        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;" (click)="confirmarEliminarLibro(Libro.ISBN)"></i></button></td>
       </tr>
     </tbody>
   </table>
+  <div class="modal" tabindex="-1" id="modalEditar">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Actualizar datos del libro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="formulario form-inline" >
+            <div class="form-group">
+              <label for="isbn" class="d-block">ISBN:</label>
+              <div class="input-group"> <!-- Utiliza la clase input-group para agrupar el campo de entrada con el ícono -->
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                </div>
+                <input disabled="true" class="inp form-control" type="text" id="isbn" [(ngModel)]="ISBND" [ngModelOptions]="{standalone:true}" name="isbn" required placeholder="ISBN">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="titulo" class="d-block">Título:</label>
+              <div class="input-group"> <!-- Utiliza la clase input-group para agrupar el campo de entrada con el ícono -->
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa-solid fa-book"></i></span>
+                </div>
+                <input class="inp form-control" type="text" id="titulo" [(ngModel)]="Titulo" name="titulo" required placeholder="Titulo">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="autores" class="d-block">Autores:</label>
+              <div class="input-group"> <!-- Utiliza la clase input-group para agrupar el campo de entrada con el ícono -->
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
+                </div>
+                <input class="inp form-control" type="text" id="autores" [(ngModel)]="Autores" name="autores" required placeholder="Autor(es)">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fPublicacion" class="d-block">Fecha de publicación:</label>
+              <div class="input-group"> <!-- Utiliza la clase input-group para agrupar el campo de entrada con el ícono -->
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                </div>
+                <input class="inp form-control" type="date" id="fPublicacion" [(ngModel)]="fPublicacion" name="fPublicacion" required placeholder="Fecha publicación">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="editorial" class="d-block">Editorial:</label>
+              <div class="input-group"> <!-- Utiliza la clase input-group para agrupar el campo de entrada con el ícono -->
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa-solid fa-newspaper"></i></span>
+                </div>
+                <input class="inp form-control" type="text" id="editorial" [(ngModel)]="Editorial" name="editorial" required placeholder="Editorial">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="categoria" class="d-block">Categoría:</label>
+              <div class="input-group"> <!-- Utiliza la clase input-group para agrupar el campo de entrada con el ícono -->
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                </div>
+                <select class="inp form-control" id="categoria" [(ngModel)]="Categoria" name="categoria" required>
+                  <option *ngFor="let categoria of categorias" [value]="categoria.nombre">{{ categoria.nombre }}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btnGuardar" type="button" (click)="actualizarLibro()" data-bs-dismiss="modal">Guardar libro</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

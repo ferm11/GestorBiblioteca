@@ -1,65 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="actualizar-prestamo.component.css">
-    <title>Editar prestamo</title>
-</head>
-<body>
-    <h1>Editar prestamo</h1><br><br><br>
-    <form action="/buscar">
-        <i class="fa-solid fa-magnifying-glass"></i><input class="barra" type="share" name="" placeholder="Buscar">
-        <input class="btnBuscar" type="submit" value="Buscar"><br><br><br>
-    </form>
+<h1 class="title">Actualizar/Eliminar prestamo</h1><br><br><br>
 
-    <!-- Tabla -->
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">ID Ejemplar</th>
-            <th scope="col">Fecha entrega</th>
-            <th scope="col">Fecha devolución</th>
-            <th scope="col">Correo</th>
-            <th scope="col">Número control</th>
-            <th scope="col" style="width: 5%;">Editar</th>
-            <th scope="col" style="width: 5%;">Eliminar</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>12</td>
-            <td>12/12/23</td>
-            <td>12/12/23</td>
-            <td>gmail.com</td>
-            <td>1221100000</td>
-            <td><button style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;"></i></button></td>
-            <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;"></i></button></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>23</td>
-            <td>12/12/23</td>
-            <td>12/12/23</td>
-            <td>gmail.com</td>
-            <td>1221100000</td>
-            <td><button style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;"></i></button></td>
-            <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;"></i></button></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>19</td>
-            <td>12/12/23</td>
-            <td>12/12/23</td>
-            <td>gmail.com</td>
-            <td>1221100000</td>
-            <td><button style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;"></i></button></td>
-            <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;"></i></button></td>
-          </tr>
-        </tbody>
-      </table>
+<!--
+<form action="/buscar">
+  <i class="fa-solid fa-magnifying-glass"></i><input class="barra" type="share" name="" placeholder="Buscar">
+  <input class="btnBuscar" type="submit" value="Buscar"><br><br><br>
+</form>
+-->
 
-</body>
-</html>
+<!-- Tabla -->
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">ID Ejemplar</th>
+      <th scope="col">Fecha entrega</th>
+      <th scope="col">Fecha devolución</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Número control</th>
+      <th scope="col" style="width: 5%;">Editar</th>
+      <th scope="col" style="width: 5%;">Eliminar</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let Prestamo of prestamos; let i = index;">
+    <tr>
+      <th scope="row">{{i + 1}}</th>
+      <td>{{Prestamo.idEjemplar}}</td>
+      <td>{{Prestamo.fechaPrestamo}}</td>
+      <td>{{Prestamo.fechaDevolucion}}</td>
+      <td>{{Prestamo.correo}}</td>
+      <td>{{Prestamo.numControl}}</td>
+      <td><button (click)="selecinarPrestamo(Prestamo)" data-bs-toggle="modal" data-bs-target="#editarPrestamo" style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square"
+            style="color: #0042aa;"></i></button></td>
+      <td><button (click)="confirmarEliminarPrestamo(Prestamo.idPrestamo)" style="background-color: white; border: none;"><i class="fa-solid fa-trash"
+            style="color: #e32402;"></i></button></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal para editar prestamo -->
+<div class="modal fade" id="editarPrestamo" tabindex="-1" aria-labelledby="editarPrestamoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header col-12 w-100" >
+        <h1 class="modal-title fs-5 w-100" style="text-align: center; margin-left: 12px; margin-top: 2%;" id="editarPrestamoLabel">Editar Prestamo</h1>
+      </div>
+      <div class="modal-body">
+        <form class="book-form" [formGroup]="form" (ngSubmit)="editarPrestamo()">
+          <div class="input-group">
+            <label for="publicationDate" style="margin-top: 5%;" ><i class="fa-solid fa-calendar-days" style="font-size: 20px;
+              position: relative;
+              left: 114%;"></i> Fecha devolución:</label>
+            <input style="width: 250px;
+            padding: 15px 15px 15px 50px;
+            margin: 5px;" type="date" id="publicationDate" formControlName="fechaDevolucion" required>
+            <div *ngIf="mensajeError" class="error-message">
+              {{ mensajeError }}
+            </div> <br>
+          </div>
+
+          <button style="visibility: hidden;" type="submit" #submit></button>
+        </form>
+      </div>
+      <div class="modal-footer col-12" style="text-align: center;">
+
+        <button class="btn cancel" type="button" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn save" (click)="submit.click()" data-bs-dismiss="modal" [disabled]="!form.valid">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>

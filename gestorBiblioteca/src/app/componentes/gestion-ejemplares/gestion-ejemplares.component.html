@@ -8,11 +8,18 @@
 </head>
 <body>
   <h1>Gestión de ejemplares</h1><br><br><br>
-  <form action="/buscar">
-      <i class="fa-solid fa-magnifying-glass"></i><input #search class="barra" type="share" name="" placeholder="Buscar">
-      <button (click)="mostrarTabla">Buscar</button><br><br><br>
+  <form>
+    <div class="d-flex justify-content-center">
+      <div class="input-group" style="width: 30%;">
+        <input #busquedaISBN [(ngModel)]='isbnBusqueda' [ngModelOptions]="{standalone: true}" class="form-control" type="text" placeholder="Buscar">
+        <div class="input-group-append">
+          <button #btnBuscar class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" (click)="getEjemplares()">Buscar</button>
+        </div>
+      </div>  
+    </div>
+    <br><br><br>
   </form>
-  <table *ngIf="visible" class="table">
+  <table class="table">
     <thead>
       <tr>
         <th scope="col">Titulo</th>
@@ -25,10 +32,13 @@
       <tr>
         <td>{{Ejemplar.titulo}}</td>
         <td>{{Ejemplar.ISBN}}</td>
-        <td>{{Ejemplar.IdEjemplar}}</td>
-        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" id="{{Ejemplar.IdEjemplar}}" style="color: #e32402;"></i></button></td>
+        <td>{{Ejemplar.idEjemplar}}</td>
+        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" [id]="Ejemplar.idEjemplar" style="color: #e32402;" (click)="delEjemplar(Ejemplar.idEjemplar, Ejemplar.ISBN)"></i></button></td>
       </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-center" *ngIf="visible">
+    <button class="btn btn-success" type="button" (click)="addEjemplar()">Nuevo</button>
+  </div>
 </body>
 </html>
