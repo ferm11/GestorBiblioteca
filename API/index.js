@@ -61,21 +61,32 @@ app.get('/api/libros/:id', (req, res) => {
     });
 });
 
-// OBTENER UN SOLO LIBRO MEDIANTE VARIOS CAMPO POSIBLES (MEDIANTE PETICIÃ“N GET)
+// OBTENER LIBROS MEDIANTE BÚSQUEDA AVANZADA (MEDIANTE PETICIÓN GET)
 app.get('/api/libros/buscar', (req, res) => {
-    const termino = (req.query.termino).toString();
+    const termino = req.query.termino;
+    console.log('Término de búsqueda:', termino);
   
-    const sQuery = `SELECT * FROM Libro WHERE ISBN LIKE '%${termino}%' OR titulo LIKE '%${termino}%' OR autores LIKE '%${termino}%' OR editorial LIKE '%${termino}%' or categoria LIKE '%${termino}%';`;
-
+    const sQuery = `
+      SELECT * FROM Libro 
+      WHERE ISBN LIKE '%${termino}%' 
+      OR titulo LIKE '%${termino}%' 
+      OR autores LIKE '%${termino}%' 
+      OR editorial LIKE '%${termino}%' 
+      OR categoria LIKE '%${termino}%';
+    `;
+  
     bd.query(sQuery, (err, results) => {
       if (err) {
         console.error('Error al obtener el libro: ' + err.message);
         res.status(500).send('Error al obtener el libro de la base de datos');
       } else {
-        res.json(results, sQuery);
+        res.json(results);
       }
     });
-});
+  });
+
+
+
 
 // AGREGAR NUEVO LIBRO (MEDIANTE PETICION POST)
 app.post('/api/libros', (req, res) => {
@@ -189,10 +200,14 @@ app.post('/api/prestamos', (req, res) => {
             console.error('Error al agregar el prestamo: ' + err.message);
             res.status(500).send('Error al insertar el prestamo en la base de datos');
         } else {
-            res.json(results);
+            res.json({
+                Resultado: 1,
+                Mensaje: 'Prestamo agregado exitosamente'
+            });
         }
     });
 });
+
 
 // ELIMINAR PRESTAMO (PETICION DELETE)
 app.delete('/api/prestamos/:id', (req, res) => {
@@ -370,7 +385,7 @@ function consultarPrestamos() {
 }
   
   // Intervalo de tiempo en milisegundos para un día (24 horas * 60 minutos * 60 segundos * 1000 milisegundos)
-  const intervaloDeTiempo = 5000; 
+  const intervaloDeTiempo = 24 * 60 * 60 * 1000; 
   
   
   // Ejecutar la función diariamente usando setInterval

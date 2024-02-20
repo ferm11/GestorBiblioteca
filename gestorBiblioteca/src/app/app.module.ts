@@ -14,6 +14,8 @@ import { TerminarPrestamoComponent } from './componentes/terminar-prestamo/termi
 import { GestionEjemplaresComponent } from './componentes/gestion-ejemplares/gestion-ejemplares.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { ErrorComponent } from './componentes/error/error.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { ToastrModule } from 'ngx-toastr';
     AltaPrestamoComponent,
     ActualizarPrestamoComponent,
     TerminarPrestamoComponent,
-    GestionEjemplaresComponent
+    GestionEjemplaresComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { PrestamosService } from 'src/app/servicios/prestamos.service';
+import { Component, OnInit } from '@angular/core';
+import {  PrestamosService } from 'src/app/servicios/prestamos.service';
 import { FormGroup, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
   templateUrl: './actualizar-prestamo.component.html',
   styleUrls: ['./actualizar-prestamo.component.css']
 })
-export class ActualizarPrestamoComponent {
+export class ActualizarPrestamoComponent implements OnInit{
 
   esFechaValida: boolean = true;
   mensajeError: string = '';
@@ -21,7 +21,7 @@ export class ActualizarPrestamoComponent {
 
   prestamo: any = undefined;
 
-  constructor(private servPrestamos: PrestamosService) { }
+  constructor(private servPrestamos: PrestamosService, prestamosService:PrestamosService) { }
 
 
   ngOnInit() {

@@ -5,5 +5,6 @@ export interface Libro{
     fPublicacion : string,
     editorial : string,
     cantEjemplares : number,
-    categoria : string
+    categoria : string  
 }
+  

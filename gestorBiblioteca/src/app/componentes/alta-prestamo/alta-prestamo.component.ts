@@ -10,6 +10,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./alta-prestamo.component.css']
 })
 export class AltaPrestamoComponent {
+
+  userEmail: String;
+
   sugerenciasISBN: string[] = [];
   esFechaValida: boolean = true;
   mensajeError: string = '';
@@ -23,11 +26,13 @@ export class AltaPrestamoComponent {
 
   resp: any = [];
 
-  constructor(private prestamosService: PrestamosService, private librosService: LibrosService) {} 
+  constructor(private prestamosService: PrestamosService, private librosService: LibrosService) {
+  } 
 
   altaPrestamo() {
+    
 
-    if (this.esFechaValida) {
+    if (this.esFechaValida && this.correo) {
       // Código para crear el libro
       console.log('Fecha válida.');
       // Aquí deberías enviar los datos al servidor para crear el libro
@@ -46,33 +51,24 @@ export class AltaPrestamoComponent {
 
     this.prestamosService.altaPrestamo(prestamo).subscribe(
       data => {
-        console.log(data);
-        this.resp = data;
-        const res = this.resp.Resultado
-        const msj = this.resp.Mensaje;
-        if (res == 1) {
-          Swal.fire({
-            title: 'Prestamo agregado con exito!',
-            icon: 'success'
-          });
-        } else if (res == 2) {
-          Swal.fire({
-            title: 'Atencion!',
-            text: 'Problema al crear el prestamo: ' + msj.toString(),
-            icon: 'warning'
-          });
-        } else {
-          Swal.fire({
-            title: 'Arror al dar de alta el prestamo!',
-            text: 'Error al dar de alta el prestamo: ' + msj.toString(),
-            icon: 'error'
-          });
-        }
-        // console.log('Préstamo creado:', data);
-        // alert('Préstamo creado correctamente')
+        console.log('Prestamo creado:', data);
+        Swal.fire({
+          title: 'Prestamo creado correctamente!',
+          icon: 'success'
+        });
         this.resetForm();
       },
-      error => console.error('Error al crear el préstamo:', error)
+      error => {
+        console.log('Error al crear el prestamo:', error);
+        if (error.status === 500) {
+          console.log('Código de estado 500 detectado. Mensaje de error:', error.error);
+          Swal.fire({
+            title: 'Error al dar de alta el prestamo.',
+            icon: 'error'
+          });
+          this.resetForm();
+        }
+      }
     );
   }
 
@@ -97,7 +93,7 @@ export class AltaPrestamoComponent {
         });
         this.reset();
     }
-}
+  }
 
 reset(){
   this.fechaPrestamo = '';

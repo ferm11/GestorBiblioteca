@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,4 @@ export class PrestamosService {
   impReferencia(prestamo: any) {
     return this.http.post(`${this.API_URL}/prestamos/generapdf`, prestamo)
   }
-
 }

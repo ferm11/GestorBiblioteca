@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; //Fer//
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { Libro } from '../modelos/Libro';
+import { Libro} from '../modelos/Libro';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
