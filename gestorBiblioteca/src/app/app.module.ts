@@ -15,7 +15,9 @@ import { GestionEjemplaresComponent } from './componentes/gestion-ejemplares/ges
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorComponent } from './componentes/error/error.component';
-
+import { LoginComponent } from './componentes/login/login.component';
+import { RegistroComponent } from './componentes/registro/registro.component';
+import { RestablecerComponent } from './componentes/restablecer/restablecer.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,10 @@ import { ErrorComponent } from './componentes/error/error.component';
     ActualizarPrestamoComponent,
     TerminarPrestamoComponent,
     GestionEjemplaresComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoginComponent,
+    RegistroComponent,
+    RestablecerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,88 @@
+body {
+    background-color: #00A887;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  h1{
+    padding-top: 5%;
+    padding-bottom: 3%;
+  }
+
+.container{
+    padding-top: 10%;
+    text-align: center;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 0px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Aumentamos el blur para una sombra más pronunciada */
+  }
+  
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    width: calc(100% - 24px);
+    transition: border-color 0.3s ease;
+    text-indent: 40px; /* Ajusta este valor según sea necesario para tu icono */
+  }
+  
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder,
+  input[type="password"]::placeholder {
+    text-indent: 40px; /* Ajusta este valor según sea necesario para alinear el placeholder con el texto del input */
+  }
+  
+
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #00A887;
+      outline: none;
+    }
+  
+  button {
+    background-color: #00A887;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+      background-color: #00A887;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #007e66; /* Cambia el color al pasar el mouse */
+  }
+  
+
+  .error-message {
+    font-size: 12px; /* Tamaño de fuente más pequeño */
+    color: red; /* Color rojo */
+  }
+
+  /* Ocultar el mensaje de error por defecto */
+input.ng-invalid.ng-dirty:not(:focus) + .error-message {
+  display: none;
+}

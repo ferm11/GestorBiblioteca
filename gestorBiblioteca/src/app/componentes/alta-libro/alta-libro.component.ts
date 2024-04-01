@@ -144,7 +144,7 @@ export class AltaLibroComponent {
     { nombre: 'Crónica' },
     { nombre: 'Memorias' },
     { nombre: 'Novela policiaca' },
-    { nombre: 'Suspense' },
+    { nombre: 'Suspenso' },
     { nombre: 'Género' },
     { nombre: 'Literatura infantil' },
     { nombre: 'Narrativa juvenil' },

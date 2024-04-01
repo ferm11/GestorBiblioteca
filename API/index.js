@@ -1,4 +1,13 @@
 const { sendEmailWithPDF } = require ('./email')
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
+
+//Login
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
 
 const moment = require('moment');
 
@@ -8,6 +17,176 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+// Configura la conexión a la base de datos MySQL
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'BD_BIBLIOTECA'
+  });
+  
+  // Conéctate a la base de datos
+  db.connect((err) => {
+    if (err) {
+      throw err;
+    }
+    console.log('Conexión exitosa a la base de datos MySQL');
+  });
+
+// LOGIN
+
+// Ruta para el registro de usuarios
+// Ruta de registro de usuario
+app.post('/api/registro', (req, res) => {
+    const { numero_control, nombre, apellido, email, telefono, contrasena } = req.body;
+    // Encripta la contraseña
+    const hashedPassword = bcrypt.hashSync(contrasena, 8);
+  
+    // Inserta el usuario en la base de datos
+    db.query(
+      'INSERT INTO usuario (numControl, nombre, apellido, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)',
+      [numero_control, nombre, apellido, email, telefono, hashedPassword],
+      (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ message: 'Error al registrar el usuario' });
+        } else {
+          res.status(201).send({ message: 'Usuario registrado correctamente' });
+        }
+      }
+    );
+  });
+  
+  
+  
+  
+// Ruta de inicio de sesión
+app.post('/api/login', (req, res) => {
+  const { numControl, contraseña } = req.body;
+
+  // Busca el usuario en la base de datos por su número de control
+  db.query(
+    'SELECT * FROM usuario WHERE numControl = ?',
+    [numControl],
+    async (err, result) => {
+      if (err) {
+        console.error('Error al buscar el usuario en la base de datos:', err);
+        return res.status(500).send({ message: 'Error al buscar el usuario' });
+      }
+
+      if (result.length === 0) {
+        console.log('Usuario no encontrado.');
+        return res.status(404).send({ message: 'Usuario no encontrado' });
+      }
+
+      const usuario = result[0];
+
+      // Verifica si la contraseña almacenada está definida
+      if (!usuario.contraseña) {
+        console.error('Contraseña no encontrada en la base de datos para el usuario:', usuario);
+        return res.status(500).send({ message: 'Contraseña no encontrada en la base de datos' });
+      }
+
+      // Compara la contraseña
+      const contraseñaMatch = await bcrypt.compare(contraseña, usuario.contraseña);
+
+      if (contraseñaMatch) {
+        // Genera un token JWT
+        const token = jwt.sign({ numControl: usuario.numControl }, 'secret', {
+          expiresIn: '1h'
+        });
+        console.log('Inicio de sesión exitoso para el usuario:', usuario);
+        res.status(200).send({ token });
+      } else {
+        console.log('Credenciales inválidas para el usuario:', usuario);
+        res.status(401).send({ message: 'Credenciales inválidas' });
+      }
+    }
+  );
+});
+
+//********************************************************************************************** */
+
+// Configuración del middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Configurar nodemailer para enviar correos electrónicos
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'bibliotecautng1975@gmail.com', // Cambia esto por tu dirección de correo
+        pass: 'piofgmqxyiachyzs' // Cambia esto por tu contraseña de correo
+    }
+});
+
+// Almacenamiento temporal de códigos de verificación
+const verificationCodes = {};
+
+// Ruta para solicitar un restablecimiento de contraseña
+app.post('/api/forgot-password', (req, res) => {
+    const userEmail = req.body.email;
+    const verificationCode = crypto.randomBytes(3).toString('hex'); // Generar código de verificación de 6 caracteres
+
+    // Guardar el código de verificación en la base de datos o en memoria
+    verificationCodes[userEmail] = verificationCode;
+
+    // Enviar el código de verificación por correo electrónico
+    const mailOptions = {
+        from: 'bibliotecautng1975@gmail.com',
+        to: userEmail,
+        subject: 'Solicitud de cambio de contraseña',
+        text: 
+        `Haz solicitado un código de verificación para el restablecimeinto de tu contraseña. Tu código de verificación es: ${verificationCode}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Error al enviar el correo de verificación.');
+        } else {
+            console.log('Correo enviado: ' + info.response);
+            res.status(200).send('Se ha enviado un correo con el código de verificación.');
+        }
+    });
+});
+
+// Ruta para verificar el código de verificación
+app.post('/api/verify-code', (req, res) => {
+  const userEmail = req.body.email;
+  const userEnteredCode = req.body.code;
+
+  if (verificationCodes[userEmail] === userEnteredCode) {
+      // Eliminar el código de verificación después de ser utilizado
+      delete verificationCodes[userEmail];
+      res.status(200).json({ message: 'Código de verificación válido. Permitiendo restablecimiento de contraseña.' });
+  } else {
+      res.status(400).json({ error: 'Código de verificación inválido.' });
+  }
+});
+
+// ACTUALIZAR CONTRASEÑA DE UN USUARIO (MEDIANTE PETICION PUT)
+app.put('/api/restablecer-contrasena/:idUsuario', (req, res) => {
+  const idUsuario = req.params.id; // Obtén el ID del usuario a actualizar desde los parámetros de la ruta
+  const nuevaContrasena = req.body.contrasena;
+
+  const sQuery = "UPDATE Usuario SET contraseña = ? WHERE idUsuario = ?";
+
+  bd.query(sQuery, [nuevaContrasena, usuarioId], (err, results) => {
+    if (err) {
+      console.error('Error al actualizar la contraseña del usuario: ' + err.message);
+      res.status(500).send('Error al actualizar la contraseña del usuario en la base de datos');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+//***************************************************************************************************************************** */
+
+
 
 //Barra de busqueda
 app.get('api/books/search/:term', (req, res) => {
