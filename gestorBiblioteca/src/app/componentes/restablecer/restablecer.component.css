@@ -1,0 +1,12 @@
+/* Estilo para el input válido */
+.valid-input {
+  border-color: #28a745; /* Color verde */
+  border-width: 1px;
+  border-style: solid;
+}
+
+/* Estilo para el mensaje de error */
+.error-message {
+  color: #dc3545; /* Color rojo */
+  font-size: 80%; /* Tamaño de fuente más pequeño */
+}

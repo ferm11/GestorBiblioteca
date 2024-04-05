@@ -37,29 +37,55 @@ const db = mysql.createConnection({
 // LOGIN
 
 // Ruta para el registro de usuarios
-// Ruta de registro de usuario
 app.post('/api/registro', (req, res) => {
-    const { numero_control, nombre, apellido, email, telefono, contrasena } = req.body;
-    // Encripta la contraseña
-    const hashedPassword = bcrypt.hashSync(contrasena, 8);
-  
-    // Inserta el usuario en la base de datos
-    db.query(
-      'INSERT INTO usuario (numControl, nombre, apellido, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)',
-      [numero_control, nombre, apellido, email, telefono, hashedPassword],
-      (err, result) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send({ message: 'Error al registrar el usuario' });
-        } else {
-          res.status(201).send({ message: 'Usuario registrado correctamente' });
-        }
+  const { numero_control, nombre, apellido, email, telefono, contrasena } = req.body;
+  // Encripta la contraseña
+  const hashedPassword = bcrypt.hashSync(contrasena, 8);
+
+  // Verifica si el número de control ya está registrado
+  db.query(
+    'SELECT * FROM usuario WHERE numControl = ?',
+    [numero_control],
+    (err, resultsNumControl) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send({ message: 'Error al verificar el número de control' });
+      } else if (resultsNumControl.length > 0) {
+        res.status(400).send({ message: 'El número de control ya está registrado' });
+      } else {
+        // Verifica si el correo electrónico ya está registrado
+        db.query(
+          'SELECT * FROM usuario WHERE correo = ?',
+          [email],
+          (err, resultsEmail) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send({ message: 'Error al verificar el correo electrónico' });
+            } else if (resultsEmail.length > 0) {
+              res.status(400).send({ message: 'El correo electrónico ya está registrado' });
+            } else {
+              // Inserta el usuario en la base de datos
+              db.query(
+                'INSERT INTO usuario (numControl, nombre, apellido, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)',
+                [numero_control, nombre, apellido, email, telefono, hashedPassword],
+                (err, result) => {
+                  if (err) {
+                    console.error(err);
+                    res.status(500).send({ message: 'Error al registrar el usuario' });
+                  } else {
+                    res.status(201).send({ message: 'Usuario registrado correctamente' });
+                  }
+                }
+              );
+            }
+          }
+        );
       }
-    );
-  });
-  
-  
-  
+    }
+  );
+});
+
+
   
 // Ruta de inicio de sesión
 app.post('/api/login', (req, res) => {
@@ -105,6 +131,43 @@ app.post('/api/login', (req, res) => {
     }
   );
 });
+
+// Ruta para verificar si el correo electrónico está registrado y proporcionar un token JWT
+app.post('/api/check-email', (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+
+  // Busca el usuario en la base de datos por su correo electrónico
+  db.query(
+    'SELECT * FROM usuario WHERE correo = ?',
+    [email],
+    (err, result) => {
+      if (err) {
+        console.error('Error al buscar el usuario en la base de datos:', err);
+        return res.status(500).send({ message: 'Error al buscar el usuario' });
+      }
+
+      if (result.length === 0) {
+        console.log('Correo electrónico no encontrado.');
+        return res.status(404).send({ message: 'Correo electrónico no encontrado' });
+      }
+
+      console.log('Correo electrónico encontrado:', email);
+
+      // Genera un token JWT
+      const token = jwt.sign({ email: email }, 'secret', {
+        expiresIn: '1h' // Puedes ajustar la expiración como desees
+      });
+
+      console.log('Token JWT generado:', token); // Agrega este console.log
+
+      // Envía el token al cliente
+      res.status(200).send({ token });
+    }
+  );
+});
+
+
 
 //********************************************************************************************** */
 
@@ -166,22 +229,41 @@ app.post('/api/verify-code', (req, res) => {
   }
 });
 
-// ACTUALIZAR CONTRASEÑA DE UN USUARIO (MEDIANTE PETICION PUT)
-app.put('/api/restablecer-contrasena/:idUsuario', (req, res) => {
-  const idUsuario = req.params.id; // Obtén el ID del usuario a actualizar desde los parámetros de la ruta
-  const nuevaContrasena = req.body.contrasena;
+// Ruta para restablecer la contraseña
+app.post('/api/reset-password', (req, res) => {
+  const userEmail = req.body.email;
+  const newPassword = req.body.newPassword;
 
-  const sQuery = "UPDATE Usuario SET contraseña = ? WHERE idUsuario = ?";
-
-  bd.query(sQuery, [nuevaContrasena, usuarioId], (err, results) => {
+  // Hash de la nueva contraseña
+  bcrypt.hash(newPassword, 10, (err, hash) => {
     if (err) {
-      console.error('Error al actualizar la contraseña del usuario: ' + err.message);
-      res.status(500).send('Error al actualizar la contraseña del usuario en la base de datos');
-    } else {
-      res.json(results);
+      console.error('Error al cifrar la contraseña:', err);
+      return res.status(500).json({ error: 'Error al restablecer la contraseña. Por favor, inténtalo de nuevo.' });
     }
+
+    // Query SQL para actualizar la contraseña
+    const sqlQuery = "UPDATE Usuario SET contraseña = ? WHERE correo = ?";
+  
+    // Ejecuta la consulta SQL
+    db.query(sqlQuery, [hash, userEmail], (err, results) => {
+      if (err) {
+        console.error('Error al restablecer la contraseña:', err);
+        return res.status(500).json({ error: 'Error al restablecer la contraseña. Por favor, inténtalo de nuevo.' });
+      }
+      
+      if (results.affectedRows === 0) {
+        // Si no se actualiza ninguna fila, significa que no se encontró ningún usuario con el correo electrónico proporcionado
+        return res.status(404).json({ error: 'No se encontró ningún usuario con el correo electrónico proporcionado.' });
+      }
+
+      // Envía una respuesta de éxito
+      res.status(200).json({ message: 'Contraseña restablecida exitosamente.' });
+    });
   });
 });
+
+
+
 
 
 //***************************************************************************************************************************** */

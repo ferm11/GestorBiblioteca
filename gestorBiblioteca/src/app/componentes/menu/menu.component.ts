@@ -1,6 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy} from '@angular/core';
 import { MenuService } from 'src/app/servicios/menu.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/servicios/sesion.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-menu',
@@ -9,10 +12,12 @@ import { Subscription } from 'rxjs';
 })
 export class MenuComponent implements OnDestroy{
 
+  modalOpen: boolean = false;
+
   showNavbar : boolean = true;
   subscription : Subscription;
 
-  constructor(private menuService : MenuService){
+  constructor(private menuService : MenuService, public authService: AuthService){
     this.subscription = this.menuService.showNavbar.subscribe((value)=>{
       this.showNavbar = value;
     });
@@ -20,6 +25,15 @@ export class MenuComponent implements OnDestroy{
 
 ngOnDestroy(): void {
   this.subscription.unsubscribe();
+}
+
+toggleDropdown() {
+  var dropdownContent = document.getElementById("dropdownContent");
+  if (dropdownContent.style.display === "block") {
+    dropdownContent.style.display = "none";
+  } else {
+    dropdownContent.style.display = "block";
+  }
 }
 
 }

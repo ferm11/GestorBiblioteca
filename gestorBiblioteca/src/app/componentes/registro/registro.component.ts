@@ -62,9 +62,20 @@ export class RegistroComponent implements OnInit, OnDestroy {
       (error: any) => {
         console.error(error);
         // Manejar errores del registro
-        Swal.fire('¡Error!', 'Hubo un problema al registrar el usuario', 'error');
+        if (error.status === 400 && error.error && error.error.message) {
+          Swal.fire('¡Uppps!', error.error.message, 'error');
+        } else {
+          Swal.fire('¡Uppps!', 'Ocurrió un error al registrar el usuario', 'error');
+        }
+        // Reiniciar campos
+        this.numeroControl = '';
+        this.nombre = '';
+        this.apellido = '';
+        this.email = '';
+        this.telefono = '';
+        this.password = '';
       }
-    );
+    );   
   }
 
   validateNumberInput(event: KeyboardEvent) {

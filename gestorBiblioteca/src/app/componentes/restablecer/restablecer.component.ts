@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RestablecerService } from 'src/app/servicios/restablecer.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-restablecer',
@@ -22,6 +23,8 @@ export class RestablecerComponent implements OnInit{
   idUsuario: string; // Definimos la propiedad usuarioId
   showResetForm: boolean = false; // Variable para mostrar el formulario de restablecimiento
 
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+
   constructor(private http: HttpClient, private restablecerService : RestablecerService) {}
 
   ngOnInit(): void {
@@ -41,29 +44,6 @@ sendVerificationCode() {
   );
 }
 
-restablecerContrasena(): void {
-  console.log('ID de usuario:', this.idUsuario); // Agregar este console.log()
-  if (this.idUsuario !== undefined && this.idUsuario !== null) {
-    this.restablecerService.restablecerContrasena(this.nuevaContrasena, this.idUsuario)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.mensaje = 'Contraseña actualizada correctamente';
-        },
-        error => {
-          console.error(error);
-          this.mensaje = 'Error al actualizar la contraseña';
-        }
-      );
-  } else {
-    console.error('ID de usuario no definido');
-    this.mensaje = 'Error al actualizar la contraseña: ID de usuario no definido';
-  }
-}
-
-
-
-
 
   verifyCode() {
     this.restablecerService.verifyCode(this.email, this.code).subscribe(
@@ -81,5 +61,19 @@ restablecerContrasena(): void {
       }
     );
   }
+
+  restablecerContrasena() {
+    this.restablecerService.resetPassword(this.email, this.newPassword).subscribe(
+      response => {
+        console.log('Contraseña restablecida correctamente:', response);
+        // Aquí puedes realizar cualquier acción adicional después de restablecer la contraseña, como redirigir al usuario a una página de inicio de sesión
+      },
+      error => {
+        console.error('Error al restablecer la contraseña:', error);
+        // Maneja cualquier error que ocurra durante el restablecimiento de la contraseña
+      }
+    );
+  }
+  
 
 }

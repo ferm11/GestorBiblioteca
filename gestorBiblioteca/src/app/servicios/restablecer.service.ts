@@ -23,12 +23,6 @@ export class RestablecerService {
       );
   }
 
-  restablecerContrasena(contrasena: string, idUsuario: string): Observable<any> {
-    return this.http.put<any>(`http://localhost:3000/api/restablecer-contrasena/${idUsuario}`, { contrasena });
-}
-
-
-
   verifyCode(email: string, code: string): Observable<any> {
     console.log('Verificando código para:', email);
     return this.http.post<any>(`${this.API_URL}/verify-code`, { email, code })
@@ -41,5 +35,8 @@ export class RestablecerService {
       );
   }
   
+  resetPassword(email: string, newPassword: string) {
+    return this.http.post('http://localhost:3000/api/reset-password', { email, newPassword });
+  }
 
 }

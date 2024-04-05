@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- SCRIPT  DE GOOGLE reCATCHA -->
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Login</title>
 </head>
 <body>
 
     <div class="container">
     <h1>Inicio de sesión</h1>
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm, recaptchaModal)" class="needs-validation" novalidate>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="needs-validation" novalidate>
 
         <!-- Campo de Número de Control -->
         <div class="form-group">
@@ -33,33 +33,33 @@
                 <div *ngIf="loginForm.controls['contrasena']?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
             </div>
         </div>
+  
+        <div class="verificacion">
+            <div class="g-recaptcha" data-sitekey="6Lc3jKspAAAAAIyRa1e18Dv4R1fVoubE8mLJVNry" #captchaElement></div> <br>
+            <div *ngIf="errorMensaje" class="alert alert-danger">{{ errorMensaje }}</div>
+          </div>
 
-        <!-- Botón de inicio de sesión -->
-        <button type="submit" class="btn btn-primary" (click)="login(loginForm, recaptchaModal)">Iniciar sesión</button>
+        <!-- Button to Open Modal y inicia sesion 
+        <button type="button" class="btn btn-primary" (click)="login(loginForm)">Iniciar sesión</button><br><br> -->
 
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="login(loginForm)">
+          Iniciar sesión
+        </button> <br><br>
+
+        <!-- Boton inicio de sesion con gogle -->
+        <button (click)="loginWithGoogle()" class="google-login-button">
+  <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google-icon">
+  Iniciar sesión con Google
+</button>
+
+          
     </form>
 
-    <div #recaptchaModal class="modal fade" tabindex="-1" role="dialog" aria-labelledby="recaptchaModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="recaptchaModalLabel">Verificación Humana</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="g-recaptcha" data-sitekey="6LfhLqgpAAAAANaiwyF9hvNTjO4vEu2ytx0k_CDQ"></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" onclick="submitForm()">Enviar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Verificar    
+</button> -->
+  
     <!-- Enlaces adicionales -->
     <div class="mt-3">
         <a routerLink="/restablecer">¿Olvidaste tu contraseña?</a>
@@ -68,7 +68,6 @@
         <span>¿No tienes una cuenta? <a routerLink="/registrate">Regístrate</a></span>
     </div>
 </div>
-  
-    
+
 </body>
 </html>

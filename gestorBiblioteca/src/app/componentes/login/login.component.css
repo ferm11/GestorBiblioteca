@@ -27,3 +27,32 @@ body {
     width: 100%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Aumentamos el blur para una sombra más pronunciada */
   }
+
+  .error-message {
+    color: #dc3545; /* Color rojo para el mensaje de error */
+    font-size: 0.85rem; /* Tamaño de fuente más pequeño */
+    margin-top: 0.25rem; /* Espacio superior reducido */
+  }
+
+  /* Estilos para el bton de inicio de sesion de Google*/
+  .google-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 15%;
+  }
+  
+  .google-login-button:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .google-icon {
+    width: 20px;
+    margin-right: 10px;
+  }

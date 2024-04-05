@@ -6,11 +6,21 @@
     <div *ngIf="!verificationCodeSent">
       <div class="form-group">
         <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" required>
-      </div>
-      <button (click)="sendVerificationCode()">Enviar Código de Verificación</button>
+        <input type="email" id="email" [formControl]="emailFormControl" [class.valid-input]="emailFormControl.valid">
+        <div *ngIf="emailFormControl.invalid && (emailFormControl.dirty || emailFormControl.touched)" class="error-message">
+          <div *ngIf="emailFormControl.hasError('required')">
+            * El correo electrónico es obligatorio.
+          </div>
+          <div *ngIf="emailFormControl.hasError('email')">
+            * El formato del correo electrónico no es válido.
+          </div>
+        </div>
+      </div><br>
+      <button (click)="sendVerificationCode()" [disabled]="emailFormControl.invalid">Enviar código de verificación</button>
     </div>
-  
+    
+    
+    
     <!-- Mostrar el formulario de verificación de código si ya se ha enviado el código de verificación -->
     <div *ngIf="verificationCodeSent && !showResetForm">
       <div class="form-group">
