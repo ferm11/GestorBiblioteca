@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MenuService {
+export class MenuService{
+
+  isLoggedIn: boolean = false;
 
   showNavbar : BehaviorSubject<boolean>;
 
@@ -19,5 +21,6 @@ export class MenuService {
   display(){
     this.showNavbar.next(true);
   }
+
 
 }

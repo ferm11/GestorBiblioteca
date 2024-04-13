@@ -123,7 +123,7 @@ app.post('/api/login', (req, res) => {
           expiresIn: '1h'
         });
         console.log('Inicio de sesión exitoso para el usuario:', usuario);
-        res.status(200).send({ token });
+        res.status(200).send({ token, userData: usuario});
       } else {
         console.log('Credenciales inválidas para el usuario:', usuario);
         res.status(401).send({ message: 'Credenciales inválidas' });

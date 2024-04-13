@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LibrosService } from 'src/app/servicios/libros.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-alta-libro',
@@ -13,8 +13,6 @@ export class AltaLibroComponent {
   mensajeError: string = '';
   Autores: string[] = [];
   NuevoAutor: string = '';
-
-
 
   constructor(private librosService:LibrosService) { }
 

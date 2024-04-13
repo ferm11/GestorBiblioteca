@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 // Declara la función grecaptcha como una variable global
 declare const grecaptcha: any;
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('captchaElement') captchaElement;
 
-  constructor(private usuariosService: UsuariosService, private router: Router, private afAuth: AngularFireAuth) {}
+  constructor(private usuariosService: UsuariosService, private router: Router, private afAuth: AngularFireAuth, private authService:AuthService) {}
 
   ngOnInit() {}
 
@@ -60,12 +61,18 @@ export class LoginComponent implements OnInit {
         console.log('Respuesta del servicio de inicio de sesión:', res);
         // Manejar respuesta exitosa del inicio de sesión
         Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success');
+        //Almacena los datos del usuario
+        this.authService.setUserData(res.userData);
+        //Notificar al servicio de autenticacion que el usuario ha iniciado sesion
+        this.authService.setLoggedIn(true);
+        // Almacena el token y actualiza el estado de la sesion
+        this.usuariosService.setToken(res.token);
         // Almacena el token JWT en la variable del componente
         this.jwtToken = res.token;
         // Muestra el token JWT en la consola
         console.log('Token JWT:', this.jwtToken);
-        // Configura la variable showModal para abrir el modal
-        this.showModal = true;
+        this.authService.setLoggedIn(true);
+        // Redirige a la pagina de alta
         this.router.navigate(['/alta']);
       },
       (error: any) => {
@@ -99,35 +106,45 @@ export class LoginComponent implements OnInit {
       const provider = new firebase.auth.GoogleAuthProvider();
       const result = await this.afAuth.signInWithPopup(provider);
       const userEmail = result.user.email; // Obtener el correo electrónico del usuario
-  
+
       // Enviar el correo electrónico al servidor para verificar si está registrado
       this.usuariosService.checkEmail(userEmail).subscribe(
         (response) => {
+          console.log('Respuesta del servidor después de iniciar sesión con Google:', response);
           if (response && response.token) {
             // Almacena el token en el cliente
             const token = response.token;
             this.usuariosService.setToken(token);
             console.log('Token JWT recibido:', token);
-  
+            
+            // Almacena los datos del usuario en el servicio de autenticación
+            const userData = response.userData;
+            console.log('Datos del usuario recibidos:', userData);
+            this.authService.setUserData(userData);
+
+            // Notifica al servicio de autenticación que el usuario ha iniciado sesión
+            this.authService.setLoggedIn(true);
+            
+            console.log('Usuario autenticado:', result.user);
             // Continuar con la navegación o cualquier acción adicional
             console.log('Usuario autenticado:', result.user);
             Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success');
             this.router.navigate(['/alta']);
           } else {
             // Si el correo electrónico no está registrado o no se recibió el token, mostrar un mensaje de error
-            Swal.fire('¡Uppps!', 'El correo electrónico no está registrado, intentalo nuevamente.', 'error');
+            Swal.fire('¡Uppps!', 'El correo electrónico no está registrado, inténtalo nuevamente.', 'error');
           }
         },
         (error) => {
           console.error('Error al verificar el correo electrónico:', error);
-          Swal.fire('¡Uppps!', 'El correo electrónico no está registrado, intentalo nuevamente.', 'error');
+          Swal.fire('¡Uppps!', 'El correo electrónico no está registrado, inténtalo nuevamente.', 'error');
         }
       );
     } catch (error) {
       console.error('Error al autenticar con Google:', error);
-      Swal.fire('¡Uppps!', 'No se pudo autenticar con ese correo electrónico, intentalo nuevamente.', 'error');
+      Swal.fire('¡Uppps!', 'No se pudo autenticar con ese correo electrónico, inténtalo nuevamente.', 'error');
     }
-  }
-  
+}
+
 
 } 

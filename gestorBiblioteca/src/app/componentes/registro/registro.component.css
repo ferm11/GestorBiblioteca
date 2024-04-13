@@ -20,11 +20,12 @@ body {
 }
 
 .container {
+    position: absolute;
     background-color: #fff;
     padding: 20px;
     border-radius: 0px;
     max-width: 400px;
-    width: 100%;
+    width: 30%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Aumentamos el blur para una sombra más pronunciada */
   }
   
@@ -80,6 +81,7 @@ body {
   .error-message {
     font-size: 12px; /* Tamaño de fuente más pequeño */
     color: red; /* Color rojo */
+    margin-bottom: -10%;
   }
 
   /* Ocultar el mensaje de error por defecto */

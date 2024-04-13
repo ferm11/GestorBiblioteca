@@ -21,6 +21,7 @@
     "@angular/router": "^17.3.2",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "bootstrap": "^5.3.3",
+    "bulma": "^1.0.0",
     "firebase": "^10.10.0",
     "jquery": "^3.7.1",
     "jspdf": "^2.5.1",
@@ -28,7 +29,7 @@
     "ngx-toastr": "^17.0.2",
     "nodemailer": "^6.9.7",
     "rxjs": "~7.8.0",
-    "sweetalert2": "^11.9.0",
+    "sweetalert2": "^11.10.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"
   },

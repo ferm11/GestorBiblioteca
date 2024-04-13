@@ -1,7 +1,7 @@
 import { Component, OnDestroy} from '@angular/core';
 import { MenuService } from 'src/app/servicios/menu.service';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/servicios/sesion.service';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 declare var $: any;
 
@@ -12,28 +12,37 @@ declare var $: any;
 })
 export class MenuComponent implements OnDestroy{
 
-  modalOpen: boolean = false;
-
   showNavbar : boolean = true;
+  isLoggedIn: boolean = false;
   subscription : Subscription;
+  userData: any ={} ;
 
-  constructor(private menuService : MenuService, public authService: AuthService){
+  constructor(private menuService : MenuService, private authService:AuthService){
     this.subscription = this.menuService.showNavbar.subscribe((value)=>{
       this.showNavbar = value;
     });
+    this.authService.getLoggedIn().subscribe((value: boolean) => {
+      this.isLoggedIn = value;
+      console.log('Estado de autenticacion actualizado', this.isLoggedIn);
+    });
+    this.authService.getUserData().subscribe((userData: any)=>{
+      this.userData = userData;
+    })
+    this.authService.getUserData().subscribe((userData: any) => {
+      console.log('Datos del usuario recibidos en MenuComponent:', userData);
+      this.userData = userData;
+    });
+    
+  }
+
+  logout() {
+    // Lógica para cerrar sesión, por ejemplo, al enviar una solicitud al servidor
+    // Después de cerrar sesión, notifica al servicio de autenticación
+    this.authService.setLoggedIn(false);
   }
 
 ngOnDestroy(): void {
   this.subscription.unsubscribe();
-}
-
-toggleDropdown() {
-  var dropdownContent = document.getElementById("dropdownContent");
-  if (dropdownContent.style.display === "block") {
-    dropdownContent.style.display = "none";
-  } else {
-    dropdownContent.style.display = "block";
-  }
 }
 
 }

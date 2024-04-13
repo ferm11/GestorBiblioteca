@@ -1,58 +1,59 @@
 body {
-    background-color: #00A887;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+  background-color: #00A887;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-  h1{
-    padding-top: 5%;
-    padding-bottom: 3%;
-  }
+h1{
+  padding-top: 5%;
+  padding-bottom: 3%;
+}
 
 .container{
-    padding-top: 10%;
-    text-align: center;
+  padding-top: 10%;
+  text-align: center;
 }
 
 .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 0px;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Aumentamos el blur para una sombra más pronunciada */
-  }
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  padding: 20px;
+  width: 28%;
+  border-radius: 0px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Aumentamos el blur para una sombra más pronunciada */
+}
 
-  .error-message {
-    color: #dc3545; /* Color rojo para el mensaje de error */
-    font-size: 0.85rem; /* Tamaño de fuente más pequeño */
-    margin-top: 0.25rem; /* Espacio superior reducido */
-  }
+.error-message {
+  color: #dc3545; /* Color rojo para el mensaje de error */
+  font-size: 0.85rem; /* Tamaño de fuente más pequeño */
+  margin-top: 0.25rem; /* Espacio superior reducido */
+}
 
-  /* Estilos para el bton de inicio de sesion de Google*/
-  .google-login-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 15%;
-  }
-  
-  .google-login-button:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .google-icon {
-    width: 20px;
-    margin-right: 10px;
-  }
+/* Estilos para el bton de inicio de sesion de Google*/
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 15%;
+}
+
+.google-login-button:hover {
+  background-color: #f1f1f1;
+}
+
+.google-icon {
+  width: 20px;
+  margin-right: 10px;
+}

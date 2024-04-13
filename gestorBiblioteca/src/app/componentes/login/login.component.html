@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- SCRIPT  DE GOOGLE reCATCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Login</title>
@@ -17,7 +15,7 @@
     <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="needs-validation" novalidate>
 
         <!-- Campo de Número de Control -->
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 10px;">
             <input type="text" name="numControl" [(ngModel)]="numControl" class="form-control" placeholder="Número de control" required (keydown)="validateNumberInput($event)" minlength="10" maxlength="10" pattern="[0-9]{10}" (ngModelChange)="loginForm.controls['numControl']?.markAsTouched()" [ngClass]="{'is-invalid': loginForm.controls['numControl']?.invalid && loginForm.controls['numControl']?.touched, 'is-valid': loginForm.controls['numControl']?.valid && loginForm.controls['numControl']?.touched}">
             <div class="invalid-feedback">
                 <div *ngIf="loginForm.controls['numControl']?.errors?.['required']">El número de control es obligatorio.</div>
@@ -26,7 +24,7 @@
         </div>
 
         <!-- Campo de Contraseña -->
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 10px;">
             <input type="password" name="contrasena" [(ngModel)]="contrasena" class="form-control" placeholder="Contraseña" required minlength="8" (ngModelChange)="loginForm.controls['contrasena']?.markAsTouched()" [ngClass]="{'is-invalid': loginForm.controls['contrasena']?.invalid && loginForm.controls['contrasena']?.touched, 'is-valid': loginForm.controls['contrasena']?.valid && loginForm.controls['contrasena']?.touched}">
             <div class="invalid-feedback">
                 <div *ngIf="loginForm.controls['contrasena']?.errors?.['required']">La contraseña es obligatoria.</div>
