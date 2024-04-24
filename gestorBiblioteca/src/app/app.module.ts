@@ -15,6 +15,16 @@ import { GestionEjemplaresComponent } from './componentes/gestion-ejemplares/ges
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorComponent } from './componentes/error/error.component';
+import { LoginComponent } from './componentes/login/login.component';
+import { RegistroComponent } from './componentes/registro/registro.component';
+import { RestablecerComponent } from './componentes/restablecer/restablecer.component';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AuthGuard } from './guards/auth.guard';
+import { NoAuthGuard } from './guards/noauth.guard';
+import { CommonModule } from '@angular/common';
+import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 
 
 @NgModule({
@@ -28,17 +38,27 @@ import { ErrorComponent } from './componentes/error/error.component';
     ActualizarPrestamoComponent,
     TerminarPrestamoComponent,
     GestionEjemplaresComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoginComponent,
+    RegistroComponent,
+    RestablecerComponent,
+    UsuariosComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
     ToastrModule.forRoot(),
+    
   ],
   providers: [
+    AuthGuard,
+    NoAuthGuard
   ],
   bootstrap: [AppComponent]
 })

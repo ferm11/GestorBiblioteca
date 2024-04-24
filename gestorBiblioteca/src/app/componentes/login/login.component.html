@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- SCRIPT  DE GOOGLE reCATCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <title>Login</title>
+</head>
+<body>
+
+    <div class="container">
+    <h1>Inicio de sesión</h1>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="needs-validation" novalidate>
+
+        <!-- Campo de Número de Control -->
+<div class="form-group" style="margin-bottom: 10px;">
+    <div style="position: relative;">
+        <i class="fas fa-user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.5;"></i>
+        <input type="text" name="numControl" [(ngModel)]="numControl" class="form-control" placeholder="Número de control" required (keydown)="validateNumberInput($event)" minlength="10" maxlength="10" pattern="[0-9]{10}" (ngModelChange)="loginForm.controls['numControl']?.markAsTouched()" [ngClass]="{'is-invalid': loginForm.controls['numControl']?.invalid && loginForm.controls['numControl']?.touched, 'is-valid': loginForm.controls['numControl']?.valid && loginForm.controls['numControl']?.touched}">
+    </div>
+    <div class="invalid-feedback">
+        <div *ngIf="loginForm.controls['numControl']?.errors?.['required']">El número de control es obligatorio.</div>
+        <div *ngIf="loginForm.controls['numControl']?.errors?.['minlength'] || loginForm.controls['numControl']?.errors?.['maxlength']">El número de control debe tener 10 dígitos.</div>
+    </div>
+</div>
+
+
+        <!-- Campo de Contraseña -->
+<div class="form-group" style="margin-bottom: 10px;">
+    <div style="position: relative;">
+        <i class="fas fa-lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.5;"></i>
+        <input type="password" name="contrasena" [(ngModel)]="contrasena" class="form-control" placeholder="Contraseña" required minlength="8" (ngModelChange)="loginForm.controls['contrasena']?.markAsTouched()" [ngClass]="{'is-invalid': loginForm.controls['contrasena']?.invalid && loginForm.controls['contrasena']?.touched, 'is-valid': loginForm.controls['contrasena']?.valid && loginForm.controls['contrasena']?.touched}">
+    </div>
+    <div class="invalid-feedback">
+        <div *ngIf="loginForm.controls['contrasena']?.errors?.['required']">La contraseña es obligatoria.</div>
+        <div *ngIf="loginForm.controls['contrasena']?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
+    </div>
+</div>
+
+
+<div class="verificacion">
+    <div class="g-recaptcha" data-sitekey="6Lc3jKspAAAAAIyRa1e18Dv4R1fVoubE8mLJVNry" #captchaElement></div> <br>
+    <div *ngIf="errorMensaje" class="alert alert-danger">{{ errorMensaje }}</div>
+  </div>
+
+<!-- Button to Open Modal y inicia sesion 
+<button type="button" class="btn btn-primary" (click)="login(loginForm)">Iniciar sesión</button><br><br> -->
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="login(loginForm)">
+  Iniciar sesión
+</button> <br><br>
+
+        <!-- Boton inicio de sesion con gogle -->
+        <button (click)="loginWithGoogle()" class="google-login-button">
+  <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google-icon">
+  Iniciar sesión con Google
+</button>
+
+          
+    </form>
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Verificar    
+</button> -->
+  
+    <!-- Enlaces adicionales -->
+    <div class="mt-3">
+        <a routerLink="/restablecer">¿Olvidaste tu contraseña?</a>
+    </div>
+    <div class="mt-3">
+        <span>¿No tienes una cuenta? <a routerLink="/registrate">Regístrate</a></span>
+    </div>
+</div>
+
+</body>
+</html>
