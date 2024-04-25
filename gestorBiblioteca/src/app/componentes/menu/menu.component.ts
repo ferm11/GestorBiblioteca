@@ -28,38 +28,62 @@ export class MenuComponent implements OnDestroy, OnInit {
     this.subscription = this.menuService.showNavbar.subscribe((value) => {
       this.showNavbar = value;
     });
+  
     this.authService.getLoggedIn().subscribe((value: boolean) => {
       this.isLoggedIn = value;
       console.log('Estado de autenticacion actualizado', this.isLoggedIn);
     });
-    this.authService.getUserData().subscribe((userData: any) => {
-      this.userData = userData;
-    });
+  
+    // Obtener la hora actual y mostrarla en la consola
+    const currentDateTime = new Date();
+    console.log('Hora actual:', currentDateTime.toLocaleTimeString());
+  
     this.userData = JSON.parse(localStorage.getItem('userData'));
     console.log('Datos del usuario obtenidos del localStorage en el componente:', this.userData);
-
+  
     // Obtener el token JWT del localStorage
     this.jwtToken = localStorage.getItem('token');
     console.log('Token JWT obtenido del localStorage en el componente:', this.jwtToken);
-
+  
     // Suscribirse al cambio de datos del usuario
     this.subscription = this.authService.getUserData().subscribe((userData: any) => {
       console.log('Datos del usuario recibidos en el componente:', userData);
       this.userData = userData;
     });
-
+  
     // Verificar la ruta actual y deshabilitar el botón si es necesario
     const currentRoute = this.router.url;
-    if (currentRoute === '/inicio' || currentRoute === '/registrate' || currentRoute === '/restablecer') {
+    if (currentRoute === '/inicio' || currentRoute === '/registrate' || currentRoute === '/restablecer' || currentRoute === '/caduca') {
       this.isButtonEnabled = false;
     }
+  
+    // Establecer el tiempo de expiración (20 minutos después)
+    const expirationTime = new Date(currentDateTime.getTime() + 20 * 60 * 1000); // 20 minutos en milisegundos
+  
+    // Verificar si userData o token no son null
+if (this.userData !== null || this.jwtToken !== null) {
+  // Iniciar un temporizador para verificar la expiración de la sesión
+  const sessionExpirationTimer = setTimeout(() => {
+      console.log('La sesión ha caducado.');
+      // Aquí puedes realizar cualquier acción que desees al expirar la sesión, como mostrar un formulario o redirigir a otra página.
+      // Por ejemplo, podrías navegar a la página de sesión caducada:
+      this.router.navigate(['/caduca']);
+  }, expirationTime.getTime() - currentDateTime.getTime()); // Tiempo restante hasta la expiración de la sesión en milisegundos
+
+  // Aquí puedes renderizar el contenido de la página, ya que userData o token no son null
+  // Por ejemplo, podrías mostrar una sección específica de la página o cargar datos desde el backend.
+} else {
+  // En caso de que userData y token sean null, puedes redirigir al usuario a una página de inicio de sesión.
+}
   }
+  
+  
 
   ngOnInit() {
     this.router.events.subscribe(() => { // Usar router.events en lugar de route.url
       const currentRoute = this.router.url;
       // Ocultar el botón en ciertas rutas
-      if (currentRoute === '/login' || currentRoute === '/restablecer') {
+      if (currentRoute === '/login' || currentRoute === '/restablecer' || currentRoute=== '/registrate' || currentRoute === '/caduca') {
         this.showButton = false;
       } else {
         // Verificar si userData es null

@@ -36,10 +36,11 @@
         <i class="fa-solid fa-user-group"></i><input type="email" id="correo" [(ngModel)]="correo" name="correo" required placeholder="Correo"> <br>
 
         <label for="fechaPrestamo">Fecha prestamo:</label>
-        <i class="fa-solid fa-calendar-days"></i><input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" (change)="validarFecha()"  name="fechaPrestamo" required placeholder="Fecha prestamo">
-        <div *ngIf="mensajeError" class="error-message">
-            {{ mensajeError }}
-          </div> <br>
+<i class="fa-solid fa-calendar-days"></i>
+<input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" (change)="validarFecha()" name="fechaPrestamo" required placeholder="Fecha prestamo">
+<div *ngIf="mensajeError" class="error-message">
+    {{ mensajeError }}
+</div><br>
       
         <label for="fechaDevolucion">Fecha devolución:</label>
         <i class="fa-solid fa-newspaper"></i><input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" (change)="validarFechaDevolucion()" name="fechaDevolucion" required placeholder="fechaDevolucion">

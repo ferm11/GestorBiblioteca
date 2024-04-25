@@ -35,14 +35,11 @@ const db = mysql.createConnection({
   });
 
 // LOGIN
-
-// Ruta para el registro de usuarios
+//Ruta para registarse
 app.post('/api/registro', (req, res) => {
-  const { numero_control, nombre, apellido, email, telefono, contrasena } = req.body;
-  // Encripta la contraseña
+  const { numero_control, nombre, apellido, email, telefono, contrasena, rol } = req.body; // Recupera también el rol del cuerpo de la solicitud
   const hashedPassword = bcrypt.hashSync(contrasena, 8);
 
-  // Verifica si el número de control ya está registrado
   db.query(
     'SELECT * FROM usuario WHERE numControl = ?',
     [numero_control],
@@ -53,7 +50,6 @@ app.post('/api/registro', (req, res) => {
       } else if (resultsNumControl.length > 0) {
         res.status(400).send({ message: 'El número de control ya está registrado' });
       } else {
-        // Verifica si el correo electrónico ya está registrado
         db.query(
           'SELECT * FROM usuario WHERE correo = ?',
           [email],
@@ -64,10 +60,9 @@ app.post('/api/registro', (req, res) => {
             } else if (resultsEmail.length > 0) {
               res.status(400).send({ message: 'El correo electrónico ya está registrado' });
             } else {
-              // Inserta el usuario en la base de datos
               db.query(
-                'INSERT INTO usuario (numControl, nombre, apellido, correo, telefono, contraseña) VALUES (?, ?, ?, ?, ?, ?)',
-                [numero_control, nombre, apellido, email, telefono, hashedPassword],
+                'INSERT INTO usuario (numControl, nombre, apellido, correo, telefono, contraseña, rol) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [numero_control, nombre, apellido, email, telefono, hashedPassword, rol], // Agrega el rol a la consulta de inserción
                 (err, result) => {
                   if (err) {
                     console.error(err);
@@ -84,6 +79,7 @@ app.post('/api/registro', (req, res) => {
     }
   );
 });
+
 
 
   

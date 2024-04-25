@@ -33,7 +33,8 @@ export class RegistroComponent {
       apellido: this.apellido,
       email: this.email,
       telefono: this.telefono,
-      contrasena: this.password
+      contrasena: this.password,
+      rol:'estudiante'
     };
 
     this.usuarioService.registro(usuario).subscribe(

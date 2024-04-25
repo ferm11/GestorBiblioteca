@@ -39,8 +39,7 @@
       <th scope="col">Apellidos</th>
       <th scope="col">Correo</th>
       <th scope="col">Teléfono</th>
-      <th scope="col" style="width: 5%;">Editar</th>
-      <th scope="col" style="width: 5%;">Eliminar</th>
+
     </tr>
   </thead>
   <tbody *ngFor="let usuario of usuarios; let i = index;">
@@ -51,11 +50,7 @@
       <td>{{usuario.apellido}}</td>
       <td>{{usuario.correo}}</td>
       <td>{{usuario.telefono}}</td>
-      <td><button  data-bs-toggle="modal" data-bs-target="#editarPrestamo" style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square"
-            style="color: #0042aa;"></i></button></td>
-      <td><button  style="background-color: white; border: none;"><i class="fa-solid fa-trash"
-            style="color: #e32402;"></i></button></td>
-    </tr>
+
   </tbody>
 </table>
 

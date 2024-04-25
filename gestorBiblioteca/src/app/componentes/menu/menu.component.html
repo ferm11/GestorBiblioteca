@@ -15,7 +15,7 @@
       <a class="navbar-brand" href="#"><img src="https://www.utng.edu.mx/assets/principal/logoutng.webp" alt=""></a>
 
 <!-- Botón de usuario -->
-<div *ngIf="showButton && userData" class="dropdown" style="position: absolute; left: 77%; margin-top: 4.5%; color: white;" id="botonUsuario">
+<div *ngIf="showButton && userData" class="dropdown" style="position: absolute; left: 60%; margin-top: 4.5%; color: white;" id="botonUsuario">
   <button style="color: white;" class="btn btn-transparent dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
     <!-- Mostrar nombre completo del usuario en mayúsculas al lado izquierdo del icono -->
     <span style="display: flex; align-items: center;">
@@ -58,7 +58,7 @@
             </li>
 
             <!-- Primer dropdown -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar libros
               </a>
@@ -69,7 +69,7 @@
             </li>
 
             <!-- Segundo dropdown -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar ejemplares
               </a>
@@ -85,12 +85,12 @@
               </a>
               <ul class="dropdown-menu" style="background-color: #00A887; border: none;">
                 <li><a class="dropdown-item" href="prestamo" style="color: white; background-color: #00A887;">Alta de prestamo</a></li>
-                <li><a class="dropdown-item" href="editar" style="color: white; background-color: #00A887;" >Actualizar/Eliminar prestamo</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="editar" style="color: white; background-color: #00A887;" >Actualizar/Eliminar prestamo</a></li>
               </ul>
             </li>
 
             <!-- Cuarto dropdown -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="userData && userData.rol === 'administrador'">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestión de usuarios
               </a>

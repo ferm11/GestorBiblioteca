@@ -59,8 +59,6 @@ export class LoginComponent implements OnInit {
     this.usuariosService.login(this.numControl, this.contrasena).subscribe(
       (res: any) => {
         console.log('Respuesta del servicio de inicio de sesión:', res);
-        // Manejar respuesta exitosa del inicio de sesión
-        Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success');
         //Almacena los datos del usuario
         this.authService.setUserData(res.userData);
         //Notificar al servicio de autenticacion que el usuario ha iniciado sesion
@@ -73,8 +71,18 @@ export class LoginComponent implements OnInit {
         console.log('Token JWT:', this.jwtToken);
         this.authService.setLoggedIn(true);
         this.authService.saveToken(res.token);
+
         // Redirige a la pagina de alta
-        this.router.navigate(['/alta']);
+        this.router.navigate(['/inicio-usuario']);
+
+        // Mostrar el primer mensaje
+        Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success')
+        .then((result) => {
+          if (result.isConfirmed) {
+            // Mostrar el segundo mensaje después de que el usuario confirme el primero
+            Swal.fire('¡Importante!', 'Si requiere un cambio de rol, notifíquese con el administrador al correo bibliotecautng1975@gmail.com', 'info');
+          }
+        });
       },
       (error: any) => {
         console.error('Error en el inicio de sesión:', error);
@@ -140,9 +148,17 @@ async loginWithGoogle() {
           // Notifica al servicio de autenticación que el usuario ha iniciado sesión
           this.authService.setLoggedIn(true);
 
-          // Continuar con la navegación o cualquier acción adicional
-          Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success');
-          this.router.navigate(['/alta']);
+          //REdirige a la pagina de prestamo
+          this.router.navigate(['/inicio-usuario']);
+
+          // Mostrar el primer mensaje
+          Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success')
+          .then((result) => {
+            if (result.isConfirmed) {
+              // Mostrar el segundo mensaje después de que el usuario confirme el primero
+              Swal.fire('¡Importante!', 'Si requiere un cambio de rol, notifíquese con el administrador al correo bibliotecautng1975@gmail.com', 'info');
+            }
+          });
         } else {
           // Si el correo electrónico no está registrado o no se recibió el token, mostrar un mensaje de error
           Swal.fire('¡Uppps!', 'El correo electrónico no está registrado, inténtalo nuevamente.', 'error');

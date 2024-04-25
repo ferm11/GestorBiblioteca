@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LibrosService } from 'src/app/servicios/libros.service';
 import { PrestamosService } from 'src/app/servicios/prestamos.service';
 import { map, take } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
   selector: 'app-alta-prestamo',
   templateUrl: './alta-prestamo.component.html',
   styleUrls: ['./alta-prestamo.component.css']
 })
-export class AltaPrestamoComponent {
+export class AltaPrestamoComponent implements OnInit{
 
   userEmail: String;
 
@@ -26,8 +27,16 @@ export class AltaPrestamoComponent {
 
   resp: any = [];
 
-  constructor(private prestamosService: PrestamosService, private librosService: LibrosService) {
+  constructor(private prestamosService: PrestamosService, private librosService: LibrosService, private authService:AuthService) {
   } 
+
+  ngOnInit(): void {
+    // Obtener la fecha actual
+    const fechaActual = new Date();
+  
+    // Formatear la fecha actual en formato YYYY-MM-DD para asignarla al input
+    this.fechaPrestamo = fechaActual.toISOString().split('T')[0];
+  }
 
   altaPrestamo() {
     
@@ -73,27 +82,35 @@ export class AltaPrestamoComponent {
   }
 
   validarFecha(): void {
-    const fechaPrestamo = new Date(this.fechaPrestamo);
+    // Obtener la fecha actual
     const fechaActual = new Date();
-    
+  
+    // Formatear la fecha actual en formato YYYY-MM-DD para asignarla al input
+    const fechaActualFormateada = fechaActual.toISOString().split('T')[0];
+
+    // Asignar la fecha actual al input
+    this.fechaPrestamo = fechaActualFormateada;
+
     // Establecer las horas, minutos, segundos y milisegundos de la fecha actual a 0
     fechaActual.setHours(0, 0, 0, 0);
-  
+
+    // Obtener la fecha de préstamo
+    const fechaPrestamo = new Date(this.fechaPrestamo);
+
     // Verificar si la fecha de préstamo es igual a la fecha actual y no es nula
     if (fechaPrestamo && fechaPrestamo.getTime() === fechaActual.getTime()) {
-        // Convertir la fecha de préstamo a una cadena de texto en formato ISO (YYYY-MM-DD)
-        this.fechaPrestamo = fechaPrestamo.toISOString().split('T')[0];
         this.esFechaValida = true;
         this.mensajeError = '';
     } else {
         this.esFechaValida = false;
         Swal.fire({
-          title: 'La fecha de prestamo debe coincidir con la fecha actual.',
+          title: 'La fecha de préstamo debe coincidir con la fecha actual.',
           icon: 'error'
         });
         this.reset();
     }
-  }
+}
+
 
 reset(){
   this.fechaPrestamo = '';
@@ -103,27 +120,38 @@ validarFechaDevolucion(): void {
   const fechaDevolucion = new Date(this.fechaDevolucion);
   const fechaActual = new Date();
 
-  // Calcular la fecha permitida para devolución (7 días después de la fecha actual)
+  let diasPermitidos: number;
+  if (this.authService.getUserRole() === 'estudiante') {
+    diasPermitidos = 7; // Estudiantes tienen permitidos 7 días de préstamo
+  } else if (this.authService.getUserRole() === 'profesor') {
+    diasPermitidos = 14; // Profesores tienen permitidos 14 días de préstamo
+  } else {
+    // Otros roles pueden ser configurados aquí si es necesario
+    diasPermitidos = 30; // Por defecto, permitimos 7 días de préstamo
+  }
+
+  // Calcular la fecha permitida para devolución (díasPermitidos días después de la fecha actual)
   const fechaPermitida = new Date(fechaActual);
-  fechaPermitida.setDate(fechaPermitida.getDate() + 7);
+  fechaPermitida.setDate(fechaPermitida.getDate() + diasPermitidos);
 
   // Establecer las horas, minutos, segundos y milisegundos de la fecha actual a 0
   fechaActual.setHours(0, 0, 0, 0);
   fechaPermitida.setHours(0, 0, 0, 0);
 
-  // Verificar si la fecha de devolución es válida (no anterior a la fecha actual y no posterior a 7 días desde la fecha actual)
+  // Verificar si la fecha de devolución es válida (no anterior a la fecha actual y no posterior a los días permitidos desde la fecha actual)
   if (fechaDevolucion >= fechaActual && fechaDevolucion <= fechaPermitida) {
       this.esFechaValida = true;
       this.mensajeError = '';
   } else {
       this.esFechaValida = false;
       Swal.fire({
-          title: 'La fecha de devolución no es válida. Debe ser dentro de los próximos 7 días desde la fecha actual.',
+          title: `La fecha de devolución no es válida. Debe ser dentro de los próximos ${diasPermitidos} días desde la fecha actual.`,
           icon: 'error'
       });
       this.resett();
   }
 }
+
 
 resett(){
   this.fechaDevolucion = '';
