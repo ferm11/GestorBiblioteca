@@ -56,6 +56,7 @@ export class MenuComponent implements OnDestroy, OnInit {
     if (currentRoute === '/inicio' || currentRoute === '/registrate' || currentRoute === '/restablecer' || currentRoute === '/caduca') {
       this.isButtonEnabled = false;
     }
+
   
     // Establecer el tiempo de expiración (20 minutos después)
     const expirationTime = new Date(currentDateTime.getTime() + 20 * 60 * 1000); // 20 minutos en milisegundos
@@ -85,7 +86,8 @@ if (this.userData !== null || this.jwtToken !== null) {
       // Ocultar el botón en ciertas rutas
       if (currentRoute === '/login' || currentRoute === '/restablecer' || currentRoute=== '/registrate' || currentRoute === '/caduca') {
         this.showButton = false;
-      } else {
+      } 
+      else {
         // Verificar si userData es null
         if (this.userData === null) {
           this.showButton = false;

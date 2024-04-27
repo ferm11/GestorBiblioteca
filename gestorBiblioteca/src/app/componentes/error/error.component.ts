@@ -6,16 +6,9 @@ import { MenuService } from 'src/app/servicios/menu.service';
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.css']
 })
-export class ErrorComponent implements OnInit, OnDestroy{
+export class ErrorComponent{
 
 constructor(private menuService : MenuService){}
 
-ngOnInit(): void {
-  this.menuService.hide();
-}
-
-ngOnDestroy(): void {
-  this,this.menuService.display();
-}
 
 }

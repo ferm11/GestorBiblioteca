@@ -30,7 +30,7 @@ export class RestablecerComponent {
   passwordFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.pattern(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
+    Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
   ]);
 
   constructor(private http: HttpClient, private restablecerService: RestablecerService, private router: Router) {}

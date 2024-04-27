@@ -27,6 +27,10 @@
           </div>
         </div>
       </div>
+      <div class="Registro">
+        ¿Ya tienes una cuenta? <a routerLink="/login" style="text-decoration: none;">Inicia sesión</a><br>
+        ¿No tienes cuenta? <a routerLink="/registrate" style="text-decoration: none;">Registrate</a><br><br>
+        </div>
       <button type="button" class="btn btn-primary" (click)="sendVerificationCode()" [disabled]="emailFormControl.invalid">Enviar</button>
     </div>
 
@@ -45,6 +49,10 @@
       </div>
     </div>
   </div>
+  <div class="Registro">
+    ¿Ya tienes una cuenta? <a routerLink="/login" style="text-decoration: none;">Inicia sesión</a><br>
+    ¿No tienes cuenta? <a routerLink="/registrate" style="text-decoration: none;">Registrate</a><br><br>
+    </div>
   <button type="button" class="btn btn-primary" (click)="verifyCode()">Verificar Código</button>
 </div>
 
@@ -68,6 +76,11 @@
       </div>
     </div>
   </div>
+  
+  <div class="Registro">
+    ¿Ya tienes una cuenta? <a routerLink="/login" style="text-decoration: none;">Inicia sesión</a><br>
+    ¿No tienes cuenta? <a routerLink="/registrate" style="text-decoration: none;">Registrate</a><br><br>
+    </div>
   <button type="button" class="btn btn-primary" (click)="restablecerContrasena()" [disabled]="passwordFormControl.invalid">Restablecer Contraseña</button>
 </div>
 

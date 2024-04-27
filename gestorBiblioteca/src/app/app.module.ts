@@ -26,7 +26,7 @@ import { NoAuthGuard } from './guards/noauth.guard';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 import { CaducaComponent } from './componentes/caduca/caduca.component';
-import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usuario.component';
+import { RoleGuard } from './guards/role.guard';
 
 
 @NgModule({
@@ -46,7 +46,7 @@ import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usua
     RestablecerComponent,
     UsuariosComponent,
     CaducaComponent,
-    InicioUsuarioComponent,
+    
   ],
   imports: [
     BrowserModule,

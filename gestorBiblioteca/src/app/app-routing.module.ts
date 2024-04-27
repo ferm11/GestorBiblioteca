@@ -18,6 +18,12 @@ import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 import { RoleGuard } from './guards/role.guard';
 import { CaducaComponent } from './componentes/caduca/caduca.component';
 import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usuario.component';
+import { ApartadosComponent } from './componentes/apartados/apartados.component';
+import { CategoriasComponent } from './componentes/categorias/categorias.component';
+import { DisponibilidadComponent } from './componentes/disponibilidad/disponibilidad.component';
+import { NuestrosEjemplaresComponent } from './componentes/nuestros-ejemplares/nuestros-ejemplares.component';
+import { ServiciosComponent } from './componentes/servicios/servicios.component';
+import { SolicitudesComponent } from './componentes/solicitudes/solicitudes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -25,6 +31,12 @@ const routes: Routes = [
   { path: 'registrate', component: RegistroComponent, canActivate: [AuthGuard] },
   { path: 'restablecer', component: RestablecerComponent, canActivate: [AuthGuard] },
   { path: 'inicio', component: InicioComponent, canActivate: [AuthGuard]},
+  { path: 'apartados', component: ApartadosComponent, canActivate: [AuthGuard]},
+  { path: 'categorias', component: CategoriasComponent, canActivate:[AuthGuard]},
+  { path: 'disponibilidad', component: DisponibilidadComponent, canActivate:[AuthGuard]},
+  { path: 'nuestros-ejemplares', component: NuestrosEjemplaresComponent, canActivate:[AuthGuard]},
+  { path: 'servicios', component: ServiciosComponent, canActivate:[AuthGuard]},
+  { path: 'solicitudes', component: SolicitudesComponent, canActivate:[AuthGuard]},
   { path: 'alta', component: AltaLibroComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'actualizar', component: ActualizarLibroComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'prestamo', component: AltaPrestamoComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
@@ -34,7 +46,7 @@ const routes: Routes = [
   { path: 'usuarios', component: UsuariosComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador'] } },
   { path: 'caduca',component:CaducaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
   { path: 'inicio-usuario', component: InicioUsuarioComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
-  { path: '**', component: ErrorComponent }
+  { path: '**', component: ErrorComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } }
 ];
 
 @NgModule({

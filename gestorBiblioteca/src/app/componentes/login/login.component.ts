@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       return;
     }
   
-    // Verificar si la casilla de verificación está marcada
+    /*// Verificar si la casilla de verificación está marcada
     const captchaResponse = grecaptcha.getResponse();
     const captchaChecked = captchaResponse && captchaResponse.length !== 0;
   
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       console.log('Verificación humana incompleta.');
       this.errorMensaje = 'Por favor, completa la verificación humana';
       return;
-    }
+    } */
   
     console.log('Verificación humana completada.');
   
@@ -88,8 +88,10 @@ export class LoginComponent implements OnInit {
         console.error('Error en el inicio de sesión:', error);
         // Manejar errores del inicio de sesión
         this.errorMensaje = 'El número de control o contraseña son incorrectos';
-        grecaptcha.reset();
+        //grecaptcha.reset();
         this.resetForm();
+        this.numControl=null,
+        this.contrasena=null;
       }
     );
   }
