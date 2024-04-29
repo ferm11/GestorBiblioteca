@@ -6,6 +6,7 @@
     <script src="../contenido/accesibilidad.js"></script>
     <title>Inicio</title>
     <style>
+
         .container-fluid {
             display: flex;
         }
@@ -44,7 +45,7 @@
 <body>
 
     <!-- Menu arriba -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2A4DBD;">
+    <nav id="menu" class="navbar navbar-expand-lg navbar-dark" style="background-color: #2A4DBD; height: 15%; position: absolute; width: 100%;">
         <div class="container-fluid">
             <a class="navbar-brand" class="menu-item active" id="opcion1" href="../index.html"><img
                     src="https://www.utng.edu.mx/assets/principal/logoutng.webp" alt=""></a>
@@ -58,11 +59,6 @@
                     <li class="nav-item">
                         <a class="nav-link opcion" class="menu-item" id="opcion4" style="text-decoration: none; color: white;" href="Apartados/servicios.html">
                             <i class="fas fa-cogs"></i> Servicios
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link opcion" class="menu-item" id="opcion6" style="text-decoration: none; color: white;" href="Apartados/recursosElec.html">
-                            <i class="fas fa-desktop"></i> Recursos Electrónicos
                         </a>
                     </li>
                     <li class="nav-item">
@@ -376,31 +372,31 @@ min-height: 3000px;
 <div class="container mt-5">
     <div class="row text-center justify-content-center">
         <div class="col-2">
-            <a href="Apartados/nuestrosEjemplares.html" class="decoration">
+            <a routerLink="/nuestrosEjemplares" class="decoration">
                 <i class="fas fa-book-open fa-3x"></i>
                 <p>Nuestros Ejemplares</p>
             </a>
         </div>
         <div class="col-2">
-            <a href="Apartados/categorias.html" class="decoration">
+            <a routerLink="/categorias" class="decoration">
                 <i class="fas fa-book fa-3x"></i>
                 <p>Categorias</p>
             </a>
         </div>
         <div class="col-2">
-            <a href="Apartados/disponibilidad.html" class="decoration">
+            <a routerLink="/disponibilidad" class="decoration">
                 <i class="fas fa-book-reader fa-3x"></i>
                 <p>Disponiblidad</p>
             </a>
         </div>
         <div class="col-2">
-            <a href="Apartados/apartados.html" class="decoration">
+            <a routerLink="/apartados" class="decoration">
                 <i class="fas fa-scroll fa-3x"></i>
                 <p>Apartados</p>
             </a>
         </div>
         <div class="col-2">
-            <a href="Apartados/solicitudes.html" class="decoration">
+            <a routerLink="/solicitudes" class="decoration">
                 <i class="fas fa-book-medical fa-3x"></i>
                 <p>Solicitudes</p>
             </a>

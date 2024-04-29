@@ -9,9 +9,7 @@ import { Observable, map, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
-  sessionExpired: BehaviorSubject<void> = new BehaviorSubject<void>(null);
-
+  
   private userData = new Subject<any>(); // Almacena los datos del usuario
   private tokenKey = 'jwtToken'; // Clave para el token en localStorage
   private isLoggedInSubject = new Subject<boolean>(); // Almacena el estado de inicio de sesión
@@ -20,6 +18,12 @@ export class AuthService {
   isLoggedIn: boolean = true;
   private sessionExpirationSubject: BehaviorSubject<Date> = new BehaviorSubject<Date>(null);
   private sessionDurationInMinutes: number = 20;
+
+  private sessionTimer: any;
+  private sessionExpiration: Subject<void> = new Subject<void>();
+
+  private userDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  userData$: Observable<any> = this.userDataSubject.asObservable();
 
   private API_URL = "http://localhost:3000/api"
 
@@ -60,24 +64,18 @@ setUserData(userData: any) {
 
 // Método para verificar la caducidad de la sesión
 checkSessionExpiration() {
-  const sessionStartTime = new Date(localStorage.getItem('sessionStartTime'));
-  const sessionDuration = 20 * 60 * 1000; // Duración de la sesión en milisegundos (20 minutos)
-  const currentTime = new Date();
+  const sessionStartTimeString = localStorage.getItem('sessionStartTime');
+  if (sessionStartTimeString) {
+    const sessionStartTime = new Date(sessionStartTimeString);
+    const currentDateTime = new Date();
+    const sessionDuration = 2 * 60 * 1000; // Duración de la sesión en milisegundos (20 minutos)
 
-  // Calcular el tiempo transcurrido desde el inicio de la sesión
-  const elapsedTime = currentTime.getTime() - sessionStartTime.getTime();
-
-  if (elapsedTime >= sessionDuration) {
-    // La sesión ha caducado, redirigir al componente de sesión caducada
-    this.router.navigate(['/session-expired']);
-  } else {
-    // La sesión aún está activa, configurar el temporizador para volver a verificar después de un intervalo
-    const remainingTime = sessionDuration - elapsedTime;
-    setTimeout(() => {
-      this.checkSessionExpiration();
-    }, remainingTime);
+    if (currentDateTime.getTime() - sessionStartTime.getTime() >= sessionDuration) {
+      // Si han pasado más de 20 minutos, redirige a la página de caduca
+      this.router.navigate(['/caduca']);
+    }
   }
-}  
+} 
 
   // Método para obtener el rol del usuario
   getUserRole(): string {
@@ -149,6 +147,42 @@ checkSessionExpiration() {
     return this.expirationTimeSubject.asObservable();
   }
 
+  extendSession(): void {
+    // Limpiar el temporizador anterior y establecer uno nuevo
+    clearTimeout(this.sessionTimer);
+    this.sessionTimer = setTimeout(() => {
+      // Emitir el evento de expiración de sesión
+      this.sessionExpiration.next();
+      // Mostrar un mensaje de éxito
+      Swal.fire({
+        icon: 'success',
+        title: '¡Sesión extendida!',
+        text: 'Tu sesión ha sido extendida correctamente.',
+        confirmButtonText: 'Aceptar'
+      });
+      // Después de 2 minutos, redirigir nuevamente a la página de caduca
+      setTimeout(() => {
+        this.router.navigate(['/caduca']);
+      }, 2 * 60 * 1000);
+  
+      // Redirigir al usuario a la página en la que se encontraba
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    }, 2 * 60 * 1000); // Extender sesión por 2 minutos
+  }
   
 
+  getSessionExpirationObservable(): Subject<void> {
+    return this.sessionExpiration;
+  }
+
+  /////
+
+  etUserDataFromLocalStorage(): any {
+    const userDataString = localStorage.getItem('userData');
+    return userDataString ? JSON.parse(userDataString) : null;
+  }
 }
+  

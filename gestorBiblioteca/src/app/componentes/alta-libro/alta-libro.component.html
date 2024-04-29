@@ -14,46 +14,50 @@
 
     <!-- Migajas de pan -->
     <br><br>
-    <nav style="--bs-breadcrumb-divider: '>'; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
-       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: black;">Inicio</a></li>
-           <li class="breadcrumb-item active" aria-current="page">Alta de libro</li>
-       </ol>
-   </nav>
+<nav style="--bs-breadcrumb-divider: '>'; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute;" aria-label="breadcrumb">
+   <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/inicio-usuario']" style="text-decoration: none; color: rgb(255, 255, 255);">Inicio</a></li>
+    <li class="breadcrumb-item active" aria-current="page" style="color: white;">Alta de libro</li>
+   </ol>
+</nav>
 
-    <h1>Alta de libro</h1><br><br>
+<h1>Alta de libro</h1>
 
-    <form class="formulario" >
-        <label for="titulo">ISBN:</label>
-        <i class="fa-solid fa-barcode"></i><input type="number" maxlength="13" id="isbn" [(ngModel)]="ISBND" name="isbn" required placeholder="ISBN"> <br>
+<div class="container">
 
-        <label for="titulo">Título:</label>
-        <i class="fa-solid fa-book"></i><input type="text" id="titulo" [(ngModel)]="Titulo" name="titulo" required placeholder="Titulo"> <br>
-      
-        <label for="autores">Autores:</label>
-        <div *ngFor="let autor of Autores; let i = index">
-          <input type="text" [(ngModel)]="Autores[i]" [ngModelOptions]="{standalone: true}" [attr.name]="'autor' + i" required placeholder="Autor {{i + 1}}">
-          <button type="button" (click)="eliminarAutor(i)">Eliminar</button>
-        </div>
-        <input type="text" [(ngModel)]="NuevoAutor" [ngModelOptions]="{standalone: true}" required placeholder="Nuevo Autor"><br>
-        <button type="button" (click)="agregarAutor()">Agregar Autor</button>
-        <br>
+  <form class="formulario" #altaForm="ngForm" (ngSubmit)="altaLibro()" novalidate>
+    <label for="isbn">ISBN:</label>
+    <input type="number" id="isbn" [(ngModel)]="ISBND" name="isbn" required minlength="13" maxlength="13" pattern="\d*" placeholder="ISBN">
 
-        <label for="fPublicacion">Fecha de publicación:</label>
-        <i class="fa-solid fa-calendar-days"></i><input type="date" id="fPublicacion" [(ngModel)]="fPublicacion" (change)="validarFecha()" name="fPublicacion" required placeholder="Fecha publicación"> <br>
-        <div *ngIf="!esFechaValida" class="error-message">{{ mensajeError }}</div>
-      
-        <label for="editorial">Editorial:</label>
-        <i class="fa-solid fa-newspaper"></i><input type="text" id="editorial" [(ngModel)]="Editorial" name="editorial" required placeholder="Editorial"> <br>
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" [(ngModel)]="Titulo" name="titulo" required minlength="3" maxlength="150" placeholder="Título">
 
-        <label class="lCategoria" for="categoria" style="font-size: 16px;">Categoría:</label>
-            <select id="categoria" [(ngModel)]="Categoria" name="categoria" required style="width: 250px; padding: 30px 30px 30px 100px; margin: 5px; height: 58px; font-size: 80px;">
-            <option *ngFor="let categoria of categorias" [value]="categoria.nombre">{{ categoria.nombre }}</option>
-        </select> <br><br>
-      
-        <button class="btnGuardar" style="margin-left: -18%; position: absolute;" type="button" (click)="altaLibro()" [disabled]="Autores.length === 0" [disabled]="!esFechaValida">Guardar libro</button>
+    <label for="autores">Autores:</label>
+    <div *ngFor="let autor of Autores; let i = index">
+        <input type="text" [(ngModel)]="Autores[i]" [ngModelOptions]="{standalone: true}" [attr.name]="'autor' + i" required minlength="3" maxlength="200" placeholder="Autor {{i + 1}}">
+        <button type="button" (click)="eliminarAutor(i)">Eliminar</button><br><br>
+    </div>
+    <input type="text" [(ngModel)]="NuevoAutor" [ngModelOptions]="{standalone: true}" required minlength="3" maxlength="200" placeholder="Nuevo Autor">
+    <button type="button" (click)="agregarAutor()">Agregar Autor</button><br><br>
 
-      </form> 
+    <label for="fPublicacion">Fecha de publicación:</label>
+    <input type="date" id="fPublicacion" [(ngModel)]="fPublicacion" name="fPublicacion" required (change)="validarFecha()" placeholder="Fecha publicación">
+    <div *ngIf="!esFechaValida" class="error-message">{{ mensajeError }}</div>
+
+    <label for="editorial">Editorial:</label>
+    <input type="text" id="editorial" [(ngModel)]="Editorial" name="editorial" required minlength="3" maxlength="50" placeholder="Editorial">
+
+    <label class="lCategoria" for="categoria">Categoría:</label>
+    <select id="categoria" [(ngModel)]="Categoria" name="categoria" required class="categoria">
+        <option *ngFor="let categoria of categorias" [value]="categoria.nombre">{{ categoria.nombre }}</option>
+    </select>
+
+    <button id="btnGuardar" class="btnGuardar" type="submit" [disabled]="!altaForm.valid || Autores.length === 0 || !esFechaValida">Guardar libro</button>
+</form>
+
+
+</div>
+
 
       <!-- Pie de pagina -->
       <footer style="background-color: #2A4DBD; color: white; text-align: center; padding: 10px; margin-top: 5%;">
@@ -61,7 +65,7 @@
         <br><br><div>&copy; 2024 Universidad Tecnológica del Norte de Guanajuato (UTNG). Todos los derechos reservados.</div>
         <div>Sitio web oficial: <a href="http://www.utng.edu.mx" style="text-decoration: none; color: white;">www.utng.edu.mx</a></div>
         <div>Dirección: Av. Educación Tecnológica #34, Fracc. Universidad, C.P. 37800, Dolores Hidalgo Cuna de la Independencia Nacional, Guanajuato.</div>
-        <div>Teléfono: <a href="tel:+524181825500" style="text-decoration: none; color: white;">+52 (418) 182 5500 </a> | Email: <a href="utng_doloreshidalgo@utng.edu.mx" style="text-decoration: none; color: white;">utng_doloreshidalgo@utng.edu.mx</a></div>
+        <div>Teléfono: <a href="tel:+524181825500" style="text-decoration: none; color: white;">+52 (418) 182 5500 </a> | Email: <a href="utng_doloreshidalgo@utng.edu.mx" style="text-decoration: none; color: white;">utng_doloreshidalgoutng.edu.mx</a></div>
         <div>Síguenos en nuestras redes sociales: <a href="https://www.facebook.com/UTNGDOLORESHIDALGO-222209577812067/app/109849065805705/" target="_blank" style="text-decoration: none; color: white;">UTNGDOLORESHIDALGO</a></div><br><br>
       </footer>
   </div> <!-- Cierra div de conyenido principal -->

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class RestablecerComponent {
 
-  email: string;
+  email: string = '';
   code: string;
   newPassword: string;
   confirmPassword: string;

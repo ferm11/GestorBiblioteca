@@ -54,4 +54,10 @@ export class LibrosService {
     return this.http.put(`http://localhost:3000/api/libros/${ISBN}`, libro);
   }
 
+  buscarLibros(terminoBusqueda: string): Observable<any[]> {
+    const params = new HttpParams().set('termino', terminoBusqueda);
+    return this.http.get<any[]>(`${this.API_URL}/libros/buscar`, { params });
+  }
+  
+
 }

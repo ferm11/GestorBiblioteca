@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { LibrosService } from 'src/app/servicios/libros.service';
 import Swal from 'sweetalert2';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
 
 @Component({
   selector: 'app-alta-libro',

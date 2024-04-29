@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     // Si hay datos de usuario, redirigir lejos de las páginas de inicio de sesión, registro y restablecimiento
     if (userData) {
       console.log('Datos del usuario obtenidos del localStorage en el Guard:', userData);
-      this.router.navigate(['/prestamo']);
+      this.router.navigate(['/inicio-usuario']);
       return false; // Devolver false para bloquear la navegación
     } else {
       return true; // Permitir la navegación si no hay datos de usuario

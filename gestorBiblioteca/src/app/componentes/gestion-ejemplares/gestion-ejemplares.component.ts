@@ -50,6 +50,7 @@ export class GestionEjemplaresComponent implements OnInit {
       err => console.error(err)
     );
   }  
+  
 
   /* Eliminar ejemplar y a la vez contar los ejemplares existentes para actualizar
   el numero de ejemplares */

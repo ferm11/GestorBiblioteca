@@ -175,6 +175,48 @@ app.post('/api/check-email', (req, res) => {
   );
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Ruta para actualizar los datos del usuario
+app.post('/api/actualizar-usuario', (req, res) => {
+  const nuevosDatosUsuario = req.body;
+
+  // Validar que el correo electrónico no esté duplicado
+  db.query(
+    'SELECT * FROM usuario WHERE correo = ? AND numControl != ?', // Suponiendo que el número de control es único
+    [nuevosDatosUsuario.correo, nuevosDatosUsuario.numControl],
+    (err, result) => {
+      if (err) {
+        console.error('Error al buscar usuario por correo electrónico:', err);
+        return res.status(500).send({ message: 'Error al buscar usuario por correo electrónico' });
+      }
+
+      if (result.length > 0) {
+        console.log('Correo electrónico duplicado:', nuevosDatosUsuario.correo);
+        return res.status(400).send({ message: 'El correo electrónico ya está en uso' });
+      }
+
+      // Si el correo electrónico no está duplicado, puedes continuar con la actualización de los datos del usuario
+
+      // Aquí puedes agregar la lógica para actualizar los demás campos
+      db.query(
+        'UPDATE usuario SET nombre = ?, apellido = ?, correo = ?, telefono = ? WHERE numControl = ?',
+        [nuevosDatosUsuario.nombre, nuevosDatosUsuario.apellido, nuevosDatosUsuario.correo, nuevosDatosUsuario.telefono, nuevosDatosUsuario.numControl],
+        (updateErr, updateResult) => {
+          if (updateErr) {
+            console.error('Error al actualizar datos del usuario:', updateErr);
+            return res.status(500).send({ message: 'Error al actualizar datos del usuario' });
+          }
+
+          console.log('Datos del usuario actualizados correctamente');
+          res.status(200).send({ message: 'Datos del usuario actualizados correctamente' });
+        }
+      );
+    }
+  );
+});
+
+
 
 
 
@@ -221,45 +263,54 @@ const verificationCodes = {};
 
 // Ruta para solicitar un restablecimiento de contraseña
 app.post('/api/forgot-password', (req, res) => {
-    const userEmail = req.body.email;
-    const verificationCode = crypto.randomBytes(3).toString('hex'); // Generar código de verificación de 6 caracteres
+  const userEmail = req.body.email.toLowerCase(); // Convertir a minúsculas
+  const verificationCode = crypto.randomBytes(3).toString('hex'); // Generar código de verificación de 6 caracteres
 
-    // Guardar el código de verificación en la base de datos o en memoria
-    verificationCodes[userEmail] = verificationCode;
+  // Guardar el código de verificación en el objeto verificationCodes
+  verificationCodes[userEmail] = verificationCode;
 
-    // Enviar el código de verificación por correo electrónico
-    const mailOptions = {
-        from: 'bibliotecautng1975@gmail.com',
-        to: userEmail,
-        subject: 'Solicitud de cambio de contraseña',
-        text: 
-        `Haz solicitado un código de verificación para el restablecimeinto de tu contraseña. Tu código de verificación es: ${verificationCode}`
-    };
+  
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-            res.status(500).send('Error al enviar el correo de verificación.');
-        } else {
-            console.log('Correo enviado: ' + info.response);
-            res.status(200).send('Se ha enviado un correo con el código de verificación.');
-        }
-    });
+  // Enviar el código de verificación por correo electrónico
+  const mailOptions = {
+    from: 'bibliotecautng1975@gmail.com',
+    to: userEmail,
+    subject: 'Solicitud de cambio de contraseña',
+    text: `Haz solicitado un código de verificación para iniciar/registrase o restablecer tu contraseña. Tu código de verificación es: ${verificationCode}`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send('Error al enviar el correo de verificación.');
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      console.log('Correo enviado a:', userEmail);
+      console.log('Código de verificación generado:', verificationCode); // Nuevo registro
+      res.status(200).send('Se ha enviado un correo con el código de verificación.');
+    }
+  });
 });
 
 // Ruta para verificar el código de verificación
 app.post('/api/verify-code', (req, res) => {
-  const userEmail = req.body.email;
+  const userEmail = req.body.email.toLowerCase(); // Convertir a minúsculas
   const userEnteredCode = req.body.code;
 
+  console.log('Código de verificación enviado por el usuario:', userEnteredCode); // Nuevo registro
+  console.log('Código de verificación almacenado:', verificationCodes[userEmail]); // Nuevo registro
+
   if (verificationCodes[userEmail] === userEnteredCode) {
-      // Eliminar el código de verificación después de ser utilizado
-      delete verificationCodes[userEmail];
-      res.status(200).json({ message: 'Código de verificación válido. Permitiendo restablecimiento de contraseña.' });
+    // Eliminar el código de verificación después de ser utilizado
+    delete verificationCodes[userEmail];
+    res.status(200).json({ message: 'Código de verificación válido. Permitiendo restablecimiento de contraseña.' });
   } else {
-      res.status(400).json({ error: 'Código de verificación inválido.' });
+    res.status(400).json({ error: 'Código de verificación inválido.' });
   }
 });
+
+
+
 
 // Ruta para restablecer la contraseña
 app.post('/api/reset-password', (req, res) => {
@@ -294,6 +345,28 @@ app.post('/api/reset-password', (req, res) => {
   });
 });
 
+//Ruta para actualizar usuario
+app.put('/api/actualizar/usuarios/:numControl', (req, res) => {
+  const libroId = req.params.isbn; // ObtÃ©n el ID del libro a actualizar desde los parÃ¡metros de la ruta
+  const nuevosDatos = {
+    nombre: req.body.nombre,
+    apellido: req.body.apellido,
+    correo: req.body.correo,
+    telefono: req.body.telefono
+  };
+
+  const sQuery = "UPDATE Usuario SET ? WHERE numControl = ?";
+
+  bd.query(sQuery, [nuevosDatos, libroId], (err, results) => {
+    if (err) {
+      console.error('Error al actualizar el usuario: ' + err.message);
+      res.status(500).send('Error al actualizar el usuario en la base de datos');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 //*********************************************************************************************************************** */
 
 // OBTENER USUARIOS (MEDIANTE PETICIÓN GET)
@@ -309,6 +382,65 @@ app.get('/api/usuarios', (req, res) => {
       }
   });
 });
+
+// Obtener usuario
+// OBTENER UN USUARIO POR SU NÚMERO DE CONTROL (MEDIANTE PETICIÓN GET)
+app.get('/api/actualizar/usuarios/:numControl', (req, res) => {
+  const numControl = req.params.numControl; // Obtener el número de control de los parámetros de la URL
+  const sQuery = "SELECT * FROM usuario WHERE numControl = ?;"; // Consulta SQL para seleccionar un usuario por su número de control
+
+  bd.query(sQuery, [numControl], (err, results) => {
+      if (err) {
+          console.error('Error al obtener usuario:', err);
+          res.status(500).send('Error al obtener usuario de la base de datos');
+      } else {
+          if (results.length > 0) {
+              res.json(results[0]); // Enviamos el primer resultado como respuesta en formato JSON si se encuentra el usuario
+          } else {
+              res.status(404).send('Usuario no encontrado'); // Enviar un código de estado 404 si no se encuentra el usuario
+          }
+      }
+  });
+});
+
+// Ruta para actualizar un usuario por su número de control (MEDIANTE PETICIÓN PUT)
+app.put('/api/actualizar/usuario/:numControl', (req, res) => {
+  const numControl = req.params.numControl;
+  const usuarioActualizado = req.body;
+
+  // Lógica para actualizar el usuario en la base de datos usando el número de control y los datos recibidos en el cuerpo de la solicitud
+  // Ejemplo:
+  bd.query('UPDATE usuario SET nombre = ?, apellido = ?, correo = ?, telefono = ? WHERE numControl = ?', 
+    [usuarioActualizado.nombre, usuarioActualizado.apellido, usuarioActualizado.correo, usuarioActualizado.telefono, numControl],
+    (err, results) => {
+      if (err) {
+        console.error('Error al actualizar usuario:', err);
+        res.status(500).send('Error al actualizar usuario en la base de datos');
+      } else {
+        res.status(200).json({ message: "Usuario actualizado correctamente" });
+
+      }
+    }
+  );
+});
+
+// Ruta para eliminar usuario
+app.delete('/api/eliminar/usuarios/:numControl', (req, res) => {
+  const numControl = req.params.numControl;
+
+  const query = "DELETE FROM Usuario WHERE numControl = ?";
+
+  bd.query(query, [numControl], (err, results) => {
+    if (err) {
+      console.error('Error al eliminar usuario:', err);
+      res.status(500).send('Error al eliminar usuario de la base de datos');
+      return;
+    }
+    console.log('Usuario eliminado correctamente');
+    res.json({ message: 'Usuario eliminado correctamente' });
+  });
+});
+
 
 
 //***************************************************************************************************************************** */
@@ -492,9 +624,10 @@ app.get('/api/prestamos/:id', (req, res) => {
 // AGREGAR NUEVO PRESTAMO (MEDIANTE PETICION POST)
 app.post('/api/prestamos', (req, res) => {
     const prestamo = {
+        ISBN:req.body.ISBN,
         idEjemplar: parseInt(req.body.idEjemplar),
         numControl: req.body.numControl,
-        correo: req.body.numControl,
+        correo: req.body.correo,
         fechaPrestamo: req.body.fechaPrestamo,
         fechaDevolucion: req.body.fechaDevolucion
     };
@@ -564,7 +697,7 @@ app.get('/api/ejemplares', (req, res) => {
 // OBTENER EJEMPLARES MEDIANTE EL ISBN (MEDIANTE PETICIÓN GET)
 app.get('/api/ejemplares/:id', (req, res) => {
     const idEjemplar = req.params.id.toString(); // Obtener el valor del parámetro de la URL
-    const sQuery = "SELECT li.titulo, ej.ISBN, ej.idEjemplar FROM Ejemplar ej INNER JOIN Libro li ON ej.ISBN = li.ISBN WHERE ej.ISBN = ?";
+    const sQuery = "SELECT li.titulo, li.autores, li.categoria, ej.ISBN, ej.idEjemplar FROM Ejemplar ej INNER JOIN Libro li ON ej.ISBN = li.ISBN WHERE ej.ISBN = ?";
 
     bd.query(sQuery, [idEjemplar], (err, results) => {
         if (err) {
@@ -597,23 +730,84 @@ app.get('/api/ejemplares/:id', (req, res) => {
     });
 });
 
+///////////////////////////////////////////////////////////////////////////////////////
+
+app.get('/api/libros/buscar', (req, res) => {
+  const terminoBusqueda = req.query.termino;
+  const sQuery = "SELECT * FROM Libro WHERE titulo LIKE ?";
+  const searchTerm = `%${terminoBusqueda}%`; // Agregar comodines para buscar coincidencias parciales
+
+  bd.query(sQuery, [searchTerm], (err, resultados) => {
+    if (err) {
+      console.error('Error al buscar libros en la base de datos:', err.message);
+      res.status(500).send('Error al buscar libros en la base de datos');
+    } else {
+      res.json(resultados);
+    }
+  });
+});
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
 // AGREGAR NUEVO EJEMPLAR (MEDIANTE PETICION POST)
 app.post('/api/ejemplares/', (req, res) => {
-    const ejemplar = {
-        ISBN: req.body.ISBN // Debes obtener el ISBN del cuerpo de la solicitud, no de los parÃ¡metros
-    }
+  const ejemplar = {
+      ISBN: req.body.ISBN // Debes obtener el ISBN del cuerpo de la solicitud, no de los parámetros
+  };
 
-    const sQuery = "INSERT INTO Ejemplar SET ?";
+  const sQueryInsertEjemplar = "INSERT INTO Ejemplar SET ?";
+  const sQueryUpdateCantEjemplares = "UPDATE Libro SET cantEjemplares = cantEjemplares + 1 WHERE ISBN = ?";
 
-    bd.query(sQuery, ejemplar, (err, results) => {
-        if (err) {
-            console.error('Error al agregar el ejemplar: ' + err.message);
-            res.status(500).send('Error al insertar el ejemplar en la base de datos');
-        } else {
-            res.json(results);
-        }
-    });
+  bd.beginTransaction((err) => {
+      if (err) {
+          console.error('Error al comenzar la transacción: ' + err.message);
+          res.status(500).send('Error al comenzar la transacción');
+          return;
+      }
+
+      bd.query(sQueryInsertEjemplar, ejemplar, (err, results) => {
+          if (err) {
+              bd.rollback(() => {
+                  console.error('Error al agregar el ejemplar: ' + err.message);
+                  res.status(500).send('Error al insertar el ejemplar en la base de datos');
+              });
+          } else {
+              const { affectedRows } = results;
+              if (affectedRows === 1) {
+                  const { ISBN } = ejemplar;
+                  bd.query(sQueryUpdateCantEjemplares, ISBN, (err, results) => {
+                      if (err) {
+                          bd.rollback(() => {
+                              console.error('Error al actualizar el campo cantEjemplares: ' + err.message);
+                              res.status(500).send('Error al actualizar el campo cantEjemplares en la tabla Libro');
+                          });
+                      } else {
+                          bd.commit((err) => {
+                              if (err) {
+                                  bd.rollback(() => {
+                                      console.error('Error al realizar commit de la transacción: ' + err.message);
+                                      res.status(500).send('Error al realizar commit de la transacción');
+                                  });
+                              } else {
+                                  res.json(results);
+                              }
+                          });
+                      }
+                  });
+              } else {
+                  bd.rollback(() => {
+                      console.error('No se pudo insertar el ejemplar en la tabla Ejemplar');
+                      res.status(500).send('No se pudo insertar el ejemplar en la tabla Ejemplar');
+                  });
+              }
+          }
+      });
+  });
 });
+
 
 
 // ELIMINAR EJEMPLAR (PETICION DELETE)

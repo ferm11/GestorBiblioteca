@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/servicios/auth.service';
 })
 export class AltaPrestamoComponent implements OnInit{
 
+  userData: any = {};
+
   userEmail: String;
 
   sugerenciasISBN: string[] = [];
@@ -26,8 +28,14 @@ export class AltaPrestamoComponent implements OnInit{
   fechaDevolucion: string;
 
   resp: any = [];
+  resultados: any[];
+  search : string;
 
   constructor(private prestamosService: PrestamosService, private librosService: LibrosService, private authService:AuthService) {
+
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+    console.log('Datos del usuario obtenidos del localStorage en el componente:', this.userData);
+
   } 
 
   ngOnInit(): void {
@@ -52,8 +60,8 @@ export class AltaPrestamoComponent implements OnInit{
     const prestamo = {
       ISBN: this.ISBN,
       idEjemplar: this.idEjemplar,
-      numControl: this.numControl,
-      correo: this.correo,
+      numControl: this.userData.numControl,
+      correo: this.userData.correo,
       fechaPrestamo: this.fechaPrestamo,
       fechaDevolucion: this.fechaDevolucion
     };
@@ -160,10 +168,20 @@ resett(){
   private resetForm() {
     this.ISBN = null;
     this.idEjemplar = null;
-    this.numControl = null;
-    this.correo = '';
     this.fechaPrestamo = '';
     this.fechaDevolucion = '';
   }
+
+  // Barra de búsqueda
+buscarLibros(terminoBusqueda: string) {
+  this.librosService.buscarLibros(terminoBusqueda).subscribe(
+    (res: any) => {
+      this.resultados = res; // Suponiendo que el servidor devuelve una lista de libros que coinciden con el término de búsqueda
+    },
+    (err: any) => {
+      console.error(err);
+    }
+  );
+}
 
 }
