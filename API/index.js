@@ -10,7 +10,6 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
 const moment = require('moment');
-
 const express = require('express');
 const bd = require('./bd');
 const cors = require('cors');

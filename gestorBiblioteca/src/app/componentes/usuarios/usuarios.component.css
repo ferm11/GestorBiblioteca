@@ -1,23 +1,28 @@
-h1{
-    margin-top: 12%;
-    margin-left: 40%;
-    color: black;
+body {
+    background-image: url('https://images.pexels.com/photos/2908976/pexels-photo-2908976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); /* Reemplaza 'ruta/de/la/imagen.jpg' con la ruta de tu imagen */
+    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
 }
 
-.barra{
-    border-radius: 20px; /* Puedes ajustar el valor según el radio de redondeo que desees */
-    padding: 10px; /* Ajusta el espacio interno del campo de entrada según tus necesidades */
-    font-size: 16px; /* Ajusta el tamaño de la fuente según tus necesidades */
+h1 {
+    margin-top: 12%;
+    margin-left: 40%;
+    color: rgb(255, 255, 255);
+}
+
+.barra {
+    border-radius: 20px;
+    padding: 15px 15px 15px 50px;
+    font-size: 16px;
     border: 1px solid #ccc;
     width: 50%;
     margin-left: 20%;
-    padding: 15px 15px 15px 50px;
 }
 
-.btnBuscar{
-    border-radius: 20px; /* Puedes ajustar el valor según el radio de redondeo que desees */
-    padding: 10px; /* Ajusta el espacio interno del campo de entrada según tus necesidades */
-    font-size: 16px; /* Ajusta el tamaño de la fuente según tus necesidades */
+.btnBuscar {
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 16px;
     border: 1px solid #ccc;
     margin-left: 1%;
     width: 8%;
@@ -25,23 +30,47 @@ h1{
     color: white;
 }
 
-.fa-solid{
+.fa-solid {
     font-size: 20px;
     position: relative;
     left: 22.8%;
 }
 
-table{
-    text-align: center ;
+table {
+    text-align: center;
     width: 100%;
     background-color: white;
+    border-collapse: collapse;
 }
 
-tr .fa-solid{
-    margin-right: 6%;
-}
-
-thead th {
-    color: black; /* Cambia el color según tu preferencia */
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
     text-align: center;
-  }
+    color: black; /* Ajusta el color del texto según tu preferencia */
+}
+
+
+table th {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+    background-color: #ddd;
+}
+
+table th:first-child,
+table td:first-child {
+    padding-left: 20px;
+}
+
+table th:last-child,
+table td:last-child {
+    padding-right: 20px;
+}

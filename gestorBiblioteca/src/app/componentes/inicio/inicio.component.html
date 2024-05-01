@@ -588,47 +588,23 @@ min-height: 3000px;
     <!-- Barra de busqueda -->
     <script>
         document.getElementById('buscar').addEventListener('input', function () {
-            var searchText = this.value.toLowerCase();
-            var items = document.querySelectorAll('a.nav-link, #contenidoPrincipal *');
+            var searchText = this.value.trim().toLowerCase();
+            var containers = document.querySelectorAll('.container');
 
-            items.forEach(function (item) {
-                if (item.textContent.toLowerCase().includes(searchText)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+            containers.forEach(function (container) {
+                var headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                var isVisible = false;
+
+                headings.forEach(function (heading) {
+                    if (heading.textContent.trim().toLowerCase().includes(searchText)) {
+                        isVisible = true;
+                    }
+                });
+
+                container.style.display = isVisible ? 'block' : 'none';
             });
         });
     </script>
-
-<script>
-    document.getElementById('buscar').addEventListener('input', function () {
-        var searchText = this.value.toLowerCase();
-        var items = document.querySelectorAll('a.nav-link, #contenidoPrincipal *');
-
-        items.forEach(function (item) {
-            if (item.textContent.toLowerCase().includes(searchText)) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-
-    // Redirigir al hacer clic en un elemento visible después de la búsqueda
-    document.querySelectorAll('a.nav-link, #contenidoPrincipal *').forEach(function(item) {
-        item.addEventListener('click', function(event) {
-            // Comprobar si el elemento está visible
-            if (item.style.display !== 'none') {
-                // Redirigir a la ruta correspondiente
-                window.location.href = item.getAttribute('href');
-            } else {
-                // Cancelar el evento de clic si el elemento está oculto
-                event.preventDefault();
-            }
-        });
-    });
-</script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
