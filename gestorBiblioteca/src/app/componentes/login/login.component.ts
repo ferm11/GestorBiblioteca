@@ -26,6 +26,10 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('captchaElement') captchaElement;
 
+  showTokenForm: boolean = false;
+  token: string = '';
+  error: string;
+
   constructor(private usuariosService: UsuariosService, private router: Router, private afAuth: AngularFireAuth, private authService:AuthService) {}
 
   ngOnInit() {}
@@ -35,7 +39,7 @@ export class LoginComponent implements OnInit {
   
     console.log('Intentando iniciar sesión...');
   
-    if (loginForm.invalid) {
+   /* if (loginForm.invalid) {
       console.log('Formulario inválido.');
       return;
     }
@@ -95,6 +99,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
   
 
   validateNumberInput(event: KeyboardEvent) {

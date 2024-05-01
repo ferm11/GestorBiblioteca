@@ -15,41 +15,43 @@
     <br><br>
     <nav style="--bs-breadcrumb-divider: '>'; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: black;">Inicio</a></li>
-           <li class="breadcrumb-item active" aria-current="page">Alta de prestamo</li>
+        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: white;">Inicio</a></li>
+           <li class="breadcrumb-item active" style="color: white;" aria-current="page">Alta de prestamo</li>
        </ol>
    </nav>
 
-    <br><h1>Alta de prestamo</h1><br>
+   <br><h1>Alta de prestamo</h1><br>
+
+   <div class="container">
     
     <form class="formulario" >
         <label for="ISBN">ISBN:</label>
-        <i class="fa-solid fa-barcode"></i><input type="number" id="ISBN" [(ngModel)]="ISBN"  name="ISBN" required placeholder="ISBN"><br>
+        <input type="text" id="ISBN" [(ngModel)]="ISBN"  name="ISBN" required placeholder="ISBN"><br>
 
         <label for="idEjemplar">ID ejemplar:</label>
-        <i class="fa-solid fa-barcode"></i><input type="number" id="idEjemplar" [(ngModel)]="idEjemplar" name="idEjemplar" required placeholder="ID Ejemplar"> <br>
+        <input type="text" id="idEjemplar" [(ngModel)]="idEjemplar" name="idEjemplar" required placeholder="ID Ejemplar"> <br>
 
         <label for="numControl">Número de control:</label>
-        <i class="fa-solid fa-book"></i><input type="number" id="numControl" [(ngModel)]="numControl" name="numControl" required placeholder="Número de control"> <br>
+        <input type="text" id="numControl" [(ngModel)]="userData.numControl" name="numControl" required placeholder="Número de control"> <br>
       
         <label for="correo">Correo:</label>
-        <i class="fa-solid fa-user-group"></i><input type="email" id="correo" [(ngModel)]="correo" name="correo" required placeholder="Correo"> <br>
+        <input type="email" id="correo" [(ngModel)]="userData.correo" name="correo" required placeholder="Correo"> <br>
 
         <label for="fechaPrestamo">Fecha prestamo:</label>
-<i class="fa-solid fa-calendar-days"></i>
-<input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" (change)="validarFecha()" name="fechaPrestamo" required placeholder="Fecha prestamo">
-<div *ngIf="mensajeError" class="error-message">
-    {{ mensajeError }}
-</div><br>
+        <input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" (change)="validarFecha()" name="fechaPrestamo" required placeholder="Fecha prestamo">
+        <div *ngIf="mensajeError" class="error-message">
+            {{ mensajeError }}
+        </div><br>
       
-        <label for="fechaDevolucion">Fecha devolución:</label>
-        <i class="fa-solid fa-newspaper"></i><input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" (change)="validarFechaDevolucion()" name="fechaDevolucion" required placeholder="fechaDevolucion">
+        <label for="fechaDevolucion">Fecha devolución:</label><input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" (change)="validarFechaDevolucion()" name="fechaDevolucion" required placeholder="fechaDevolucion">
         <div *ngIf="mensajeError" class="error-message">
             {{ mensajeError }}
           </div> <br><br>
       
         <button class="btnGuardar" type="button" (click)="altaPrestamo()" [disabled]="!esFechaValida">Guardar prestamo</button>
       </form>
+
+    </div>
 
       <!-- Pie de pagina -->
   <footer style="background-color: #2A4DBD; color: white; text-align: center; padding: 10px; margin-top: 5%;">

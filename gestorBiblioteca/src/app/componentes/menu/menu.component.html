@@ -12,10 +12,17 @@
   <!-- Logo inicio -->
   <nav *ngIf="showNavbar" class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
+<<<<<<< HEAD
       <a class="navbar-brand" href="/inicio-usuario"><img src="https://www.utng.edu.mx/assets/principal/logoutng.webp" alt=""></a>
 
 <!-- Botón de usuario -->
 <div *ngIf="showButton && userData" class="dropdown" style="position: absolute ; left: 75%; padding: 0%; margin-top: 4.5%; color: white;" id="botonUsuario">
+=======
+      <a class="navbar-brand" href="inicio-usuario"><img src="https://www.utng.edu.mx/assets/principal/logoutng.webp" alt=""></a>
+
+<!-- Botón de usuario -->
+<div *ngIf="showButton && userData" class="dropdown" style="position: fixed; left: 72%; margin-top: 4.5%; color: white;" id="botonUsuario">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
   <button style="color: white;" class="btn btn-transparent dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
     <!-- Mostrar nombre completo del usuario en mayúsculas al lado izquierdo del icono -->
     <span style="display: flex; align-items: center;">
@@ -28,9 +35,15 @@
     <li><a class="dropdown-item" href="#" style="background-color: #00A887; color: white;"> Correo: {{userData.correo}}</a></li>
     <li><a class="dropdown-item" href="#" style="background-color: #00A887;color: white;">Telefono: {{userData.telefono}}</a></li>
     <li>
+      <a class="dropdown-item" (click)="actualizar()"  style="background-color: #00A887; color: white;">
+        <i class="fa-solid fa-pen-to-square" style="color: white"></i>
+        <span style="display: inline-block; margin-left: 5px;">Actualizar datos</span>
+      </a>
+    </li>
+    <li>
       <a class="dropdown-item" (click)="logout()" style="background-color: #00A887; color: white;">
         <i class="fas fa-sign-out-alt" style="color: #ffffff; font-size: 16px;"></i>
-        <span style="display: inline-block; margin-left: 5px;">Cerrar sesión</span>
+        <span style="display: inline-block; margin-left: 5px;">Cerrar sesión</span><br><br>
       </a>
     </li>
   </ul>
@@ -54,7 +67,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <a class="dropdown-item" href="inicio" aria-current="page"  style="color: white; font-size: 17px;">Inicio</a>
+              <a class="dropdown-item" href="inicio-usuario" aria-current="page"  style="color: white; font-size: 17px;">Inicio</a>
             </li>
 
             <!-- Primer dropdown -->
@@ -69,7 +82,7 @@
             </li>
 
             <!-- Segundo dropdown -->
-            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
+            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar ejemplares
               </a>

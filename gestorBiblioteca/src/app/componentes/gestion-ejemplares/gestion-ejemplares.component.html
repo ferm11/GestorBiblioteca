@@ -13,15 +13,16 @@
 
     <!-- Migajas de pan -->
     <br><br>
-    <nav style="--bs-breadcrumb-divider: '>'; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
+    <nav style="--bs-breadcrumb-divider: '>'; color: white; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: black;">Inicio</a></li>
-           <li class="breadcrumb-item active" aria-current="page">Gestión de ejemplares</li>
+        <li class="breadcrumb-item"><a routerLink="/inicio-usuario"  style="text-decoration: none; color: white">Inicio</a></li>
+           <li class="breadcrumb-item active" style="color: white;" aria-current="page">Gestión de ejemplares</li>
        </ol>
    </nav>
 
   <h1>Gestión de ejemplares</h1><br><br><br>
   <form>
+
     <div class="d-flex justify-content-center">
       <div class="input-group" style="width: 30%;">
         <input #busquedaISBN [(ngModel)]='isbnBusqueda' [ngModelOptions]="{standalone: true}" class="form-control" type="text" placeholder="Buscar">
@@ -30,26 +31,33 @@
         </div>
       </div>  
     </div>
+    
     <br><br><br>
   </form>
+  <div class="d-flex justify-content-center">
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Titulo</th>
         <th scope="col">ISBN</th>
+        <th scope="col">Titulo</th>
+        <th scope="col">Autores</th>
+        <th scope="col">Categoria</th>
         <th scope="col">ID del ejemplar</th>
         <th scope="col" style="width: 5%;">Eliminar</th>
       </tr>
     </thead>
     <tbody *ngFor="let Ejemplar of ejemplares">
       <tr>
-        <td>{{Ejemplar.titulo}}</td>
         <td>{{Ejemplar.ISBN}}</td>
+        <td>{{Ejemplar.titulo}}</td>
+        <td>{{Ejemplar.autores}}</td>
+        <td>{{Ejemplar.categoria}}</td>
         <td>{{Ejemplar.idEjemplar}}</td>
-        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" [id]="Ejemplar.idEjemplar" style="color: #e32402;" (click)="delEjemplar(Ejemplar.idEjemplar, Ejemplar.ISBN)"></i></button></td>
+        <td><button style="background-color: none; border: none;"><i class="fa-solid fa-trash" [id]="Ejemplar.idEjemplar" style="color: #e32402;" (click)="delEjemplar(Ejemplar.idEjemplar, Ejemplar.ISBN)"></i></button></td>
       </tr>
     </tbody>
   </table>
+</div>  
   <div class="d-flex justify-content-center" *ngIf="visible">
     <button class="btn btn-success" type="button" (click)="addEjemplar()">Nuevo</button>
   </div>
@@ -60,7 +68,11 @@
     <br><br><div>&copy; 2024 Universidad Tecnológica del Norte de Guanajuato (UTNG). Todos los derechos reservados.</div>
     <div>Sitio web oficial: <a href="http://www.utng.edu.mx" style="text-decoration: none; color: white;">www.utng.edu.mx</a></div>
     <div>Dirección: Av. Educación Tecnológica #34, Fracc. Universidad, C.P. 37800, Dolores Hidalgo Cuna de la Independencia Nacional, Guanajuato.</div>
+<<<<<<< HEAD
     <div>Teléfono: <a href="tel:+524181825500" style="text-decoration: none; color: white;">+52 (418) 182 5500 </a> | Email: <a href="utng_doloreshidalgo@utng.edu.mx" style="text-decoration: none; color: white;">utng_doloreshidalgoutng.edu.mx</a></div>
+=======
+    <div>Teléfono: <a href="tel:+524181825500" style="text-decoration: none; color: white;">+52 (418) 182 5500 </a> | Email: <a href="utng_doloreshidalgo@utng.edu.mx" style="text-decoration: none; color: white;">utng_doloreshidalgo&#64;utng.edu.mx</a></div>
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
     <div>Síguenos en nuestras redes sociales: <a href="https://www.facebook.com/UTNGDOLORESHIDALGO-222209577812067/app/109849065805705/" target="_blank" style="text-decoration: none; color: white;">UTNGDOLORESHIDALGO</a></div><br><br>
   </footer>
 </div> <!-- Final de contenido principal -->

@@ -33,7 +33,11 @@ export class RoleGuard implements CanActivate {
     } else {
       // El usuario no tiene el rol esperado, por lo tanto, redirige a una página de acceso denegado
       console.log('Usuario no autorizado para acceder a esta ruta. Rol actual:', currentUserRole);
+<<<<<<< HEAD
       this.router.navigate(['/prestamos']); // Puedes cambiar '/access-denied' por la ruta que desees para el acceso denegado
+=======
+      this.router.navigate(['/inicio-usuario']); // Puedes cambiar '/access-denied' por la ruta que desees para el acceso denegado
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
       return false;
     }
   }

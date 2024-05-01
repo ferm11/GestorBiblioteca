@@ -22,8 +22,8 @@
     <br><br>
     <nav style="--bs-breadcrumb-divider: '>'; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: black;">Inicio</a></li>
-           <li class="breadcrumb-item active" aria-current="page">Actualizar/Eliminar libro</li>
+        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: white;">Inicio</a></li>
+           <li class="breadcrumb-item active" style="text-decoration: none; color: white;" aria-current="page">Actualizar/Eliminar libro</li>
        </ol>
    </nav>
 
@@ -53,8 +53,8 @@
         <td>{{Libro.editorial}}</td>
         <td>{{Libro.cantEjemplares}}</td>
         <td>{{Libro.categoria}}</td>
-        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;" data-bs-toggle="modal" data-bs-target="#modalEditar" (click)="getLibro(Libro.ISBN)"></i></button></td>
-        <td><button style="background-color: white; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;" (click)="confirmarEliminarLibro(Libro.ISBN)"></i></button></td>
+        <td><button style="background-color: none; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;" data-bs-toggle="modal" data-bs-target="#modalEditar" (click)="getLibro(Libro.ISBN)"></i></button></td>
+        <td><button style="background-color: none; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;" (click)="confirmarEliminarLibro(Libro.ISBN)"></i></button></td>
       </tr>
     </tbody>
   </table>

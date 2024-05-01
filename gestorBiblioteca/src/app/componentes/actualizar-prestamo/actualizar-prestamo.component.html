@@ -14,8 +14,8 @@
     <br><br>
     <nav style="--bs-breadcrumb-divider: '>'; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color: black;">Inicio</a></li>
-           <li class="breadcrumb-item active" aria-current="page">Actualizar/Eliminar prestamo</li>
+        <li class="breadcrumb-item"><a href="#" style="text-decoration: none; color:  white;">Inicio</a></li>
+           <li class="breadcrumb-item active" style="color: white;" aria-current="page">Actualizar/Eliminar prestamo</li>
        </ol>
    </nav>
 
@@ -33,6 +33,7 @@
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">ISBN</th>
       <th scope="col">ID Ejemplar</th>
       <th scope="col">Fecha entrega</th>
       <th scope="col">Fecha devolución</th>
@@ -45,14 +46,15 @@
   <tbody *ngFor="let Prestamo of prestamos; let i = index;">
     <tr>
       <th scope="row">{{i + 1}}</th>
+      <td>{{Prestamo.ISBN}}</td>
       <td>{{Prestamo.idEjemplar}}</td>
       <td>{{Prestamo.fechaPrestamo}}</td>
       <td>{{Prestamo.fechaDevolucion}}</td>
       <td>{{Prestamo.correo}}</td>
       <td>{{Prestamo.numControl}}</td>
-      <td><button (click)="selecinarPrestamo(Prestamo)" data-bs-toggle="modal" data-bs-target="#editarPrestamo" style="background-color: white; border: none;"><i class="fa-solid fa-pen-to-square"
+      <td><button (click)="selecinarPrestamo(Prestamo)" data-bs-toggle="modal" data-bs-target="#editarPrestamo" style="background-color: none; border: none;"><i class="fa-solid fa-pen-to-square"
             style="color: #0042aa;"></i></button></td>
-      <td><button (click)="confirmarEliminarPrestamo(Prestamo.idPrestamo)" style="background-color: white; border: none;"><i class="fa-solid fa-trash"
+      <td><button (click)="confirmarEliminarPrestamo(Prestamo.idPrestamo)" style="background-color: none; border: none;"><i class="fa-solid fa-trash"
             style="color: #e32402;"></i></button></td>
     </tr>
   </tbody>

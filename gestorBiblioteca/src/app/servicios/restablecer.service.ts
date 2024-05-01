@@ -25,6 +25,7 @@ export class RestablecerService {
 
   verifyCode(email: string, code: string): Observable<any> {
     console.log('Verificando código para:', email);
+    console.log('Codigo de verificacion: ', code);
     return this.http.post<any>(`${this.API_URL}/verify-code`, { email, code })
       .pipe(
         catchError(error => {

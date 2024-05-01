@@ -128,12 +128,27 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         <div class="verificacion">
             <div class="g-recaptcha" data-sitekey="6Lc3jKspAAAAAIyRa1e18Dv4R1fVoubE8mLJVNry" #captchaElement></div> <br>
             <div *ngIf="errorMensaje" class="alert alert-danger">{{ errorMensaje }}</div>
         </div>
 
         <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+=======
+<!--
+<div class="verificacion">
+    <div class="g-recaptcha" data-sitekey="6Lc3jKspAAAAAIyRa1e18Dv4R1fVoubE8mLJVNry" #captchaElement></div> <br>
+    <div *ngIf="errorMensaje" class="alert alert-danger">{{ errorMensaje }}</div>
+  </div> -->
+
+<!-- Button to Open Modal y inicia sesion 
+<button type="button" class="btn btn-primary" (click)="login(loginForm)">Iniciar sesión</button><br><br> -->
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="login(loginForm)">
+  Iniciar sesión
+</button> <br><br>
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 
         <!-- Boton inicio de sesion con gogle -->
         <button (click)="loginWithGoogle()" class="google-login-button">

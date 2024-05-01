@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { Router } from '@angular/router'; // Importar Router en lugar de ActivatedRoute
 import Swal from 'sweetalert2';
+import { UsuariosService } from 'src/app/servicios/usuarios.service';
 
 declare var $: any;
 
@@ -17,6 +18,9 @@ export class MenuComponent implements OnDestroy, OnInit {
   isButtonEnabled: boolean = true;
   showButton: boolean = true; // Inicialmente, mostrar el botón
 
+  usuario: any;
+  datosCargados: boolean = false; // Bandera para indicar si los datos del usuario se han cargado
+
   showNavbar: boolean = true;
   isLoggedIn: boolean = true;
   subscription: Subscription;
@@ -24,7 +28,7 @@ export class MenuComponent implements OnDestroy, OnInit {
   jwtToken: string;
   expirationTime: Date;
 
-  constructor(private menuService: MenuService, private authService: AuthService, private router: Router) {
+  constructor(private menuService: MenuService, private authService: AuthService, private router: Router, private usuariosService: UsuariosService) {
     this.subscription = this.menuService.showNavbar.subscribe((value) => {
       this.showNavbar = value;
     });
@@ -116,4 +120,10 @@ if (this.userData !== null || this.jwtToken !== null) {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  actualizar(){
+    this.router.navigate(['/actualizarUsuarios' ]);
+    Swal.fire('¡Importante!', 'Al cambiar la información del usuario tu sesión se cerrará y tendrás que volver a iniciar sesión.', 'info');
+  }
+
 }

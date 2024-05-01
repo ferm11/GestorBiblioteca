@@ -1,4 +1,5 @@
 body {
+<<<<<<< HEAD
     background-image: url('https://images.pexels.com/photos/2908976/pexels-photo-2908976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); /* Reemplaza 'ruta/de/la/imagen.jpg' con la ruta de tu imagen */
     background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -10,6 +11,24 @@ h1 {
     color: rgb(255, 255, 255);
 }
 
+=======
+    background-image: url(https://images.pexels.com/photos/2898170/pexels-photo-2898170.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop);
+    background-size: cover; /* Ajusta la imagen de fondo para cubrir toda la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+    background-position: center; /* Centra la imagen de fondo */
+    margin: 0; /* Elimina el margen predeterminado del cuerpo */
+    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+  }
+
+h1 {
+    margin-top: 12%;
+    margin-left: 37%;
+    font-family: sans-serif;
+    color: white;
+    font-size: 40px;
+}
+
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 .barra {
     border-radius: 20px;
     padding: 15px 15px 15px 50px;
@@ -37,6 +56,7 @@ h1 {
 }
 
 table {
+<<<<<<< HEAD
     text-align: center;
     width: 100%;
     background-color: white;
@@ -48,6 +68,19 @@ table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+=======
+    text-align: center;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
     color: black; /* Ajusta el color del texto según tu preferencia */
 }
 
@@ -73,4 +106,8 @@ table td:first-child {
 table th:last-child,
 table td:last-child {
     padding-right: 20px;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345

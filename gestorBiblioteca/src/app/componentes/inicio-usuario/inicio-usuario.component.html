@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Login</title>
+=======
+    <title>Inicio usuario</title>
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
     <style>
         body {
             background-image: url(https://c.wallhere.com/photos/bb/a3/4272x2848_px_books_Ernest_Hemingway_monochrome_Oscar_Wilde-525957.jpg!d);
@@ -20,8 +24,13 @@
         }
 
         .cuadro {
+<<<<<<< HEAD
             height: 225px; /* Ajusta la altura */
             width: 225px; /* Ajusta el ancho */
+=======
+            height: 300px; /* Ajusta la altura */
+            width: 300px; /* Ajusta el ancho */
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
             text-align: center;
             padding: 20px; /* Ajusta el relleno */
             margin: 20px; /* Ajusta el margen */
@@ -34,16 +43,35 @@
             color: white;
             font-size: 20px; /* Ajusta el tamaño de fuente */
             font-weight: bold;
+<<<<<<< HEAD
         }
 
+=======
+            padding: 10%;
+        }
+
+
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
         .cuadro:hover {
             transform: scale(1.05);
         }
 
+<<<<<<< HEAD
         .container-fluid{
             margin-top: 10%;
         }
 
+=======
+        .container-fluid {
+            margin-top: 10%;
+            text-align: center;
+            display: flex; /* Usa display flex para centrar horizontalmente */
+            justify-content: center; /* Centra horizontalmente */
+            margin-left: 5%;
+        }
+
+
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
         a {
         text-decoration: none;
         color: inherit; /* Para heredar el color del texto del contenedor */
@@ -54,7 +82,11 @@
     <div class="container-fluid">
         <div class="row text-center">
             <!-- Primer conjunto de cuadros -->
+<<<<<<< HEAD
             <div class="col-md-4 mb-3">
+=======
+            <div class="col-md-4 mb-3" *ngIf="userData && (userData.rol === 'administrador' || userData.rol === 'bibliotecario')">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
                 <a href="/alta">
                     <div class="cuadro card" style="background-image: url(https://wallpapers.com/images/hd/old-books-in-a-pile-paqzbm1wimbshanh.jpg);">
                         <div class="card-body">
@@ -63,7 +95,11 @@
                     </div>
                 </a>
             </div>
+<<<<<<< HEAD
             <div class="col-md-4 mb-3">
+=======
+            <div class="col-md-4 mb-3" *ngIf="userData && (userData.rol === 'administrador' || userData.rol === 'bibliotecario')">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
                 <a href="/actualizar">
                     <div class="cuadro card" style="background-image: url(https://s0.smartresize.com/wallpaper/980/524/HD-wallpaper-opened-book.jpg);">
                         <div class="card-body">
@@ -73,7 +109,11 @@
                 </a>
             </div>
             <div class="col-md-4 mb-3">
+<<<<<<< HEAD
                 <a href="/gestionEjemplares">
+=======
+                <a href="/gestionEjemplares" *ngIf="userData && (userData.rol === 'administrador' || userData.rol === 'bibliotecario' || userData.rol === 'estudiante' || userData.rol === 'profesor')">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
                     <div class="cuadro card" style="background-image: url(https://w.forfun.com/fetch/e7/e7bfc1edebf545897f7d266883c4a7f0.jpeg);">
                         <div class="card-body">
                             <h5 class="card-title">Buscar Ejemplares</h5>
@@ -82,7 +122,11 @@
                 </a>
             </div>
             <!-- Segundo conjunto de cuadros -->
+<<<<<<< HEAD
             <div class="col-md-4 mb-3">
+=======
+            <div class="col-md-4 mb-3" *ngIf="userData && (userData.rol === 'administrador' || userData.rol === 'bibliotecario' || userData.rol === 'estudiante' || userData.rol === 'profesor')">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
                 <a href="/prestamo">
                     <div class="cuadro card" style="background-image: url(https://e0.pxfuel.com/wallpapers/356/939/desktop-wallpaper-books.jpg);">
                         <div class="card-body">
@@ -91,7 +135,11 @@
                     </div>
                 </a>
             </div>
+<<<<<<< HEAD
             <div class="col-md-4 mb-3">
+=======
+            <div class="col-md-4 mb-3" *ngIf="userData && (userData.rol === 'administrador' || userData.rol === 'bibliotecario')">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
                 <a href="/editar">
                     <div class="cuadro card" style="background-image: url(https://wallpapercave.com/wp/wp4430524.jpg);">
                         <div class="card-body">
@@ -100,7 +148,11 @@
                     </div>
                 </a>
             </div>
+<<<<<<< HEAD
             <div class="col-md-4 mb-3">
+=======
+            <div class="col-md-4 mb-3" *ngIf="userData && userData.rol === 'administrador'">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
                 <a href="/usuarios">
                     <div class="cuadro card" style="background-image: url(https://images.unsplash.com/photo-1499257398700-43669759a540?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGVyc29uYSUyMGxleWVuZG98ZW58MHx8MHx8fDA%3D);">
                         <div class="card-body">
@@ -113,4 +165,8 @@
     </div>
     
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345

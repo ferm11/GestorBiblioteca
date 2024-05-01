@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Ejemplar } from '../modelos/Ejemplar';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EjemplaresService {
+
+  private API_URL = "http://localhost:3000/api"
 
   constructor(private http:HttpClient) { }
 
@@ -20,5 +23,10 @@ export class EjemplaresService {
   addEjemplar(ejemplar:Ejemplar) {
     return this.http.post(`http://localhost:3000/api/ejemplares/`, ejemplar);
   }
+
+  buscarLibros(terminoBusqueda: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/libros/buscar?termino=${terminoBusqueda}`);
+  }
+  
 
 }

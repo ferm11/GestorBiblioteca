@@ -25,8 +25,16 @@ import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/noauth.guard';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
+<<<<<<< HEAD
 import { CaducaComponent } from './componentes/caduca/caduca.component';
 import { RoleGuard } from './guards/role.guard';
+=======
+import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usuario.component';
+import { RoleGuard } from './guards/role.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ActualizarComponent } from './componentes/actualizar/actualizar.component';
+
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 
 
 @NgModule({
@@ -45,13 +53,20 @@ import { RoleGuard } from './guards/role.guard';
     RegistroComponent,
     RestablecerComponent,
     UsuariosComponent,
+<<<<<<< HEAD
     CaducaComponent,
     
+=======
+    InicioUsuarioComponent,
+    ActualizarComponent,
+
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgbModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
@@ -62,7 +77,8 @@ import { RoleGuard } from './guards/role.guard';
   ],
   providers: [
     AuthGuard,
-    NoAuthGuard
+    NoAuthGuard,
+    RoleGuard
   ],
   bootstrap: [AppComponent]
 })
