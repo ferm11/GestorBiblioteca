@@ -29,6 +29,7 @@ import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usua
 import { RoleGuard } from './guards/role.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarComponent } from './componentes/actualizar/actualizar.component';
+import { ListaComponent } from './componentes/lista/lista.component';
 
 
 
@@ -50,6 +51,7 @@ import { ActualizarComponent } from './componentes/actualizar/actualizar.compone
     UsuariosComponent,
     InicioUsuarioComponent,
     ActualizarComponent,
+    ListaComponent,
 
   ],
   imports: [

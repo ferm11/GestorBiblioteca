@@ -24,6 +24,7 @@ import { CategoriasComponent } from './componentes/categorias/categorias.compone
 import { DisponibilidadComponent } from './componentes/disponibilidad/disponibilidad.component';
 import { ApartadosComponent } from './componentes/apartados/apartados.component';
 import { SolicitudesComponent } from './componentes/solicitudes/solicitudes.component';
+import { ListaComponent } from './componentes/lista/lista.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -36,16 +37,18 @@ const routes: Routes = [
   { path: 'disponibilidad', component: DisponibilidadComponent, canActivate: [AuthGuard]},
   { path: 'apartados', component: ApartadosComponent, canActivate: [AuthGuard]},
   { path: 'solicitudes', component: SolicitudesComponent, canActivate: [AuthGuard]},
+  { path: 'lista', component: ListaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'alta', component: AltaLibroComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'actualizar', component: ActualizarLibroComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'prestamo', component: AltaPrestamoComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
   { path: 'editar', component: ActualizarPrestamoComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'terminar', component: TerminarPrestamoComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
-  { path: 'gestionEjemplares', component: GestionEjemplaresComponent, canActivate: [RoleGuard], data: { expectedRole: ['estudiante', 'profesor','administrador', 'bibliotecario'] } },
+  { path: 'gestionEjemplares', component: GestionEjemplaresComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'usuarios', component: UsuariosComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador'] } },
   { path: 'inicio-usuario', component: InicioUsuarioComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
   { path: 'caduca', component:CaducaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
   { path: 'actualizarUsuarios', component:ActualizarComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
+  {path: 'lista', component: ListaComponent, canActivate: [RoleGuard], data: { expectedRole: ['estudiante','administrador', 'profesor', 'bibliotecario'] } },
   { path: '**', component: ErrorComponent }
 ];
 

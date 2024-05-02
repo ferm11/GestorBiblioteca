@@ -34,6 +34,8 @@ const db = mysql.createConnection({
     console.log('Conexión exitosa a la base de datos MySQL');
   });
 
+  ////////////////////////////////////////////////////////////////////
+
 // LOGIN
 //Ruta para registarse
 app.post('/api/registro', (req, res) => {
@@ -80,9 +82,39 @@ app.post('/api/registro', (req, res) => {
   );
 });
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   
+// Variable para almacenar el token enviado por correo electrónico
+let tokenEnviadoPorCorreo;
+
+// Función para enviar correo electrónico con el token
+function enviarCorreo(destinatario, token) {
+  const mailOptions = {
+    from: 'bibliotecautng1975@gmail.com',
+    to: destinatario,
+    subject: 'Código de verificación para inicio de sesión.',
+    text: `Haz solicitado un inicio de sesión en la Biblioteca UTNG. Tu código de verificación es: ${token}`
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.error('Error al enviar el correo:', error);
+    } else {
+      console.log('Correo electrónico enviado:', info.response);
+    }
+  });
+
+  // Almacena el token enviado por correo electrónico para su posterior verificación
+  tokenEnviadoPorCorreo = token;
+}
+
+// Función para obtener el token enviado por correo electrónico
+function obtenerTokenEnviadoPorCorreo() {
+  return tokenEnviadoPorCorreo;
+}
+
+
 // Ruta de inicio de sesión
 app.post('/api/login', (req, res) => {
   const { numControl, contraseña } = req.body;
@@ -118,8 +150,15 @@ app.post('/api/login', (req, res) => {
         const token = jwt.sign({ numControl: usuario.numControl }, 'secret', {
           expiresIn: '1h'
         });
-        console.log('Inicio de sesión exitoso para el usuario:', usuario);
-        res.status(200).send({ token, userData: usuario});
+
+        // Genera un token de verificación de 6 dígitos
+        const randomToken = Math.floor(100000 + Math.random() * 900000);
+
+        // Envía el token por correo electrónico
+        enviarCorreo(usuario.correo, randomToken.toString());
+
+        // Devuelve el token generado en la respuesta
+        res.status(200).send({ token: randomToken.toString(), userData: usuario});
       } else {
         console.log('Credenciales inválidas para el usuario:', usuario);
         res.status(401).send({ message: 'Credenciales inválidas' });
@@ -128,7 +167,28 @@ app.post('/api/login', (req, res) => {
   );
 });
 
+// Ruta para verificar el token
+app.post('/api/verificar-token', (req, res) => {
+  const tokenIngresado = req.body.token;
 
+  // Obtener el token enviado por correo electrónico
+  const tokenEnviadoPorCorreo = obtenerTokenEnviadoPorCorreo();
+
+  // Verificar si el token ingresado coincide con el token enviado por correo electrónico
+  if (!tokenIngresado || !tokenEnviadoPorCorreo) {
+    // Si falta algún token, la solicitud es incorrecta
+    res.status(400).send({ message: 'Falta el token en la solicitud' });
+  } else if (tokenIngresado === tokenEnviadoPorCorreo) {
+    // Si los tokens coinciden, el token es válido
+    res.status(200).send({ valid: true });
+  } else {
+    // Si no coinciden, el token no es válido
+    res.status(400).send({ valid: false });
+  }
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Ruta para verificar si el correo electrónico está registrado y proporcionar un token JWT
 app.post('/api/check-email', (req, res) => {
@@ -729,6 +789,27 @@ app.get('/api/ejemplares/:id', (req, res) => {
         }
     });
 });
+
+// OBTENER EJEMPLARES MEDIANTE EL ISBN (MEDIANTE PETICIÓN GET)
+app.get('/api/ej', (req, res) => {
+  const sQuery = `
+    SELECT ej.*, li.titulo, li.autores, li.categoria
+    FROM Ejemplar ej
+    INNER JOIN Libro li ON ej.ISBN = li.ISBN
+  `;
+
+  bd.query(sQuery, (err, results) => {
+    if (err) {
+      console.error('Error al obtener los ejemplares: ' + err.message);
+      res.status(500).send('Error al obtener el ejemplar de la base de datos');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
