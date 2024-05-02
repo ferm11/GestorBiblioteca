@@ -22,6 +22,7 @@ export class RegistroComponent{
   email: string = '';
   telefono: string = '';
   password: string = '';
+  confirmPassword: string = '';
 
   @ViewChild('captchaElement') captchaElement;
 
@@ -41,6 +42,7 @@ export class RegistroComponent{
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   codeFormControl = new FormControl('', [Validators.required, Validators.pattern('^.{6}$')]);
+  passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&])[A-Za-z\d@!#$%^&]{8,}$/;
   
 
   constructor(private usuarioService: UsuariosService, private router: Router, private restablecerService:RestablecerService) {
@@ -60,6 +62,15 @@ export class RegistroComponent{
     if (!captchaChecked) {
       // Si la casilla de verificación no está marcada, muestra un mensaje de error
       Swal.fire('¡Uppps!', 'Por favor, completa la verificación humana', 'error');
+      return;
+    }
+  
+    if (this.password !== this.confirmPassword) {
+      // Si las contraseñas no coinciden, muestra un mensaje de error
+      Swal.fire('¡Uppps!', 'Las contraseñas no coinciden', 'error');
+      // Reiniciar campos de contraseña y confirmar contraseña
+      this.password = '';
+      this.confirmPassword = '';
       return;
     }
   
@@ -84,6 +95,7 @@ export class RegistroComponent{
         this.email = '';
         this.telefono = '';
         this.password = '';
+        this.confirmPassword = '';
         // Redirigir a la página de inicio
         this.router.navigate(['/inicio']);
       },
@@ -102,8 +114,18 @@ export class RegistroComponent{
         this.email = '';
         this.telefono = '';
         this.password = '';
+        this.confirmPassword = '';
+        grecaptcha.reset();
       }
     );   
+  }
+  
+  validateConfirmPassword() {
+    if (this.password !== this.confirmPassword) {
+      this.registroForm.controls['confirmPassword'].setErrors({ passwordMismatch: true });
+    } else {
+      this.registroForm.controls['confirmPassword'].setErrors(null);
+    }
   }
   
 

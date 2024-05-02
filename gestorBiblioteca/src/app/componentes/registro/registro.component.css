@@ -5,10 +5,11 @@ body {
     background-position: center;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: 130vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 5%;
   }
   
     h1{

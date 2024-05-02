@@ -4,6 +4,7 @@ import { PrestamosService } from 'src/app/servicios/prestamos.service';
 import { map, take } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-alta-prestamo',
@@ -20,8 +21,8 @@ export class AltaPrestamoComponent implements OnInit{
   esFechaValida: boolean = true;
   mensajeError: string = '';
 
-  ISBN: number;
-  idEjemplar: number;
+  ISBN: string;
+  idEjemplar: string;
   numControl: number;
   correo: string;
   fechaPrestamo: string;
@@ -31,7 +32,8 @@ export class AltaPrestamoComponent implements OnInit{
   resultados: any[];
   search : string;
 
-  constructor(private prestamosService: PrestamosService, private librosService: LibrosService, private authService:AuthService) {
+  constructor(private prestamosService: PrestamosService, private librosService: LibrosService,
+     private authService:AuthService, private route: ActivatedRoute) {
 
     this.userData = JSON.parse(localStorage.getItem('userData'));
     console.log('Datos del usuario obtenidos del localStorage en el componente:', this.userData);
@@ -44,6 +46,12 @@ export class AltaPrestamoComponent implements OnInit{
   
     // Formatear la fecha actual en formato YYYY-MM-DD para asignarla al input
     this.fechaPrestamo = fechaActual.toISOString().split('T')[0];
+
+    // Obtener los parámetros de la URL
+    this.route.queryParams.subscribe(params => {
+      this.ISBN = params['ISBN'];
+      this.idEjemplar = params['idEjemplar'];
+    });
   }
 
   altaPrestamo() {
@@ -183,5 +191,10 @@ buscarLibros(terminoBusqueda: string) {
     }
   );
 }
+
+/****************************************** */
+
+//Traer ISBN y idEJmplar
+
 
 }

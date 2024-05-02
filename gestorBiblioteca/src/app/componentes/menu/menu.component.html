@@ -71,18 +71,19 @@
             </li>
 
             <!-- Primer dropdown -->
-            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar libros
               </a>
               <ul class="dropdown-menu" style="background-color: #00A887; border: none;">
-                <li><a class="dropdown-item" href="alta" style="color: white; background-color: #00A887; ">Alta libro</a></li>
-                <li><a class="dropdown-item" href="actualizar" style="color: white; background-color: #00A887;">Actualizar/Eliminar libro</a></li>
+                <li><a class="dropdown-item" href="lista" style="color: white; background-color: #00A887; ">Lista de libros</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="alta" style="color: white; background-color: #00A887; ">Alta libro</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="actualizar" style="color: white; background-color: #00A887;">Actualizar/Eliminar libro</a></li>
               </ul>
             </li>
 
             <!-- Segundo dropdown -->
-            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')">
+            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar ejemplares
               </a>

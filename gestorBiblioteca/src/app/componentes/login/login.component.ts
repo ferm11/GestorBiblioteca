@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { HttpClient } from '@angular/common/http'
 
 // Declara la función grecaptcha como una variable global
 declare const grecaptcha: any;
@@ -30,9 +31,16 @@ export class LoginComponent implements OnInit {
   token: string = '';
   error: string;
 
-  constructor(private usuariosService: UsuariosService, private router: Router, private afAuth: AngularFireAuth, private authService:AuthService) {}
+  //Mostrar formulario para ingresar con el token
+  mostrarFormularioToken: boolean = false;
+  tokenIngresado: string;
+  codigoVerificacion: string;
 
-  ngOnInit() {}
+  constructor(private usuariosService: UsuariosService, private router: Router,
+     private afAuth: AngularFireAuth, private authService:AuthService, private http: HttpClient) {}
+
+  ngOnInit() {
+  }
 
   login(loginForm: NgForm) {
     loginForm.form.markAllAsTouched();
@@ -66,20 +74,56 @@ export class LoginComponent implements OnInit {
         //Almacena los datos del usuario
         this.authService.setUserData(res.userData);
         //Notificar al servicio de autenticacion que el usuario ha iniciado sesion
-        this.authService.setLoggedIn(true);
         // Almacena el token y actualiza el estado de la sesion
         this.usuariosService.setToken(res.token);
         // Almacena el token JWT en la variable del componente
         this.jwtToken = res.token;
         // Muestra el token JWT en la consola
         console.log('Token JWT:', this.jwtToken);
-        this.authService.setLoggedIn(true);
         this.authService.saveToken(res.token);
 
         // Redirige a la pagina de alta
-        this.router.navigate(['/inicio-usuario']);
+        //this.router.navigate(['/inicio-usuario']);
+
+        //Muestra el formulario del token
+        // Después de validar las credenciales
+        this.mostrarFormularioToken = true;
 
         // Mostrar el primer mensaje
+        Swal.fire('¡Credenciales validas!', 'Ingresa el token enviado a tu correo', 'success')
+      },
+      (error: any) => {
+        console.error('Error en el inicio de sesión:', error);
+        // Manejar errores del inicio de sesión
+        this.errorMensaje = 'El número de control o contraseña son incorrectos';
+        Swal.fire('¡Inicio de sesión no exitoso!', 'El número de control o contraseña son incorrectos', 'error')
+        grecaptcha.reset();
+        this.resetForm();
+      }
+    );
+  }
+
+  //Metodo para verificar token e iniciar sesion:
+  verificarToken() {
+    // Verifica que el código de verificación no esté vacío
+    if (!this.codigoVerificacion) {
+      console.error('El código de verificación está vacío.');
+      Swal.fire('¡Codigo de verificacion vacio!', 'error')
+      return; // Sale de la función si el código de verificación está vacío
+    }
+  
+    // Realiza la solicitud HTTP para verificar el token
+    this.http.post('http://localhost:3000/api/verificar-token', { token: this.codigoVerificacion })
+      .subscribe(
+        (response: any) => {
+          console.log('Respuesta del servidor:', response);
+          // Verifica si la respuesta del servidor es válida
+          if (response && response.valid) {
+            console.log('Token válido. Redirigiendo...');
+            // Aquí redirige al usuario a la página de inicio/usuario
+            
+            this.router.navigate(['/inicio-usuario']);
+            // Mostrar el primer mensaje
         Swal.fire('¡Inicio de sesión exitoso!', 'Bienvenido de vuelta', 'success')
         .then((result) => {
           if (result.isConfirmed) {
@@ -87,6 +131,7 @@ export class LoginComponent implements OnInit {
             Swal.fire('¡Importante!', 'Si requiere un cambio de rol, notifíquese con el administrador al correo bibliotecautng1975@gmail.com', 'info');
           }
         });
+<<<<<<< HEAD
       },
       (error: any) => {
         console.error('Error en el inicio de sesión:', error);
@@ -98,7 +143,48 @@ export class LoginComponent implements OnInit {
         this.contrasena=null;
       }
     );
+=======
+          } else {
+            console.log('Token inválido.');
+            // Manejar el caso de token inválido si es necesario
+          }
+        },
+        (error) => {
+          console.error('Error al verificar el token:', error);
+          Swal.fire('¡Codigo de verificacion incorrecto!', 'error')
+            this.logout();
+          // Aquí puedes manejar el error
+        }
+      );
+>>>>>>> b76f24a7942d5bacfe5ebb38e00bc4f6c72bc8c1
   }
+
+  // Metodo para cerra la sesion
+  logout() {
+    console.log('Cerrando sesión');
+
+    // Eliminar el token
+    localStorage.removeItem('token');
+
+    // Eliminar los datos del usuario
+    localStorage.removeItem('userData');
+
+    // Limpiar la consola
+    console.clear();
+
+    // Mostrar mensaje de confirmación con SweetAlert
+    Swal.fire({
+      icon: 'info',
+      title: 'Token invalido',
+      text: 'La sesión se ha cerrado por seguridad, vuelve a ingresar sesión nuevamente.',
+      confirmButtonText: 'Aceptar'
+    });
+
+    // Redirigir a la página de inicio
+    this.router.navigate(['/inicio']);
+  }
+  
+  
 
   
 

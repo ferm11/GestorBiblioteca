@@ -33,6 +33,7 @@ import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usua
 import { RoleGuard } from './guards/role.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarComponent } from './componentes/actualizar/actualizar.component';
+import { ListaComponent } from './componentes/lista/lista.component';
 
 >>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 
@@ -59,6 +60,7 @@ import { ActualizarComponent } from './componentes/actualizar/actualizar.compone
 =======
     InicioUsuarioComponent,
     ActualizarComponent,
+    ListaComponent,
 
 >>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
   ],

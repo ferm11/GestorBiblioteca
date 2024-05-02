@@ -106,4 +106,13 @@ export class UsuariosService {
     }
     return null;
   }
+
+  ///////
+  //Metodo paara validar token al iniciar sesion:
+  // En tu servicio de usuarios
+verificarToken(token: string) {
+  return this.http.post('http://localhost:3000/api/verificar-token', { token });
+}
+
+
 } 
