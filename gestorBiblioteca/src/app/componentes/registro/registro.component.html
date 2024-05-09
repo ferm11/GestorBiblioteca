@@ -58,14 +58,22 @@
   
     <div class="form-group" style="margin-bottom: 10px;">
       <input type="password" name="password" [(ngModel)]="password" class="form-control"
+<<<<<<< HEAD
+          placeholder="Contraseña" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
+          (ngModelChange)="registroForm.controls['password']?.markAsTouched()"
+          [ngClass]="{'is-invalid': registroForm.controls['password']?.invalid && registroForm.controls['password']?.touched, 'is-valid': registroForm.controls['password']?.valid && registroForm.controls['password']?.touched}">
+=======
     placeholder="Contraseña" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&])[A-Za-z\d@!#$%^&]{8,}$"
     (ngModelChange)="registroForm.controls['password']?.markAsTouched()"
     [ngClass]="{'is-invalid': registroForm.controls['password']?.invalid && registroForm.controls['password']?.touched, 'is-valid': registroForm.controls['password']?.valid && registroForm.controls['password']?.touched}">
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
       <div class="invalid-feedback">
           <div *ngIf="registroForm.controls['password']?.errors?.['required']">La contraseña es obligatoria.</div>
           <div *ngIf="registroForm.controls['password']?.errors?.['pattern']">La contraseña debe contener al menos una mayúscula, una minúscula, un dígito numérico y un símbolo, y tener una longitud mínima de 8 caracteres.</div>
       </div>
   </div>
+<<<<<<< HEAD
+=======
 
   <div class="form-group" style="margin-bottom: 10px;">
     <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" class="form-control"
@@ -87,6 +95,7 @@
   </div>
   
 
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
   
 
     <div class="Registro">

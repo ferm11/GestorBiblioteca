@@ -23,6 +23,40 @@
 
 <h1>Alta de libro</h1>
 
+<<<<<<< HEAD
+    <div class="contenedor-formulario">
+    <form class="formulario">
+      <label for="isbn">ISBN:</label>
+      <input type="number" maxlength="13" id="isbn" [(ngModel)]="ISBND" name="isbn" required placeholder="ISBN"><br>
+  
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" [(ngModel)]="Titulo" name="titulo" required placeholder="Título"><br>
+    
+      <label for="autores">Autores:</label>
+      <div *ngFor="let autor of Autores; let i = index">
+          <input type="text" [(ngModel)]="Autores[i]" [ngModelOptions]="{standalone: true}" [attr.name]="'autor' + i" required placeholder="Autor {{i + 1}}">
+          <button type="button" (click)="eliminarAutor(i)">Eliminar</button><br>
+      </div>
+      <input type="text" [(ngModel)]="NuevoAutor" [ngModelOptions]="{standalone: true}" required placeholder="Nuevo Autor"><br>
+      <button type="button" (click)="agregarAutor()">Agregar Autor</button><br>
+  
+      <label for="fPublicacion">Fecha de publicación:</label>
+      <input type="date" id="fPublicacion" [(ngModel)]="fPublicacion" (change)="validarFecha()" name="fPublicacion" required placeholder="Fecha de publicación"><br>
+      <div *ngIf="!esFechaValida" class="error-message">{{ mensajeError }}</div>
+    
+      <label for="editorial">Editorial:</label>
+      <input type="text" id="editorial" [(ngModel)]="Editorial" name="editorial" required placeholder="Editorial"><br>
+  
+      <label class="lCategoria" for="categoria">Categoría:</label>
+      <select id="categoria" [(ngModel)]="Categoria" name="categoria" required class="categoria">
+          <option *ngFor="let categoria of categorias" [value]="categoria.nombre">{{ categoria.nombre }}</option>
+      </select><br>
+  
+  </form>
+  
+  <button class="btnGuardar" type="button" (click)="altaLibro()" [disabled]="Autores.length === 0" [disabled]="!esFechaValida">Guardar libro</button><br>
+</div>
+=======
 <div class="container">
 
   <form class="formulario" #altaForm="ngForm" (ngSubmit)="altaLibro()" novalidate>
@@ -58,6 +92,7 @@
 
 </div>
 
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 
       <!-- Pie de pagina -->
       <footer style="background-color: #2A4DBD; color: white; text-align: center; padding: 10px; margin-top: 5%;">

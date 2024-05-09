@@ -10,4 +10,8 @@ export class ErrorComponent{
 
 constructor(private menuService : MenuService){}
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 }

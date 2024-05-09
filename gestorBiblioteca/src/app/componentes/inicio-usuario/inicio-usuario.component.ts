@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-inicio-usuario',
+  standalone: true,
+  imports: [],
+  templateUrl: './inicio-usuario.component.html',
+  styleUrl: './inicio-usuario.component.css'
+})
+export class InicioUsuarioComponent {
+
+=======
 // inicio-usuario.component.ts
 
 import { Component, OnInit } from '@angular/core';
@@ -19,4 +32,5 @@ export class InicioUsuarioComponent implements OnInit {
     console.log('Datos del usuario obtenidos del localStorage en el componente:', this.userData);
   }
   
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 }

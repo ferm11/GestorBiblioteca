@@ -1,4 +1,33 @@
 body {
+<<<<<<< HEAD
+    background-image: url('https://i.pinimg.com/564x/2f/08/fb/2f08fbea20fde17178ad06bf7fab9ec8.jpg'); /* Reemplaza 'ruta/de/la/imagen.jpg' con la ruta de tu imagen */
+    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+h1{
+    margin-top: 10%;
+    margin-left: 40%;
+    color: black;
+}
+
+.formulario{
+    margin-right: 38%;
+    text-align: right;  
+    color: black;
+}
+
+.formulario input{
+    width: 250px;
+    padding: 15px 15px 15px 50px;
+    margin: 5px;
+    color: black;
+}
+
+.formulario label{
+    text-align: left;
+    color: black;
+=======
     background-image: url(https://images.pexels.com/photos/2898170/pexels-photo-2898170.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop);
     background-size: cover;
     background-repeat: no-repeat;
@@ -41,12 +70,18 @@ h1 {
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
 }
 
 .formulario input[type="date"] {
     appearance: none;
 }
 
+<<<<<<< HEAD
+.btnGuardar{
+    margin: 10px;
+    margin-left: 50px;
+=======
 .formulario .error-message {
     color: #d10606;
     margin-top: 5px;
@@ -57,6 +92,7 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+>>>>>>> fe808bdc601821cb6bf69d2f374fae3bb6fdf345
     color: white;
     background-color: #046910;
     margin: 0 auto; /* Esto centrará horizontalmente el botón */
