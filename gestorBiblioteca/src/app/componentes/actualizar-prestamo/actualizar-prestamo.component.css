@@ -63,3 +63,16 @@ tr .fa-solid{
     color: black;
     text-align: center;
 }
+
+.prestamo {
+    background-color: green;
+  }
+  
+  .por-vencer {
+    background-color: rgb(184, 184, 2);
+  }
+  
+  .vencido {
+    background-color: red;
+  }
+  

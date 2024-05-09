@@ -66,3 +66,20 @@ tr .fa-solid{
     color: black;
     text-align: center;
 }
+
+.disponible-verde {
+  color: green;
+  background-color: green;
+}
+
+.no-disponible-rojo {
+  color: red;
+  background-color: red;
+}
+
+  
+  .disabled-button {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  

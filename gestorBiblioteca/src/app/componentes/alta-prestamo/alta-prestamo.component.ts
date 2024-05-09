@@ -55,7 +55,6 @@ export class AltaPrestamoComponent implements OnInit{
   }
 
   altaPrestamo() {
-    
 
     if (this.esFechaValida && this.correo) {
       // Código para crear el libro
@@ -81,17 +80,26 @@ export class AltaPrestamoComponent implements OnInit{
           title: 'Prestamo creado correctamente!',
           icon: 'success'
         });
-        this.resetForm();
+        this.ISBN = '';
+        this.idEjemplar = '';
+        this.fechaDevolucion = null;
       },
       error => {
         console.log('Error al crear el prestamo:', error);
-        if (error.status === 500) {
-          console.log('Código de estado 500 detectado. Mensaje de error:', error.error);
+        if (error.status === 400 && error.error.Resultado === 0) {
+          // El ID del ejemplar ya se encuentra en préstamo
           Swal.fire({
-            title: 'Error al dar de alta el prestamo.',
+            title: 'El libro ya se encuentra en prestamo',
+            text: '',
             icon: 'error'
           });
-          this.resetForm();
+        } else {
+          // Otro tipo de error
+          Swal.fire({
+            title: 'Hubo un error al crear el préstamo.',
+            text: '',
+            icon: 'error'
+          });
         }
       }
     );

@@ -30,6 +30,7 @@ import { RoleGuard } from './guards/role.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarComponent } from './componentes/actualizar/actualizar.component';
 import { ListaComponent } from './componentes/lista/lista.component';
+import { PrestamoComponent } from './componentes/prestamo/prestamo.component';
 
 
 
@@ -52,6 +53,7 @@ import { ListaComponent } from './componentes/lista/lista.component';
     InicioUsuarioComponent,
     ActualizarComponent,
     ListaComponent,
+    PrestamoComponent,
 
   ],
   imports: [

@@ -39,15 +39,16 @@ export class ListaComponent {
 
   getEjemplares(): void {
     this.servEjemplares.ejemplares().subscribe(
-      (resp: any[]) => {
-        console.log(resp); // Agregar esta línea para verificar los datos recibidos
-        this.ejemplares = resp;
-      },
-      (error) => {
-        console.error('Error al obtener los ejemplares:', error);
-      }
+       (resp: any[]) => {
+          console.log(resp); // Verificar la respuesta del servicio HTTP
+          this.ejemplares = resp;
+       },
+       (error) => {
+          console.error('Error al obtener los ejemplares:', error);
+       }
     );
-  }
+ }
+ 
 
   pedirPrestamo(ISBN: string, idEjemplar: string) {
     // Navegar a la página de alta de préstamo y pasar los parámetros en la URL

@@ -91,8 +91,9 @@
                 Gestión de prestamos y sanciones
               </a>
               <ul class="dropdown-menu" style="background-color: #00A887; border: none;">
-                <li><a class="dropdown-item" href="prestamo" style="color: white; background-color: #00A887;">Alta de prestamo</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')"><a class="dropdown-item" href="prestamo" style="color: white; background-color: #00A887;">Alta de prestamo</a></li>
                 <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="editar" style="color: white; background-color: #00A887;" >Actualizar/Eliminar prestamo</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')"><a class="dropdown-item" href="misPrestamos" style="color: white; background-color: #00A887;">Mis prestamos</a></li>
               </ul>
             </li>
 

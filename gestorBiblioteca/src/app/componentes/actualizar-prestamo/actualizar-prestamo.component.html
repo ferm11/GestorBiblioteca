@@ -20,7 +20,6 @@
    </nav>
 
   <h1 class="title">Actualizar/Eliminar prestamo</h1><br><br><br>
-
 <!--
 <form action="/buscar">
   <i class="fa-solid fa-magnifying-glass"></i><input class="barra" type="share" name="" placeholder="Buscar">
@@ -35,10 +34,11 @@
       <th scope="col">#</th>
       <th scope="col">ISBN</th>
       <th scope="col">ID Ejemplar</th>
-      <th scope="col">Fecha entrega</th>
-      <th scope="col">Fecha devolución</th>
-      <th scope="col">Correo</th>
       <th scope="col">Número control</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Fecha prestamo</th>
+      <th scope="col">Fecha devolución</th>
+      <th scope="col">Estatus</th>
       <th scope="col" style="width: 5%;">Editar</th>
       <th scope="col" style="width: 5%;">Eliminar</th>
     </tr>
@@ -48,10 +48,13 @@
       <th scope="row">{{i + 1}}</th>
       <td>{{Prestamo.ISBN}}</td>
       <td>{{Prestamo.idEjemplar}}</td>
+      <td>{{Prestamo.numControl}}</td>
+      <td>{{Prestamo.correo}}</td>
       <td>{{Prestamo.fechaPrestamo}}</td>
       <td>{{Prestamo.fechaDevolucion}}</td>
-      <td>{{Prestamo.correo}}</td>
-      <td>{{Prestamo.numControl}}</td>
+      <td style="color: white;" [ngClass]="obtenerClaseEstatus(Prestamo.fechaDevolucion)">
+        {{ obtenerEstatus(Prestamo.fechaDevolucion) }}
+      </td>
       <td><button (click)="selecinarPrestamo(Prestamo)" data-bs-toggle="modal" data-bs-target="#editarPrestamo" style="background-color: none; border: none;"><i class="fa-solid fa-pen-to-square"
             style="color: #0042aa;"></i></button></td>
       <td><button (click)="confirmarEliminarPrestamo(Prestamo.idPrestamo)" style="background-color: none; border: none;"><i class="fa-solid fa-trash"

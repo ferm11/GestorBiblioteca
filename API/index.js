@@ -187,6 +187,27 @@ app.post('/api/verificar-token', (req, res) => {
   }
 });
 
+//************************************************************************************************** */
+
+// Ruta para obtener los préstamos del usuario actual
+app.get('/api/misPrestamos', (req, res) => {
+  const numControl = req.query.numControl;
+
+  db.query(
+    'SELECT * FROM prestamo WHERE numControl = ?',
+    [numControl],
+    (err, prestamos) => {
+      if (err) {
+        console.error('Error al obtener los préstamos del usuario:', err);
+        return res.status(500).send({ message: 'Error al obtener los préstamos del usuario' });
+      }
+
+      console.log('Préstamos encontrados:', prestamos); // Agregar esta línea para verificar los resultados
+
+      res.status(200).json(prestamos);
+    }
+  );
+});
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -683,29 +704,51 @@ app.get('/api/prestamos/:id', (req, res) => {
 
 // AGREGAR NUEVO PRESTAMO (MEDIANTE PETICION POST)
 app.post('/api/prestamos', (req, res) => {
-    const prestamo = {
-        ISBN:req.body.ISBN,
-        idEjemplar: parseInt(req.body.idEjemplar),
-        numControl: req.body.numControl,
-        correo: req.body.correo,
-        fechaPrestamo: req.body.fechaPrestamo,
-        fechaDevolucion: req.body.fechaDevolucion
-    };
+  const idEjemplar = parseInt(req.body.idEjemplar);
 
-    const sQuery = "INSERT INTO Prestamo SET ?";
+  // Verificar si el idEjemplar ya está en la lista de préstamos
+  const sQueryVerificar = "SELECT COUNT(*) AS count FROM Prestamo WHERE idEjemplar = ?";
+  bd.query(sQueryVerificar, [idEjemplar], (err, results) => {
+      if (err) {
+          console.error('Error al verificar el idEjemplar: ' + err.message);
+          res.status(500).send('Error al verificar el idEjemplar en la base de datos');
+      } else {
+          const count = results[0].count;
+          if (count > 0) {
+              // El idEjemplar ya está en la lista de préstamos, enviar un mensaje de error
+              res.status(400).json({
+                  Resultado: 0,
+                  Mensaje: 'El ID del ejemplar ya se encuentra en préstamo'
+              });
+          } else {
+              // El idEjemplar no está en la lista de préstamos, insertar el préstamo
+              const prestamo = {
+                  ISBN: req.body.ISBN,
+                  idEjemplar: idEjemplar,
+                  numControl: req.body.numControl,
+                  correo: req.body.correo,
+                  fechaPrestamo: req.body.fechaPrestamo,
+                  fechaDevolucion: req.body.fechaDevolucion
+              };
 
-    bd.query(sQuery, [prestamo], (err, results) => {
-        if (err) {
-            console.error('Error al agregar el prestamo: ' + err.message);
-            res.status(500).send('Error al insertar el prestamo en la base de datos');
-        } else {
-            res.json({
-                Resultado: 1,
-                Mensaje: 'Prestamo agregado exitosamente'
-            });
-        }
-    });
+              const sQuery = "INSERT INTO Prestamo SET ?";
+
+              bd.query(sQuery, [prestamo], (err, results) => {
+                  if (err) {
+                      console.error('Error al agregar el prestamo: ' + err.message);
+                      res.status(500).send('Error al insertar el prestamo en la base de datos');
+                  } else {
+                      res.json({
+                          Resultado: 1,
+                          Mensaje: 'Prestamo agregado exitosamente'
+                      });
+                  }
+              });
+          }
+      }
+  });
 });
+
 
 
 // ELIMINAR PRESTAMO (PETICION DELETE)
@@ -790,7 +833,9 @@ app.get('/api/ejemplares/:id', (req, res) => {
     });
 });
 
-// OBTENER EJEMPLARES MEDIANTE EL ISBN (MEDIANTE PETICIÓN GET)
+/////////////////////
+
+// OBTENER EJEMPLARES MEDIANTE EL ISBN (MEDIANTE PETICIÓN GET) PARA VERIFICAR LA DISPONIBILIDAD
 app.get('/api/ej', (req, res) => {
   const sQuery = `
     SELECT ej.*, li.titulo, li.autores, li.categoria
@@ -803,13 +848,26 @@ app.get('/api/ej', (req, res) => {
       console.error('Error al obtener los ejemplares: ' + err.message);
       res.status(500).send('Error al obtener el ejemplar de la base de datos');
     } else {
-      res.json(results);
+      const ejemplaresConEstado = [];
+      results.forEach((ejemplar) => {
+        const sQueryPrestamo = "SELECT COUNT(*) AS count FROM Prestamo WHERE idEjemplar = ?";
+        bd.query(sQueryPrestamo, [ejemplar.idEjemplar], (err, prestamoResults) => {
+          if (err) {
+            console.error('Error al obtener el estado de préstamo: ' + err.message);
+            res.status(500).send('Error al obtener el estado de préstamo de la base de datos');
+          } else {
+            // Si hay algún préstamo para este ejemplar, no está disponible
+            ejemplar.disponible = prestamoResults[0].count === 0;
+            ejemplaresConEstado.push(ejemplar);
+            if (ejemplaresConEstado.length === results.length) {
+              res.json(ejemplaresConEstado);
+            }
+          }
+        });
+      });
     }
   });
 });
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////
 

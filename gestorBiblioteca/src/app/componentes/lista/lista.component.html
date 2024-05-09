@@ -24,7 +24,7 @@
 
     <!-- Barra de búsqueda -->
     <input type="text" 
-       [(ngModel)]="filtroNombre" 
+       [(ngModel)]="filtroNombre" name="filtroNombre"
        (input)="onBuscarChange($event)" 
        placeholder="Buscar por título..." 
        style="padding: 8px;
@@ -49,6 +49,7 @@
         <th scope="col">Autores</th>
         <th scope="col">Categoria</th>
         <th scope="col">ID del ejemplar</th>
+        <th scope="col">Disponible</th>
         <th scope="col" style="width: 5%;">Pedir prestamo</th>
       </tr>
     </thead>
@@ -60,8 +61,11 @@
           <td>{{Ejemplar.autores}}</td>
           <td>{{Ejemplar.categoria}}</td>
           <td>{{Ejemplar.idEjemplar}}</td>
+          <td style="color: white;" [ngClass]="{'disponible-verde': Ejemplar.disponible, 'no-disponible-rojo': !Ejemplar.disponible}">
+            {{Ejemplar.disponible ? 'Sí' : 'No'}}
+          </td>
           <td>
-            <button style="background-color: none; border: none;" (click)="pedirPrestamo(Ejemplar.ISBN, Ejemplar.idEjemplar)">
+            <button [disabled]="!Ejemplar.disponible" [ngClass]="{'disabled-button': !Ejemplar.disponible}" (click)="pedirPrestamo(Ejemplar.ISBN, Ejemplar.idEjemplar)">
               <i class="fa-solid fa-pen-to-square" style="color: #0042aa;"></i>
             </button>
           </td>

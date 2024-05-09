@@ -21,6 +21,8 @@ export class ActualizarPrestamoComponent implements OnInit{
 
   prestamo: any = undefined;
 
+  filtroControl: number; // Variable para el filtro por numero
+
   constructor(private servPrestamos: PrestamosService, prestamosService:PrestamosService) { }
 
 
@@ -146,5 +148,41 @@ export class ActualizarPrestamoComponent implements OnInit{
       });
     }
   }
+
+  // Estatus de los prestamos
+  //Estatus del prestamo
+// Función para determinar el estatus basado en la fecha de devolución
+// Función para determinar la clase de estilo CSS basada en el estado
+obtenerEstatus(fechaDevolucion: string): string {
+  const fechaActual = new Date();
+  const fechaDevolucionDate = new Date(fechaDevolucion);
+
+  // Calcular la diferencia de días entre la fecha actual y la fecha de devolución
+  const diferencia = Math.ceil((fechaDevolucionDate.getTime() - fechaActual.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (diferencia > 5) {
+    return 'En prestamo';
+  } else if (diferencia < 4) {
+    return 'Por vencer';
+  } else {
+    return 'Vencido, a espera de sanción';
+  }
+}
+
+obtenerClaseEstatus(fechaDevolucion: string): string {
+  const fechaActual = new Date();
+  const fechaDevolucionDate = new Date(fechaDevolucion);
+
+  // Calcular la diferencia de días entre la fecha actual y la fecha de devolución
+  const diferencia = Math.ceil((fechaDevolucionDate.getTime() - fechaActual.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (diferencia > 5) {
+    return 'prestamo';
+  } else if (diferencia < 4) {
+    return 'por-vencer';
+  } else {
+    return 'vencido';
+  }
+}
 
 }

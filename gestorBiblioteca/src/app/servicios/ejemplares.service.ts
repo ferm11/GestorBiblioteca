@@ -29,9 +29,9 @@ export class EjemplaresService {
   }
 
   //Todos los ejemplares
+  // Método para obtener todos los ejemplares
   ejemplares(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/ej');
   }
-  
 
 }
