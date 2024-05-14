@@ -29,6 +29,11 @@ import { InicioUsuarioComponent } from './componentes/inicio-usuario/inicio-usua
 import { RoleGuard } from './guards/role.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarComponent } from './componentes/actualizar/actualizar.component';
+import { SearchComponent } from './componentes/search/search.component';
+import { SearchService2 } from './search.service';
+import { ServiciosComponent } from './componentes/servicios/servicios.component';
+import { ListaComponent } from './componentes/lista/lista.component';
+import { PrestamoComponent } from './componentes/prestamo/prestamo.component';
 
 
 
@@ -50,7 +55,10 @@ import { ActualizarComponent } from './componentes/actualizar/actualizar.compone
     UsuariosComponent,
     InicioUsuarioComponent,
     ActualizarComponent,
-
+    SearchComponent,
+    ServiciosComponent,
+    ListaComponent,
+    PrestamoComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +76,8 @@ import { ActualizarComponent } from './componentes/actualizar/actualizar.compone
   providers: [
     AuthGuard,
     NoAuthGuard,
-    RoleGuard
+    RoleGuard,
+    SearchService2
   ],
   bootstrap: [AppComponent]
 })

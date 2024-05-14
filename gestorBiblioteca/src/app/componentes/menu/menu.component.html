@@ -12,7 +12,7 @@
   <!-- Logo inicio -->
   <nav *ngIf="showNavbar" class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="inicio-usuario"><img src="https://www.utng.edu.mx/assets/principal/logoutng.webp" alt=""></a>
+      <a class="navbar-brand" href="/inicio-usuario"><img src="https://www.utng.edu.mx/assets/principal/logoutng.webp" alt=""></a>
 
 <!-- Botón de usuario -->
 <div *ngIf="showButton && userData" class="dropdown" style="position: fixed; left: 72%; margin-top: 4.5%; color: white;" id="botonUsuario">
@@ -64,18 +64,19 @@
             </li>
 
             <!-- Primer dropdown -->
-            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar libros
               </a>
               <ul class="dropdown-menu" style="background-color: #00A887; border: none;">
-                <li><a class="dropdown-item" href="alta" style="color: white; background-color: #00A887; ">Alta libro</a></li>
-                <li><a class="dropdown-item" href="actualizar" style="color: white; background-color: #00A887;">Actualizar/Eliminar libro</a></li>
+                <li><a class="dropdown-item" href="lista" style="color: white; background-color: #00A887; ">Lista de libros</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="alta" style="color: white; background-color: #00A887; ">Alta libro</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="actualizar" style="color: white; background-color: #00A887;">Actualizar/Eliminar libro</a></li>
               </ul>
             </li>
 
             <!-- Segundo dropdown -->
-            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')">
+            <li class="nav-item dropdown" *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Gestionar ejemplares
               </a>
@@ -90,8 +91,9 @@
                 Gestión de prestamos y sanciones
               </a>
               <ul class="dropdown-menu" style="background-color: #00A887; border: none;">
-                <li><a class="dropdown-item" href="prestamo" style="color: white; background-color: #00A887;">Alta de prestamo</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')"><a class="dropdown-item" href="prestamo" style="color: white; background-color: #00A887;">Alta de prestamo</a></li>
                 <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador')"><a class="dropdown-item" href="editar" style="color: white; background-color: #00A887;" >Actualizar/Eliminar prestamo</a></li>
+                <li *ngIf="userData && (userData.rol === 'bibliotecario' || userData.rol === 'administrador' || userData.rol === 'estudiante' || userData.rol === 'profesor')"><a class="dropdown-item" href="misPrestamos" style="color: white; background-color: #00A887;">Mis prestamos</a></li>
               </ul>
             </li>
 

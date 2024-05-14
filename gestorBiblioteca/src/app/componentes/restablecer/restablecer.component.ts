@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { RestablecerService } from 'src/app/servicios/restablecer.service';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { RestablecerService } from 'src/app/servicios/restablecer.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -22,18 +21,18 @@ export class RestablecerComponent {
   error: string = '';
   nuevaContrasena: string;
   mensaje: string;
-  idUsuario: string; // Definimos la propiedad usuarioId
-  showResetForm: boolean = false; //
+  idUsuario: string; 
+  showResetForm: boolean = false; 
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   codeFormControl = new FormControl('', [Validators.required, Validators.pattern('^.{6}$')]);
   passwordFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.pattern(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
+    Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
   ]);
 
-  constructor(private http: HttpClient, private restablecerService: RestablecerService, private router: Router) {}
+  constructor(private restablecerService: RestablecerService, private router: Router) {}
 
   sendVerificationCode() {
     this.restablecerService.sendVerificationCode(this.email).subscribe(
@@ -107,5 +106,7 @@ export class RestablecerComponent {
         });
       }
     );
-  }
+  } 
+
+  //proyecto terminado
 }

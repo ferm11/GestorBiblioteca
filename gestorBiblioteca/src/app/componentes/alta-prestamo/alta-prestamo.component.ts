@@ -4,6 +4,7 @@ import { PrestamosService } from 'src/app/servicios/prestamos.service';
 import { map, take } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-alta-prestamo',
@@ -20,8 +21,8 @@ export class AltaPrestamoComponent implements OnInit{
   esFechaValida: boolean = true;
   mensajeError: string = '';
 
-  ISBN: number;
-  idEjemplar: number;
+  ISBN: string;
+  idEjemplar: string;
   numControl: number;
   correo: string;
   fechaPrestamo: string;
@@ -31,7 +32,8 @@ export class AltaPrestamoComponent implements OnInit{
   resultados: any[];
   search : string;
 
-  constructor(private prestamosService: PrestamosService, private librosService: LibrosService, private authService:AuthService) {
+  constructor(private prestamosService: PrestamosService, private librosService: LibrosService,
+     private authService:AuthService, private route: ActivatedRoute) {
 
     this.userData = JSON.parse(localStorage.getItem('userData'));
     console.log('Datos del usuario obtenidos del localStorage en el componente:', this.userData);
@@ -44,10 +46,15 @@ export class AltaPrestamoComponent implements OnInit{
   
     // Formatear la fecha actual en formato YYYY-MM-DD para asignarla al input
     this.fechaPrestamo = fechaActual.toISOString().split('T')[0];
+
+    // Obtener los parámetros de la URL
+    this.route.queryParams.subscribe(params => {
+      this.ISBN = params['ISBN'];
+      this.idEjemplar = params['idEjemplar'];
+    });
   }
 
   altaPrestamo() {
-    
 
     if (this.esFechaValida && this.correo) {
       // Código para crear el libro
@@ -73,17 +80,26 @@ export class AltaPrestamoComponent implements OnInit{
           title: 'Prestamo creado correctamente!',
           icon: 'success'
         });
-        this.resetForm();
+        this.ISBN = '';
+        this.idEjemplar = '';
+        this.fechaDevolucion = null;
       },
       error => {
         console.log('Error al crear el prestamo:', error);
-        if (error.status === 500) {
-          console.log('Código de estado 500 detectado. Mensaje de error:', error.error);
+        if (error.status === 400 && error.error.Resultado === 0) {
+          // El ID del ejemplar ya se encuentra en préstamo
           Swal.fire({
-            title: 'Error al dar de alta el prestamo.',
+            title: 'El libro ya se encuentra en prestamo',
+            text: '',
             icon: 'error'
           });
-          this.resetForm();
+        } else {
+          // Otro tipo de error
+          Swal.fire({
+            title: 'Hubo un error al crear el préstamo.',
+            text: '',
+            icon: 'error'
+          });
         }
       }
     );
@@ -151,12 +167,12 @@ validarFechaDevolucion(): void {
       this.esFechaValida = true;
       this.mensajeError = '';
   } else {
-      this.esFechaValida = false;
-      Swal.fire({
-          title: `La fecha de devolución no es válida. Debe ser dentro de los próximos ${diasPermitidos} días desde la fecha actual.`,
-          icon: 'error'
-      });
-      this.resett();
+    this.esFechaValida = false;
+    Swal.fire({
+        title: `La fecha de devolución no es válida. Debe ser dentro de los próximos ${diasPermitidos} días desde la fecha actual.`,
+        icon: 'error'
+    });
+    this.resett();
   }
 }
 
@@ -183,5 +199,10 @@ buscarLibros(terminoBusqueda: string) {
     }
   );
 }
+
+/************** */
+
+//Traer ISBN y idEJmplar
+
 
 }

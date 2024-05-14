@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const { generatePDF } = require('../API/generarpdf'); // Importa la funciÃ³n de generaciÃ³n de PDF
+const { generatePDF } = require('../API/generarpdf.js'); // Importa la funciÃ³n de generaciÃ³n de PDF
 const path = require('path'); // Importa el mÃ³dulo 'path' de Node.js
 
 // ConfiguraciÃ³n de nodemailer

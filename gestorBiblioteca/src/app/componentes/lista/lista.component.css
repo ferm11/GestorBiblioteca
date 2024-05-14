@@ -7,11 +7,13 @@ body {
     padding: 0; /* Elimina el relleno predeterminado del cuerpo */
   }
 
-h1{
-    margin-top: 12%;
-    margin-left: 33%;
+  h1 {
+    margin-top: 10%;
+    margin-left: 45%;
     color: white;
+    font-size: 50px;
 }
+
 
 .barra{
     border-radius: 20px; /* Puedes ajustar el valor según el radio de redondeo que desees */
@@ -43,7 +45,8 @@ h1{
 table{
     text-align: center ;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente */
+    color: black;
 }
 
 tr .fa-solid{
@@ -63,15 +66,3 @@ tr .fa-solid{
     color: black;
     text-align: center;
 }
-
-.prestamo {
-    background-color: green;
-  }
-  
-  .por-vencer {
-    background-color: rgb(184, 184, 2);
-  }
-  
-  .vencido {
-    background-color: red;
-  }

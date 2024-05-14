@@ -83,6 +83,36 @@ app.post('/api/registro', (req, res) => {
 
 
   
+// Variable para almacenar el token enviado por correo electrónico
+let tokenEnviadoPorCorreo;
+
+// Función para enviar correo electrónico con el token
+function enviarCorreo(destinatario, token) {
+  const mailOptions = {
+    from: 'bibliotecautng1975@gmail.com',
+    to: destinatario,
+    subject: 'Código de verificación para inicio de sesión.',
+    text: `Haz solicitado un inicio de sesión en la Biblioteca UTNG. Tu código de verificación es: ${token}`
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.error('Error al enviar el correo:', error);
+    } else {
+      console.log('Correo electrónico enviado:', info.response);
+    }
+  });
+
+  // Almacena el token enviado por correo electrónico para su posterior verificación
+  tokenEnviadoPorCorreo = token;
+}
+
+// Función para obtener el token enviado por correo electrónico
+function obtenerTokenEnviadoPorCorreo() {
+  return tokenEnviadoPorCorreo;
+}
+
+
 // Ruta de inicio de sesión
 app.post('/api/login', (req, res) => {
   const { numControl, contraseña } = req.body;
@@ -118,14 +148,41 @@ app.post('/api/login', (req, res) => {
         const token = jwt.sign({ numControl: usuario.numControl }, 'secret', {
           expiresIn: '1h'
         });
-        console.log('Inicio de sesión exitoso para el usuario:', usuario);
-        res.status(200).send({ token, userData: usuario});
+
+        // Genera un token de verificación de 6 dígitos
+        const randomToken = Math.floor(100000 + Math.random() * 900000);
+
+        // Envía el token por correo electrónico
+        enviarCorreo(usuario.correo, randomToken.toString());
+
+        // Devuelve el token generado en la respuesta
+        res.status(200).send({ token: randomToken.toString(), userData: usuario});
       } else {
         console.log('Credenciales inválidas para el usuario:', usuario);
         res.status(401).send({ message: 'Credenciales inválidas' });
       }
     }
   );
+});
+
+// Ruta para verificar el token
+app.post('/api/verificar-token', (req, res) => {
+  const tokenIngresado = req.body.token;
+
+  // Obtener el token enviado por correo electrónico
+  const tokenEnviadoPorCorreo = obtenerTokenEnviadoPorCorreo();
+
+  // Verificar si el token ingresado coincide con el token enviado por correo electrónico
+  if (!tokenIngresado || !tokenEnviadoPorCorreo) {
+    // Si falta algún token, la solicitud es incorrecta
+    res.status(400).send({ message: 'Falta el token en la solicitud' });
+  } else if (tokenIngresado === tokenEnviadoPorCorreo) {
+    // Si los tokens coinciden, el token es válido
+    res.status(200).send({ valid: true });
+  } else {
+    // Si no coinciden, el token no es válido
+    res.status(400).send({ valid: false });
+  }
 });
 
 
@@ -623,28 +680,49 @@ app.get('/api/prestamos/:id', (req, res) => {
 
 // AGREGAR NUEVO PRESTAMO (MEDIANTE PETICION POST)
 app.post('/api/prestamos', (req, res) => {
-    const prestamo = {
-        ISBN:req.body.ISBN,
-        idEjemplar: parseInt(req.body.idEjemplar),
-        numControl: req.body.numControl,
-        correo: req.body.correo,
-        fechaPrestamo: req.body.fechaPrestamo,
-        fechaDevolucion: req.body.fechaDevolucion
-    };
+  const idEjemplar = parseInt(req.body.idEjemplar);
 
-    const sQuery = "INSERT INTO Prestamo SET ?";
+  // Verificar si el idEjemplar ya está en la lista de préstamos
+  const sQueryVerificar = "SELECT COUNT(*) AS count FROM Prestamo WHERE idEjemplar = ?";
+  bd.query(sQueryVerificar, [idEjemplar], (err, results) => {
+      if (err) {
+          console.error('Error al verificar el idEjemplar: ' + err.message);
+          res.status(500).send('Error al verificar el idEjemplar en la base de datos');
+      } else {
+          const count = results[0].count;
+          if (count > 0) {
+              // El idEjemplar ya está en la lista de préstamos, enviar un mensaje de error
+              res.status(400).json({
+                  Resultado: 0,
+                  Mensaje: 'El ID del ejemplar ya se encuentra en préstamo'
+              });
+          } else {
+              // El idEjemplar no está en la lista de préstamos, insertar el préstamo
+              const prestamo = {
+                  ISBN: req.body.ISBN,
+                  idEjemplar: idEjemplar,
+                  numControl: req.body.numControl,
+                  correo: req.body.correo,
+                  fechaPrestamo: req.body.fechaPrestamo,
+                  fechaDevolucion: req.body.fechaDevolucion
+              };
 
-    bd.query(sQuery, [prestamo], (err, results) => {
-        if (err) {
-            console.error('Error al agregar el prestamo: ' + err.message);
-            res.status(500).send('Error al insertar el prestamo en la base de datos');
-        } else {
-            res.json({
-                Resultado: 1,
-                Mensaje: 'Prestamo agregado exitosamente'
-            });
-        }
-    });
+              const sQuery = "INSERT INTO Prestamo SET ?";
+
+              bd.query(sQuery, [prestamo], (err, results) => {
+                  if (err) {
+                      console.error('Error al agregar el prestamo: ' + err.message);
+                      res.status(500).send('Error al insertar el prestamo en la base de datos');
+                  } else {
+                      res.json({
+                          Resultado: 1,
+                          Mensaje: 'Prestamo agregado exitosamente'
+                      });
+                  }
+              });
+          }
+      }
+  });
 });
 
 
@@ -844,6 +922,43 @@ app.delete('/api/ejemplares/:id/:isbn', async (req, res) => {
     });
   }
   
+  // OBTENER EJEMPLARES MEDIANTE EL ISBN (MEDIANTE PETICIÓN GET)
+app.get('/api/ej', (req, res) => {
+  const sQuery = `
+    SELECT ej.*, li.titulo, li.autores, li.categoria
+    FROM Ejemplar ej
+    INNER JOIN Libro li ON ej.ISBN = li.ISBN
+  `;
+
+  bd.query(sQuery, (err, results) => {
+    if (err) {
+      console.error('Error al obtener los ejemplares: ' + err.message);
+      res.status(500).send('Error al obtener el ejemplar de la base de datos');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Ruta para obtener los préstamos del usuario actual
+app.get('/api/misPrestamos', (req, res) => {
+  const numControl = req.query.numControl;
+
+  db.query(
+    'SELECT * FROM prestamo WHERE numControl = ?',
+    [numControl],
+    (err, prestamos) => {
+      if (err) {
+        console.error('Error al obtener los préstamos del usuario:', err);
+        return res.status(500).send({ message: 'Error al obtener los préstamos del usuario' });
+      }
+
+      console.log('Préstamos encontrados:', prestamos); // Agregar esta línea para verificar los resultados
+
+      res.status(200).json(prestamos);
+    }
+  );
+});
 
 // PRESTAMO (GENERAR DOCUMENTO)
 app.get('api/prestamos/generapdf', async (req, res) => {

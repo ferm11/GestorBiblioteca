@@ -27,6 +27,11 @@ export class EjemplaresService {
   buscarLibros(terminoBusqueda: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/libros/buscar?termino=${terminoBusqueda}`);
   }
+
+  //Todos los ejemplares
+  ejemplares(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/ej');
+  }
   
 
 }

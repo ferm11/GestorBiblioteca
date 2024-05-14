@@ -12,7 +12,8 @@
 
     <div class="container">
     <h1>Inicio de sesión</h1>
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="needs-validation" novalidate>
+
+    <form *ngIf="!mostrarFormularioToken" #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="needs-validation" novalidate>
 
         <!-- Campo de Número de Control -->
 <div class="form-group" style="margin-bottom: 10px;">
@@ -60,6 +61,17 @@
 
           
     </form>
+
+    <!-- Formulario de ingreso de token -->
+    <form *ngIf="mostrarFormularioToken">
+        <div class="form-group" style="text-align: center;">
+            <label for="code">Código de Verificación:</label><br><br>
+            <input type="text" id="code" [(ngModel)]="codigoVerificacion"  name="code"  required maxlength="6" class="form-control center-input" style="width: 230px; padding: 20px; margin: auto; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;" placeholder="Código de verificación">
+            <button type="button" class="btn btn-primary" (click)="verificarToken()">Verificar código</button>
+        </div>
+    </form>
+    
+    
 
 <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

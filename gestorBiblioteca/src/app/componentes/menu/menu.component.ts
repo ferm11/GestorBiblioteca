@@ -44,6 +44,9 @@ export class MenuComponent implements OnDestroy, OnInit {
   
     this.userData = JSON.parse(localStorage.getItem('userData'));
     console.log('Datos del usuario obtenidos del localStorage en el componente:', this.userData);
+
+    // Lógica para iniciar sesión y almacenar el número de control en el almacenamiento local
+    localStorage.setItem('numControl', this.userData.numControl);
   
     // Obtener el token JWT del localStorage
     this.jwtToken = localStorage.getItem('token');

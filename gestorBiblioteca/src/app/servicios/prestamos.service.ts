@@ -33,4 +33,11 @@ export class PrestamosService {
   impReferencia(prestamo: any) {
     return this.http.post(`${this.API_URL}/prestamos/generapdf`, prestamo)
   }
+
+  obtenerPrestamos(): Observable<any[]> {
+    const numControl = localStorage.getItem('numControl');
+    console.log('Número de control:', numControl); // Agregar esta línea para verificar el número de control
+
+    return this.http.get<any[]>('http://localhost:3000/api/misPrestamos', { params: { numControl } });
+}
 }

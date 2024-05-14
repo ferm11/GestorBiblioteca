@@ -24,6 +24,10 @@ import { CategoriasComponent } from './componentes/categorias/categorias.compone
 import { DisponibilidadComponent } from './componentes/disponibilidad/disponibilidad.component';
 import { ApartadosComponent } from './componentes/apartados/apartados.component';
 import { SolicitudesComponent } from './componentes/solicitudes/solicitudes.component';
+import { MapaComponent } from './componentes/mapa/mapa.component';
+import { ServiciosComponent } from './componentes/servicios/servicios.component';
+import { ListaComponent } from './componentes/lista/lista.component';
+import { PrestamoComponent } from './componentes/prestamo/prestamo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -46,6 +50,10 @@ const routes: Routes = [
   { path: 'inicio-usuario', component: InicioUsuarioComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
   { path: 'caduca', component:CaducaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
   { path: 'actualizarUsuarios', component:ActualizarComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
+  {path: 'mapa', component: MapaComponent, canActivate: [AuthGuard]},
+  {path: 'servicios', component: ServiciosComponent, canActivate: [AuthGuard]},
+  {path: 'lista', component: ListaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
+  { path: 'misPrestamos', component: PrestamoComponent,canActivate: [RoleGuard], data: { expectedRole: ['estudiante','administrador', 'profesor', 'bibliotecario'] }  },
   { path: '**', component: ErrorComponent }
 ];
 

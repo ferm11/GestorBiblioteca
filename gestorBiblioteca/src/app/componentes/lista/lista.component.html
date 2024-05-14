@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="gestion-ejemplares.component.css">
-    <title>Gestión de ejemplares</title>
+    <title>Libros</title>
 </head>
 <body>
 
@@ -16,21 +15,28 @@
     <nav style="--bs-breadcrumb-divider: '>'; color: white; font-size: 18px; text-align: left; margin-left: 15%; margin-top: 6%; position: absolute; " aria-label="breadcrumb">
        <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/inicio-usuario"  style="text-decoration: none; color: white">Inicio</a></li>
-           <li class="breadcrumb-item active" style="color: white;" aria-current="page">Gestión de ejemplares</li>
+           <li class="breadcrumb-item active" style="color: white;" aria-current="page">Libros</li>
        </ol>
    </nav>
 
-  <h1>Gestión de ejemplares</h1><br><br><br>
+  <h1>Libros</h1><br><br><br>
   <form>
 
-    <div class="d-flex justify-content-center">
-      <div class="input-group" style="width: 30%;">
-        <input #busquedaISBN [(ngModel)]='isbnBusqueda' [ngModelOptions]="{standalone: true}" class="form-control" type="text" placeholder="Buscar">
-        <div class="input-group-append">
-          <button #btnBuscar class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" (click)="getEjemplares()">Buscar</button>
-        </div>
-      </div>  
-    </div>
+    <!-- Barra de búsqueda -->
+    <input type="text" 
+       [(ngModel)]="filtroNombre" 
+       (input)="onBuscarChange($event)" 
+       placeholder="Buscar por título..." 
+       style="padding: 8px;
+              border-radius: 5px;
+              border: 1px solid #ccc;
+              font-size: 16px;
+              width: 80%;
+              margin: 0 auto;
+              display: block;">
+
+
+
     
     <br><br><br>
   </form>
@@ -43,24 +49,27 @@
         <th scope="col">Autores</th>
         <th scope="col">Categoria</th>
         <th scope="col">ID del ejemplar</th>
-        <th scope="col" style="width: 5%;">Eliminar</th>
+        <th scope="col" style="width: 5%;">Pedir prestamo</th>
       </tr>
     </thead>
-    <tbody *ngFor="let Ejemplar of ejemplares">
-      <tr>
-        <td>{{Ejemplar.ISBN}}</td>
-        <td>{{Ejemplar.titulo}}</td>
-        <td>{{Ejemplar.autores}}</td>
-        <td>{{Ejemplar.categoria}}</td>
-        <td>{{Ejemplar.idEjemplar}}</td>
-        <td><button style="background-color: none; border: none;"><i class="fa-solid fa-trash" [id]="Ejemplar.idEjemplar" style="color: #e32402;" (click)="delEjemplar(Ejemplar.idEjemplar, Ejemplar.ISBN)"></i></button></td>
-      </tr>
+    <tbody>
+      <ng-container *ngFor="let Ejemplar of ejemplares">
+        <tr *ngIf="cumpleFiltro(Ejemplar)">
+          <td>{{Ejemplar.ISBN}}</td>
+          <td>{{Ejemplar.titulo}}</td>
+          <td>{{Ejemplar.autores}}</td>
+          <td>{{Ejemplar.categoria}}</td>
+          <td>{{Ejemplar.idEjemplar}}</td>
+          <td>
+            <button style="background-color: none; border: none;" (click)="pedirPrestamo(Ejemplar.ISBN, Ejemplar.idEjemplar)">
+              <i class="fa-solid fa-pen-to-square" style="color: #0042aa;"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>  
-  <div class="d-flex justify-content-center" *ngIf="visible">
-    <button class="btn btn-success" type="button" (click)="addEjemplar()">Nuevo</button>
-  </div>
 
   <!-- Pie de pagina -->
   <footer style="background-color: #2A4DBD; color: white; text-align: center; padding: 10px; margin-top: 5%;">
