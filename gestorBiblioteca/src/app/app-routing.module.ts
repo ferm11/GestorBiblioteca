@@ -28,6 +28,7 @@ import { MapaComponent } from './componentes/mapa/mapa.component';
 import { ServiciosComponent } from './componentes/servicios/servicios.component';
 import { ListaComponent } from './componentes/lista/lista.component';
 import { PrestamoComponent } from './componentes/prestamo/prestamo.component';
+import { MapaInicioComponent } from './componentes/mapa-inicio/mapa-inicio.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'disponibilidad', component: DisponibilidadComponent, canActivate: [AuthGuard]},
   { path: 'apartados', component: ApartadosComponent, canActivate: [AuthGuard]},
   { path: 'solicitudes', component: SolicitudesComponent, canActivate: [AuthGuard]},
+  { path: 'mapa-inicio', component: MapaInicioComponent, canActivate: [AuthGuard]},
   { path: 'alta', component: AltaLibroComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'actualizar', component: ActualizarLibroComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador', 'bibliotecario'] } },
   { path: 'prestamo', component: AltaPrestamoComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
@@ -50,7 +52,7 @@ const routes: Routes = [
   { path: 'inicio-usuario', component: InicioUsuarioComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
   { path: 'caduca', component:CaducaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
   { path: 'actualizarUsuarios', component:ActualizarComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] }},
-  {path: 'mapa', component: MapaComponent, canActivate: [AuthGuard]},
+  {path: 'mapa', component: MapaComponent, canActivate: [RoleGuard], data: { expectedRole: ['estudiante','administrador', 'profesor', 'bibliotecario'] } },
   {path: 'servicios', component: ServiciosComponent, canActivate: [AuthGuard]},
   {path: 'lista', component: ListaComponent, canActivate: [RoleGuard], data: { expectedRole: ['administrador','estudiante', 'profesor', 'bibliotecario'] } },
   { path: 'misPrestamos', component: PrestamoComponent,canActivate: [RoleGuard], data: { expectedRole: ['estudiante','administrador', 'profesor', 'bibliotecario'] }  },
