@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class MenuService {
 
-  private API_URL = "http://localhost:3000/api"
+  private API_URL = "https://gestorbiblioteca-n8uf.onrender.com/api"
 
   showNavbar : BehaviorSubject<boolean>;
 
@@ -25,7 +25,7 @@ export class MenuService {
   }
 
   actualizarUsuario(nuevosDatos: any): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/actualizar-usuario', nuevosDatos);
+    return this.http.post<any>('https://gestorbiblioteca-n8uf.onrender.com/api/actualizar-usuario', nuevosDatos);
   }
 
 }

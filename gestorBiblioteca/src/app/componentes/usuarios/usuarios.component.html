@@ -39,6 +39,7 @@
       <th scope="col">Apellidos</th>
       <th scope="col">Correo</th>
       <th scope="col">Teléfono</th>
+      <th scope="col">Rol</th>
       <th scope="col">Editar</th>
       <th scope="col">Eliminar</th>
 
@@ -52,6 +53,7 @@
       <td>{{usuario.apellido}}</td>
       <td>{{usuario.correo}}</td>
       <td>{{usuario.telefono}}</td>
+      <td>{{usuario.rol}}</td>
       <td><button (click)="abrirModalEditar(usuario.numControl)" style="background-color: none; border: none;"><i class="fa-solid fa-pen-to-square" style="color: #0042aa;" data-bs-toggle="modal" data-bs-target="#modalEditar"></i></button></td>
       <td><button (click)="eliminarUsuario(usuario.numControl)" style="background-color: none; border: none;"><i class="fa-solid fa-trash" style="color: #e32402;"></i></button></td>
 

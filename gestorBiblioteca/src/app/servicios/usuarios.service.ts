@@ -15,7 +15,7 @@ export class UsuariosService {
 
   private tokenSubject = new BehaviorSubject<string | null>(null);
 
-  private API_URL = "http://localhost:3000/api"
+  private API_URL = "https://gestorbiblioteca-n8uf.onrender.com/api"
 
   constructor(private http: HttpClient, private router:Router) { 
     // Obtener el token almacenado localmente si existe
@@ -26,16 +26,16 @@ export class UsuariosService {
   }
 
   registro(usuario):Observable<any> {
-    return this.http.post(`http://localhost:3000/api/registro`, usuario);
+    return this.http.post(`https://gestorbiblioteca-n8uf.onrender.com/api/registro`, usuario);
   }
 
   login(numControl: string, contraseña: string): Observable<any> {
-    return this.http.post<any>(`http://localhost:3000/api/login`, { numControl, contraseña });
+    return this.http.post<any>(`https://gestorbiblioteca-n8uf.onrender.com/api/login`, { numControl, contraseña });
   }
 
   // Método para verificar si el correo electrónico está registrado
   checkEmail(email: string) {
-    return this.http.post<any>('http://localhost:3000/api/check-email', { email });
+    return this.http.post<any>('https://gestorbiblioteca-n8uf.onrender.com/api/check-email', { email });
   }
 
   get token() {
@@ -55,13 +55,13 @@ export class UsuariosService {
   }
 
   obtenerUsuarios() {
-    return this.http.get('http://localhost:3000/api/usuarios'); // Realiza una solicitud GET al servidor para obtener los datos de los usuarios
+    return this.http.get('https://gestorbiblioteca-n8uf.onrender.com/api/usuarios'); // Realiza una solicitud GET al servidor para obtener los datos de los usuarios
   }
 
   // Método para enviar el correo de verificación
   verifyToken(token: string): Observable<any> {
     console.log('Codigo de verificacion: ', token);
-    return this.http.post<any>('http://localhost:3000/api/verify-token', { token })
+    return this.http.post<any>('https://gestorbiblioteca-n8uf.onrender.com/api/verify-token', { token })
       .pipe(
         catchError(error => {
           console.error('Error al verificar el código:', error);
@@ -78,7 +78,7 @@ export class UsuariosService {
 
   //Metodo para actualizar usuario
   getUsuarios(numControl: number) {
-    return this.http.get(`http://localhost:3000/api/actualizar/usuarios/${numControl}`);
+    return this.http.get(`https://gestorbiblioteca-n8uf.onrender.com/api/actualizar/usuarios/${numControl}`);
   }
 
   /////////////////////////
@@ -110,6 +110,6 @@ export class UsuariosService {
   //Metodo paara validar token al iniciar sesion:
   // En tu servicio de usuarios
 verificarToken(token: string) {
-  return this.http.post('http://localhost:3000/api/verificar-token', { token });
+  return this.http.post('https://gestorbiblioteca-n8uf.onrender.com/api/verificar-token', { token });
 }
 } 

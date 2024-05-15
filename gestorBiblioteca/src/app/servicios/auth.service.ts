@@ -25,7 +25,7 @@ export class AuthService {
   private userDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   userData$: Observable<any> = this.userDataSubject.asObservable();
 
-  private API_URL = "http://localhost:3000/api"
+  private API_URL = "https://gestorbiblioteca-n8uf.onrender.com/api"
 
   constructor(private http: HttpClient, private router:Router) { 
     

@@ -2,21 +2,18 @@
     <div class="grid text-center" style="row-gap: 0;">
       <div class="g-col-6">
         <div class="input-group">
-          <input class="search-input form-control me-2" type="search" [(ngModel)]="searchTerm" (keyup)="showSearchOptions()" placeholder="Buscar...">
+          <input class="search-input form-control me-2" type="search" [(ngModel)]="searchTerm" (keyup)="showSearchOptions()" placeholder="Buscar">
           <button class="btn btn-outline-success" type="button" (click)="search()">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass" id="icono"></i>
           </button>
         </div>
       </div>
-      <div class="g-col-6" style="margin-top: 1px;">
-        <div *ngIf="showOptions" class="search-options">
-          <select class="form-select" aria-label="Buscar..." [(ngModel)]="selectedOption" (selectionChange)="selectOption()">
-            <option *ngFor="let option of searchOptions">
-              {{ option.nombre }}
-            </option>
-          </select>
-        </div>
-      </div>
     </div>
-    
     </div>
+
+    <style>
+      #icono {
+    color: white; /* Cambia el color del icono a blanco */
+    padding: 5px; /* Añade algo de espacio alrededor del icono para que el fondo sea más visible */
+  }
+    </style>

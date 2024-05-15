@@ -10,16 +10,16 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PrestamosService {
 
-  private API_URL = "http://localhost:3000/api"
+  private API_URL = "https://gestorbiblioteca-n8uf.onrender.com/api"
 
   constructor(private http: HttpClient) { }
 
   altaPrestamo(prestamo) {
-    return this.http.post(`http://localhost:3000/api/prestamos/`, prestamo);
+    return this.http.post(`https://gestorbiblioteca-n8uf.onrender.com/api/prestamos/`, prestamo);
   }
 
   getPrestamos() {
-    return this.http.get('http://localhost:3000/api/prestamos')
+    return this.http.get('https://gestorbiblioteca-n8uf.onrender.com/api/prestamos')
   }
 
   eliminarPrestamo(idPrestamo: number): Observable<any> {
@@ -38,6 +38,6 @@ export class PrestamosService {
     const numControl = localStorage.getItem('numControl');
     console.log('Número de control:', numControl); // Agregar esta línea para verificar el número de control
 
-    return this.http.get<any[]>('http://localhost:3000/api/misPrestamos', { params: { numControl } });
+    return this.http.get<any[]>('https://gestorbiblioteca-n8uf.onrender.com/api/misPrestamos', { params: { numControl } });
 }
 }

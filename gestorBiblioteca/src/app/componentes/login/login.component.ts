@@ -113,7 +113,7 @@ export class LoginComponent implements OnInit {
     }
   
     // Realiza la solicitud HTTP para verificar el token
-    this.http.post('http://localhost:3000/api/verificar-token', { token: this.codigoVerificacion })
+    this.http.post('https://gestorbiblioteca-n8uf.onrender.com/api/verificar-token', { token: this.codigoVerificacion })
       .subscribe(
         (response: any) => {
           console.log('Respuesta del servidor:', response);

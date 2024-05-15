@@ -152,7 +152,6 @@ export class ActualizarPrestamoComponent implements OnInit{
   // Estatus de los prestamos
   //Estatus del prestamo
 // Función para determinar el estatus basado en la fecha de devolución
-// Función para determinar la clase de estilo CSS basada en el estado
 obtenerEstatus(fechaDevolucion: string): string {
   const fechaActual = new Date();
   const fechaDevolucionDate = new Date(fechaDevolucion);
@@ -162,10 +161,12 @@ obtenerEstatus(fechaDevolucion: string): string {
 
   if (diferencia > 5) {
     return 'En prestamo';
-  } else if (diferencia < 4) {
+  } else if (diferencia >= 1 && diferencia <= 4) {
     return 'Por vencer';
+  } else if (diferencia < 0) {
+    return 'Vencido';
   } else {
-    return 'Vencido, a espera de sanción';
+    return 'Vencido, a espera de sanción'; // Aquí puedes ajustar el mensaje según necesites
   }
 }
 
@@ -178,11 +179,12 @@ obtenerClaseEstatus(fechaDevolucion: string): string {
 
   if (diferencia > 5) {
     return 'prestamo';
-  } else if (diferencia < 4) {
+  } else if (diferencia >= 1 && diferencia <= 4) {
     return 'por-vencer';
   } else {
     return 'vencido';
   }
 }
+
 
 }

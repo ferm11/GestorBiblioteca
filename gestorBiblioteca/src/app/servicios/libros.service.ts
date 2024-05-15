@@ -12,12 +12,12 @@ import { map } from 'rxjs/operators';
 })
 export class LibrosService {
 
-  private API_URL = "http://localhost:3000/api"
+  private API_URL = "https://gestorbiblioteca-n8uf.onrender.com/api"
 
   constructor(private http: HttpClient) { }
 
   getLibros() {
-    return this.http.get('http://localhost:3000/api/libros')
+    return this.http.get('https://gestorbiblioteca-n8uf.onrender.com/api/libros')
       .pipe(
         catchError(error => {
           console.error('Error al obtener datos de libros:', error);
@@ -28,15 +28,15 @@ export class LibrosService {
 
   //Buscar libros
   searchBooks(term: number) {
-    return this.http.get(`http://localhost:3000/api/books/search/${term}`);
+    return this.http.get(`https://gestorbiblioteca-n8uf.onrender.com/api/books/search/${term}`);
   }
 
   altaLibro(libro): Observable<any> {
-     return this.http.post('http://localhost:3000/api/libros', libro);
+     return this.http.post('https://gestorbiblioteca-n8uf.onrender.com/api/libros', libro);
   }
 
   borrarLibro(ISBN: number) {
-    return this.http.delete(`http://localhost:3000/api/libros/${ISBN}`);
+    return this.http.delete(`https://gestorbiblioteca-n8uf.onrender.com/api/libros/${ISBN}`);
   }
 
   verificarIsbnExistente(isbn: string): Observable<boolean> {
@@ -47,11 +47,11 @@ export class LibrosService {
   }
 
   getLibro(ISBN: number) {
-    return this.http.get(`http://localhost:3000/api/libros/${ISBN}`)
+    return this.http.get(`https://gestorbiblioteca-n8uf.onrender.com/api/libros/${ISBN}`)
   }
 
   actualizarLibro(ISBN: number, libro: Libro) {
-    return this.http.put(`http://localhost:3000/api/libros/${ISBN}`, libro);
+    return this.http.put(`https://gestorbiblioteca-n8uf.onrender.com/api/libros/${ISBN}`, libro);
   }
 
   buscarLibros(terminoBusqueda: string): Observable<any[]> {

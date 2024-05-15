@@ -8,13 +8,13 @@ import { catchError } from 'rxjs/operators';
 })
 export class RestablecerService {
 
-  private API_URL = "http://localhost:3000/api"
+  private API_URL = "https://gestorbiblioteca-n8uf.onrender.com/api"
 
   constructor(private http: HttpClient) {}
 
   sendVerificationCode(email: string): Observable<any> {
     console.log('Enviando código de verificación para:', email);
-    return this.http.post<any>('http://localhost:3000/api/forgot-password', { email })
+    return this.http.post<any>('https://gestorbiblioteca-n8uf.onrender.com/api/forgot-password', { email })
       .pipe(
         catchError(error => {
           console.error('Error al enviar el correo:', error);
@@ -37,7 +37,7 @@ export class RestablecerService {
   }
   
   resetPassword(email: string, newPassword: string) {
-    return this.http.post('http://localhost:3000/api/reset-password', { email, newPassword });
+    return this.http.post('https://gestorbiblioteca-n8uf.onrender.com/api/reset-password', { email, newPassword });
   }
 
 }
