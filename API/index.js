@@ -20,10 +20,10 @@ app.use(cors());
 
 // Configura la conexión a la base de datos MySQL
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'BD_BIBLIOTECA'
+    host: 'braqy7zhp7yp4rjeppmp-mysql.services.clever-cloud.com',
+    user: 'uov1zxyon5enuzid',
+    password: 'Kdzbi2b6TvWr9jtgTdYH',
+    database: 'braqy7zhp7yp4rjeppmp'
   });
   
   // Conéctate a la base de datos
@@ -382,7 +382,7 @@ app.post('/api/reset-password', (req, res) => {
     }
 
     // Query SQL para actualizar la contraseña
-    const sqlQuery = "UPDATE Usuario SET contraseña = ? WHERE correo = ?";
+    const sqlQuery = "UPDATE usuario SET contraseña = ? WHERE correo = ?";
   
     // Ejecuta la consulta SQL
     db.query(sqlQuery, [hash, userEmail], (err, results) => {
@@ -412,7 +412,7 @@ app.put('/api/actualizar/usuarios/:numControl', (req, res) => {
     telefono: req.body.telefono
   };
 
-  const sQuery = "UPDATE Usuario SET ? WHERE numControl = ?";
+  const sQuery = "UPDATE usuario SET ? WHERE numControl = ?";
 
   bd.query(sQuery, [nuevosDatos, libroId], (err, results) => {
     if (err) {
@@ -485,7 +485,7 @@ app.put('/api/actualizar/usuario/:numControl', (req, res) => {
 app.delete('/api/eliminar/usuarios/:numControl', (req, res) => {
   const numControl = req.params.numControl;
 
-  const query = "DELETE FROM Usuario WHERE numControl = ?";
+  const query = "DELETE FROM usuario WHERE numControl = ?";
 
   bd.query(query, [numControl], (err, results) => {
     if (err) {
@@ -903,7 +903,7 @@ app.delete('/api/ejemplares/:id/:isbn', async (req, res) => {
       // Ejecutar la segunda consulta de actualizaciÃ³n
       const resultUpd = await ejecutarQuery(sQueryUpd, [isbn, isbn]);
   
-      res.json({ message: 'EliminaciÃ³n exitosa y actualizaciÃ³n realizada.' });
+      res.json({ message: 'Eliminacion exitosa y actualizacion realizada.' });
     } catch (err) {
       console.error('Error en las consultas: ' + err.message);
       res.status(500).send('Error en las consultas a la base de datos.');
@@ -945,7 +945,7 @@ app.get('/api/misPrestamos', (req, res) => {
   const numControl = req.query.numControl;
 
   db.query(
-    'SELECT * FROM prestamo WHERE numControl = ?',
+    'SELECT * FROM Prestamo WHERE numControl = ?',
     [numControl],
     (err, prestamos) => {
       if (err) {
